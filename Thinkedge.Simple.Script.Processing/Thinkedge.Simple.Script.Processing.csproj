@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6463FD0E-D14B-4EB3-95DA-979B3C156AB4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Thinkedge.Simple.Script.Processing</RootNamespace>
+    <AssemblyName>Thinkedge.Simple.Script.Processing</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EMailMethods.cs" />
+    <Compile Include="FileMethods.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TableMethods.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Thinkedge.Common\Thinkedge.Common.csproj">
+      <Project>{5f0a3783-d7bb-4f32-877f-2d90f15a15d9}</Project>
+      <Name>Thinkedge.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thinkedge.Simple.Expression\Thinkedge.Simple.Expression.csproj">
+      <Project>{28bcba5e-eb24-4bc5-912c-57e5b835165e}</Project>
+      <Name>Thinkedge.Simple.Expression</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thinkedge.Simple.Scripting\Thinkedge.Simple.Script.csproj">
+      <Project>{a90d9737-d224-486c-8712-aa555157e645}</Project>
+      <Name>Thinkedge.Simple.Script</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thinkedge.Simple.Table.Processing\Thinkedge.Simple.Table.Processing.csproj">
+      <Project>{c25baa0d-6e9b-48eb-b27b-101341c6166b}</Project>
+      <Name>Thinkedge.Simple.Table.Processing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thinkedge.Simple.Table\Thinkedge.Simple.Table.csproj">
+      <Project>{b19c937b-245e-42be-a51d-f40803a43414}</Project>
+      <Name>Thinkedge.Simple.Table</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
