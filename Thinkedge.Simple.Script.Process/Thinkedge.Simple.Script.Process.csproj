@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{47F09E9F-659A-4C0A-9752-7FDC6F5B86F5}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Thinkedge.TableScript</RootNamespace>
-    <AssemblyName>Thinkedge.TableScript</AssemblyName>
+    <ProjectGuid>{6463FD0E-D14B-4EB3-95DA-979B3C156AB4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Thinkedge.Simple.Script.Process</RootNamespace>
+    <AssemblyName>Thinkedge.Simple.Script.Process</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\bin\</OutputPath>
@@ -34,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,24 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="LoadFromFile.cs" />
+    <Compile Include="SaveToFile.cs" />
+    <Compile Include="SharePointMethods.cs" />
+    <Compile Include="EMailMethods.cs" />
+    <Compile Include="FileMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <Compile Include="TableMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Thinkedge.Common\Thinkedge.Common.csproj">
-      <Project>{5F0A3783-D7BB-4F32-877F-2D90F15A15D9}</Project>
+      <Project>{5f0a3783-d7bb-4f32-877f-2d90f15a15d9}</Project>
       <Name>Thinkedge.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Thinkedge.Simple.Expression\Thinkedge.Simple.Expression.csproj">
-      <Project>{28BCBA5E-EB24-4BC5-912C-57E5B835165E}</Project>
+      <Project>{28bcba5e-eb24-4bc5-912c-57e5b835165e}</Project>
       <Name>Thinkedge.Simple.Expression</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Script.Process\Thinkedge.Simple.Script.Process.csproj">
-      <Project>{6463fd0e-d14b-4eb3-95da-979b3c156ab4}</Project>
-      <Name>Thinkedge.Simple.Script.Process</Name>
     </ProjectReference>
     <ProjectReference Include="..\Thinkedge.Simple.Script\Thinkedge.Simple.Script.csproj">
       <Project>{a90d9737-d224-486c-8712-aa555157e645}</Project>

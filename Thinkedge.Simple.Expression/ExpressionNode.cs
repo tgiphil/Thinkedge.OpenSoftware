@@ -4,12 +4,12 @@ namespace Thinkedge.Simple.Expression
 {
 	public class ExpressionNode
 	{
-		public Token Token { get; set; }
+		public Token Token { get; protected set; }
 
-		public ExpressionNode Left { get; set; } = null;
-		public ExpressionNode Right { get; set; } = null;
+		public ExpressionNode Left { get; protected set; } = null;
+		public ExpressionNode Right { get; protected set; } = null;
 
-		public readonly List<ExpressionNode> Parameters = null;
+		public List<ExpressionNode> Parameters { get; protected set; } = null;
 
 		public ExpressionNode(Token token)
 		{

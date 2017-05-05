@@ -6,9 +6,9 @@ namespace Thinkedge.Simple.Expression
 {
 	public class Evaluator
 	{
-		public Parser Parser { get; private set; }
+		public Parser Parser { get; protected set; }
 
-		public bool IsValid { get; private set; }
+		public bool IsValid { get; protected set; }
 
 		protected ExpressionNode Root { get { return Parser.Root; } }
 

@@ -2,9 +2,9 @@
 {
 	public class Token
 	{
-		public TokenType TokenType { get; set; } = TokenType.Unknown;
-		public string Value { get; set; } = null;
-		public int Index;
+		public TokenType TokenType { get; protected set; } = TokenType.Unknown;
+		public string Value { get; protected set; } = null;
+		public int Index { get; protected set; } = -1;
 
 		public Token(TokenType tokenType, string value, int index = -1)
 		{

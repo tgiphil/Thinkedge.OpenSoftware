@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
+using Thinkedge.Common;
 
 namespace Thinkedge.Simple.Expression
 {
-	public class Parser
+	public class Parser : BaseStandardResult
 	{
 		public Tokenizer Tokenizer { get; private set; }
 
-		public string ErrorMessage { get; private set; } = null;
-		public bool HasError { get { return ErrorMessage != null; } }
-
 		protected List<Token> Tokens { get { return Tokenizer.Tokens; } }
-
 		protected Token CurrentToken { get { return Tokens[Index]; } }
 		protected TokenType CurrentTokenType { get { return CurrentToken.TokenType; } }
 		protected bool IsOutOfTokens { get { return Index >= Tokens.Count; } }

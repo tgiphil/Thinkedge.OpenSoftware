@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
+using Thinkedge.Common;
 
 namespace Thinkedge.Simple.Expression
 {
-	public class Tokenizer
+	public class Tokenizer : BaseStandardResult
 	{
-		public string Expression { get; private set; }
+		public string Expression { get; protected set; }
 
-		public string ErrorMessage { get; private set; } = null;
-		public bool HasError { get { return ErrorMessage != null; } }
+		protected int Index { get; set; } = 0;
 
-		protected int Index { get; private set; } = 0;
-
-		public List<Token> Tokens { get; private set; } = new List<Token>();
+		public List<Token> Tokens { get; protected set; } = new List<Token>();
 
 		internal static List<KeyValuePair<string, TokenType>> operands = new List<KeyValuePair<string, TokenType>>()
 		{
@@ -162,6 +160,7 @@ namespace Thinkedge.Simple.Expression
 		{
 			Extract('}', TokenType.Variable);
 		}
+
 		private void ExtractField()
 		{
 			Extract(']', TokenType.Field);

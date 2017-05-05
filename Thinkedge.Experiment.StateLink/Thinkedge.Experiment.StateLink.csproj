@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{47F09E9F-659A-4C0A-9752-7FDC6F5B86F5}</ProjectGuid>
+    <ProjectGuid>{C64266C1-A991-4DF3-8032-8D4C7F882580}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Thinkedge.TableScript</RootNamespace>
-    <AssemblyName>Thinkedge.TableScript</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Thinkedge.Experiment.StateLink</RootNamespace>
+    <AssemblyName>Thinkedge.Experiment.StateLink</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,33 +49,26 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Thinkedge.Common\Thinkedge.Common.csproj">
-      <Project>{5F0A3783-D7BB-4F32-877F-2D90F15A15D9}</Project>
-      <Name>Thinkedge.Common</Name>
+    <ProjectReference Include="..\Thinkedge.StateLink.Configuration\Thinkedge.StateLink.Configuration.csproj">
+      <Project>{c0e31fa4-75df-4a31-825e-97ec60fe493c}</Project>
+      <Name>Thinkedge.StateLink.Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Expression\Thinkedge.Simple.Expression.csproj">
-      <Project>{28BCBA5E-EB24-4BC5-912C-57E5B835165E}</Project>
-      <Name>Thinkedge.Simple.Expression</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Script.Process\Thinkedge.Simple.Script.Process.csproj">
-      <Project>{6463fd0e-d14b-4eb3-95da-979b3c156ab4}</Project>
-      <Name>Thinkedge.Simple.Script.Process</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Script\Thinkedge.Simple.Script.csproj">
-      <Project>{a90d9737-d224-486c-8712-aa555157e645}</Project>
-      <Name>Thinkedge.Simple.Script</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Table.Process\Thinkedge.Simple.Table.Process.csproj">
-      <Project>{c25baa0d-6e9b-48eb-b27b-101341c6166b}</Project>
-      <Name>Thinkedge.Simple.Table.Process</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Table\Thinkedge.Simple.Table.csproj">
-      <Project>{b19c937b-245e-42be-a51d-f40803a43414}</Project>
-      <Name>Thinkedge.Simple.Table</Name>
+    <ProjectReference Include="..\Thinkedge.StateLink\Thinkedge.StateLink.csproj">
+      <Project>{06b2a5c6-bba7-4a07-b248-22d66490bab2}</Project>
+      <Name>Thinkedge.StateLink</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

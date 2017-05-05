@@ -1,24 +1,13 @@
-﻿using System;
-
-namespace Thinkedge.Common
+﻿namespace Thinkedge.Common
 {
 	public class StandardResult<T> : BaseStandardResult
 	{
-		public T Result;
+		public T Result { get; protected set; }
 
-		public StandardResult(T result, string errorMessage, Exception exception = null)
+		public StandardResult(T result, BaseStandardResult standard)
 		{
-			SetError(errorMessage, exception);
-			Result = result;
-		}
-
-		public StandardResult(T result, BaseStandardResult standard) : this(result, standard.ErrorMessage, standard.Exception)
-		{
-		}
-
-		public StandardResult(string errorMessage, Exception exception = null)
-		{
-			SetError(errorMessage, exception);
+			Errors = standard.Errors;
+			Exception = standard.Exception;
 		}
 	}
 }

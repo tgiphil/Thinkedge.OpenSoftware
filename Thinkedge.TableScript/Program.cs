@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Thinkedge.Simple.Script;
-using Thinkedge.Simple.Script.Processing;
+using Thinkedge.Simple.Script.Process;
 
 namespace Thinkedge.TableScript
 {
@@ -9,7 +9,9 @@ namespace Thinkedge.TableScript
 	{
 		private static int Main(string[] args)
 		{
-			Console.WriteLine("TableScript. (C)opyright 2017. GPLv3 License.");
+			Console.WriteLine("TableScript V1.0");
+			Console.WriteLine("Copyright (C) 2017. Phil Garcia. All rights reserved.");
+			Console.WriteLine("Licenced under GPLv3 Licensed.");
 			Console.WriteLine("Usage: [-file filename] [arg1] [arg2] ...");
 			Console.WriteLine();
 
@@ -76,8 +78,6 @@ namespace Thinkedge.TableScript
 					}
 				}
 			}
-
-			return 1;
 		}
 	}
 }

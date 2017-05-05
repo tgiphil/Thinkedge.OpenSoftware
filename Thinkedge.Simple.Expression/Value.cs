@@ -5,16 +5,16 @@ namespace Thinkedge.Simple.Expression
 {
 	public class Value
 	{
-		public ValueType ValueType { get; private set; }
+		public ValueType ValueType { get; protected set; }
 
-		public int Integer { get; private set; }
-		public bool Boolean { get; private set; }
-		public decimal Decimal { get; private set; }
-		public String String { get; private set; }
-		public DateTime Date { get; private set; }
-		public double Float { get; private set; }
-		public object Object { get; private set; }
-		public Exception Exception { get; private set; }
+		public int Integer { get; protected set; }
+		public bool Boolean { get; protected set; }
+		public decimal Decimal { get; protected set; }
+		public String String { get; protected set; }
+		public DateTime Date { get; protected set; }
+		public double Float { get; protected set; }
+		public object Object { get; protected set; }
+		public Exception Exception { get; protected set; }
 
 		public Value(int i)
 		{

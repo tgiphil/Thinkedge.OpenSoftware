@@ -46,8 +46,9 @@
 
 		// others
 		Field,
+
 		Variable,
 		Method,
-		Identifier	// temporary
+		Identifier  // temporary
 	}
 }

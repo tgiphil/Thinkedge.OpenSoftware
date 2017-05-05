@@ -17,13 +17,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Expression
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Expression.Tests", "Thinkedge.Simple.Expression.Tests\Thinkedge.Simple.Expression.Tests.csproj", "{9359CA3E-7CCA-42F8-A9D9-06095CED43D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Table.Processing", "Thinkedge.Simple.Table.Processing\Thinkedge.Simple.Table.Processing.csproj", "{C25BAA0D-6E9B-48EB-B27B-101341C6166B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Table.Process", "Thinkedge.Simple.Table.Process\Thinkedge.Simple.Table.Process.csproj", "{C25BAA0D-6E9B-48EB-B27B-101341C6166B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Scripting", "Thinkedge.Simple.Scripting\Thinkedge.Simple.Scripting.csproj", "{A90D9737-D224-486C-8712-AA555157E645}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Script", "Thinkedge.Simple.Script\Thinkedge.Simple.Script.csproj", "{A90D9737-D224-486C-8712-AA555157E645}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.TableScript", "Thinkedge.TableScript\Thinkedge.TableScript.csproj", "{47F09E9F-659A-4C0A-9752-7FDC6F5B86F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Script.Processing", "Thinkedge.Simple.Script.Processing\Thinkedge.Simple.Script.Processing.csproj", "{6463FD0E-D14B-4EB3-95DA-979B3C156AB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Script.Process", "Thinkedge.Simple.Script.Process\Thinkedge.Simple.Script.Process.csproj", "{6463FD0E-D14B-4EB3-95DA-979B3C156AB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
