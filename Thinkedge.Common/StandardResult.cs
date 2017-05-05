@@ -6,6 +6,7 @@
 
 		public StandardResult(T result, BaseStandardResult standard)
 		{
+			Result = result;
 			Errors = standard.Errors;
 			Exception = standard.Exception;
 		}
