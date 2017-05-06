@@ -107,7 +107,7 @@ namespace Thinkedge.Simple.Expression
 
 				if (IsOutOfTokens)
 				{
-					ErrorMessage = "parser: unexpected end";
+					ErrorMessage = "parser unexpected end";
 					return null;
 				}
 
@@ -124,7 +124,7 @@ namespace Thinkedge.Simple.Expression
 
 				if (CurrentTokenType == TokenType.Field)
 				{
-					var fieldToken = new Token(TokenType.Field, CurrentToken.Value, Index);
+					var fieldToken = new Token(CurrentTokenType, CurrentToken.Value, Index);
 					Index++;
 
 					var node = new ExpressionNode(fieldToken);
@@ -132,15 +132,15 @@ namespace Thinkedge.Simple.Expression
 				}
 				else if (CurrentTokenType == TokenType.Variable)
 				{
-					var variableToken = new Token(TokenType.Variable, CurrentToken.Value, Index);
+					var variableToken = new Token(CurrentTokenType, CurrentToken.Value, Index);
 					Index++;
 
 					var node = new ExpressionNode(variableToken);
 					return node;
 				}
-				else if (CurrentTokenType == TokenType.Method)
+				else if (CurrentTokenType == TokenType.Method || CurrentTokenType == TokenType.If)
 				{
-					var methodToken = new Token(TokenType.Method, CurrentToken.Value, Index);
+					var token = new Token(CurrentTokenType, CurrentToken.Value, Index);
 					Index++;
 
 					Index++; // skip opening paraens
@@ -162,7 +162,33 @@ namespace Thinkedge.Simple.Expression
 
 					Index++; // skip closing parens
 
-					var node = new ExpressionNode(methodToken, parameters);
+					var node = new ExpressionNode(token, parameters);
+					return node;
+				}
+				else if (CurrentTokenType == TokenType.Questionmark)
+				{
+					var questionToken = new Token(TokenType.If, null, Index);
+					Index++;
+
+					var trueExpression = ParseAddSub();
+
+					if (CurrentToken.TokenType != TokenType.Colon)
+					{
+						ErrorMessage = "error at " + CurrentToken.Index.ToString() + " missing colon";
+						return null;
+					}
+
+					Index++; // skip closing colon
+
+					var falseExpression = ParseAddSub();
+
+					var parameters = new List<ExpressionNode>();
+
+					parameters.Add(null); // todo
+					parameters.Add(trueExpression);
+					parameters.Add(falseExpression);
+
+					var node = new ExpressionNode(questionToken, parameters);
 					return node;
 				}
 
@@ -187,7 +213,7 @@ namespace Thinkedge.Simple.Expression
 
 				if (CurrentToken.TokenType != TokenType.CloseParens)
 				{
-					ErrorMessage = "error at " + CurrentToken.Index.ToString() + ": missing closing parenthesis token";
+					ErrorMessage = "error at " + CurrentToken.Index.ToString() + " missing closing parenthesis";
 					return null;
 				}
 
@@ -209,7 +235,7 @@ namespace Thinkedge.Simple.Expression
 				return node;
 			}
 
-			ErrorMessage = "error at " + CurrentToken.Index.ToString() + ": unexpected token: " + CurrentToken.ToString();
+			ErrorMessage = "error at " + CurrentToken.Index.ToString() + " unexpected token: " + CurrentToken.ToString();
 			return null;
 		}
 

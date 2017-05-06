@@ -16,6 +16,15 @@
 		Or,
 		Not,
 
+		// if-then-else
+		If,
+
+		Then,
+		Else,
+
+		Questionmark,
+		Colon,
+
 		// math
 		Addition,
 

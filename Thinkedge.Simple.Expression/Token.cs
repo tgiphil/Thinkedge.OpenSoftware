@@ -6,7 +6,7 @@
 		public string Value { get; protected set; } = null;
 		public int Index { get; protected set; } = -1;
 
-		public Token(TokenType tokenType, string value, int index = -1)
+		public Token(TokenType tokenType, string value = null, int index = -1)
 		{
 			TokenType = tokenType;
 			Value = value;

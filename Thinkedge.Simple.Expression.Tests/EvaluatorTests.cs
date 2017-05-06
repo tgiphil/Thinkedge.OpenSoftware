@@ -214,5 +214,29 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			Assert.Equal(result.Boolean, value);
 		}
+
+		[Fact]
+		public void EvaluatorTest16()
+		{
+			var tokenizer = new Tokenizer("if (true, 1, 2)==1");
+			var parser = new Parser(tokenizer);
+			var evaluator = new Evaluator(parser);
+
+			var result = evaluator.Evaluate();
+
+			Assert.Equal(result.Boolean, true);
+		}
+
+		[Fact]
+		public void EvaluatorTest17()
+		{
+			var tokenizer = new Tokenizer("if (false, 1, 2)");
+			var parser = new Parser(tokenizer);
+			var evaluator = new Evaluator(parser);
+
+			var result = evaluator.Evaluate();
+
+			Assert.Equal(result.Integer, 2);
+		}
 	}
 }

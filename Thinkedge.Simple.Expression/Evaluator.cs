@@ -85,7 +85,12 @@ namespace Thinkedge.Simple.Expression
 			}
 			else if (root.Left == null && root.Right == null)
 			{
-				if (root.Token.TokenType == TokenType.Field)
+				if (root.Token.TokenType == TokenType.If)
+				{
+					var result = IfStatement(root, builtInMethods, variableSource, tableSource, methodSource);
+					return result;
+				}
+				else if (root.Token.TokenType == TokenType.Field)
 				{
 					var result = Field(root, tableSource);
 					return result;
@@ -444,6 +449,24 @@ namespace Thinkedge.Simple.Expression
 			return Value.CreateErrorValue("incompatible types for comparison operator:" + left.ToString() + " and " + right.ToString());
 		}
 
+		protected static Value IfStatement(ExpressionNode node, IMethodSource builtInMethods, IVariableSource variableSource, ITableSource tableSource, IMethodSource methodSource)
+		{
+			if (node.Parameters.Count < 2 || node.Parameters.Count > 3)
+				return Value.CreateErrorValue("Incomplete if statement");
+
+			var condition = Evaluate(node.Parameters[0], builtInMethods, variableSource, tableSource, methodSource);
+
+			if (!condition.IsBoolean)
+				return Value.CreateErrorValue("if statement condition does not evaluate to true or false");
+
+			if (node.Parameters.Count == 2 && !condition.Boolean)
+				return new Value(string.Empty); // default value is emptry string when missing else statement
+
+			var value = Evaluate(node.Parameters[condition.Boolean ? 1 : 2], builtInMethods, variableSource, tableSource, methodSource);
+
+			return value;
+		}
+
 		protected static Value Method(ExpressionNode node, IMethodSource builtInMethods, IVariableSource variableSource, ITableSource tableSource, IMethodSource methodSource)
 		{
 			var parameters = new List<Value>(node.Parameters.Count);
@@ -470,7 +493,7 @@ namespace Thinkedge.Simple.Expression
 					return result;
 			}
 
-			return Value.CreateErrorValue("unknown method:" + name);
+			return Value.CreateErrorValue("unknown method: " + name);
 		}
 
 		public override string ToString()
@@ -482,11 +505,11 @@ namespace Thinkedge.Simple.Expression
 		{
 			if (parameters.Count < minParameters)
 			{
-				return Value.CreateErrorValue("error too few parameters when calling method: " + method);
+				return Value.CreateErrorValue(method + "() error too few parameters");
 			}
 			if (parameters.Count > types.Count)
 			{
-				return Value.CreateErrorValue("too many parameters when calling method: " + method);
+				return Value.CreateErrorValue(method + "() too many parameters");
 			}
 
 			for (int i = 0; i < types.Count; i++)
@@ -501,7 +524,7 @@ namespace Thinkedge.Simple.Expression
 				{
 					var typename = System.Enum.GetName(typeof(ValueType), type);
 
-					return Value.CreateErrorValue("parameter #" + i.ToString() + " is not of the expected type: " + typename + "  when calling method: " + method);
+					return Value.CreateErrorValue(method + "() parameter #" + i.ToString() + " is not of the expected type: " + typename);
 				}
 			}
 

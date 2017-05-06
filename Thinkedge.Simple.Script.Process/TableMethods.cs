@@ -58,7 +58,7 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (System.Exception e)
 			{
-				return Value.CreateErrorValue("unable to parse data", e);
+				return Value.CreateErrorValue("ParseTabDelimited() unable to parse data", e);
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (System.Exception e)
 			{
-				return Value.CreateErrorValue("unable to parse data", e);
+				return Value.CreateErrorValue("ParseValuePairs() unable to parse data", e);
 			}
 		}
 
@@ -111,7 +111,7 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (System.Exception e)
 			{
-				return Value.CreateErrorValue("unable to parse data", e);
+				return Value.CreateErrorValue("ParseCustomINI() unable to parse data", e);
 			}
 		}
 
@@ -124,11 +124,11 @@ namespace Thinkedge.Simple.Script.Process
 
 			if (!(parameters[0].Object is SimpleTable))
 			{
-				return Value.CreateErrorValue("parameter #1 is not a table");
+				return Value.CreateErrorValue("Transform() parameter #1 is not a table");
 			}
 			else if (!(parameters[1].Object is SimpleTable))
 			{
-				return Value.CreateErrorValue("parameter #2 is not a table");
+				return Value.CreateErrorValue("Transform() parameter #2 is not a table");
 			}
 
 			var sourceTable = parameters[0].Object as SimpleTable;
@@ -136,7 +136,7 @@ namespace Thinkedge.Simple.Script.Process
 
 			try
 			{
-				var result = Thinkedge.Simple.Table.Process.TransformTable.Execute(sourceTable, mapTable);
+				var result = TransformTable.Execute(sourceTable, mapTable);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);
@@ -158,7 +158,7 @@ namespace Thinkedge.Simple.Script.Process
 
 			if (!(parameters[0].Object is SimpleTable))
 			{
-				return Value.CreateErrorValue("parameter #1 is not a table");
+				return Value.CreateErrorValue("Filter() parameter #1 is not a table");
 			}
 
 			var sourceTable = parameters[0].Object as SimpleTable;
@@ -175,37 +175,33 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (System.Exception e)
 			{
-				return Value.CreateErrorValue("unable to filter table", e);
+				return Value.CreateErrorValue("Filter() unable to filter table", e);
 			}
 		}
 
 		public static Value Validate(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("Validate", parameters, 3, new List<ValueType>() { ValueType.Object, ValueType.Object, ValueType.Object });
+			var validate = Evaluator.ValidateHelper("Validate", parameters, 3, new List<ValueType>() { ValueType.Object, ValueType.Object, ValueType.Boolean });
 
 			if (validate != null)
 				return validate;
 
 			if (!(parameters[0].Object is SimpleTable))
 			{
-				return Value.CreateErrorValue("parameter #1 is not a table");
+				return Value.CreateErrorValue("Validate() parameter #1 is not a table");
 			}
 			else if (!(parameters[1].Object is SimpleTable))
 			{
-				return Value.CreateErrorValue("parameter #2 is not a table");
-			}
-			else if (!(parameters[2].Object is SimpleTable))
-			{
-				return Value.CreateErrorValue("parameter #3 is not a table");
+				return Value.CreateErrorValue("Validate() parameter #2 is not a table");
 			}
 
 			var sourceTable = parameters[0].Object as SimpleTable;
 			var validationRules = parameters[1].Object as SimpleTable;
-			var validationMap = parameters[2].Object as SimpleTable;
+			var rowPerMatch = parameters[2].Boolean;
 
 			try
 			{
-				var result = ValidateTable.Execute(sourceTable, validationRules, validationMap);
+				var result = ValidateTable.Execute(sourceTable, validationRules, rowPerMatch);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);
@@ -214,7 +210,7 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (System.Exception e)
 			{
-				return Value.CreateErrorValue("unable to filter table", e);
+				return Value.CreateErrorValue("Validate() unable to filter table", e);
 			}
 		}
 
@@ -227,11 +223,11 @@ namespace Thinkedge.Simple.Script.Process
 
 			if (!(parameters[0].Object is SimpleTable))
 			{
-				return Value.CreateErrorValue("parameter #1 is not a table");
+				return Value.CreateErrorValue("LookupUpdate() parameter #1 is not a table");
 			}
 			else if (!(parameters[3].Object is SimpleTable))
 			{
-				return Value.CreateErrorValue("parameter #4 is not a table");
+				return Value.CreateErrorValue("LookupUpdate() parameter #4 is not a table");
 			}
 
 			var sourceTable = parameters[0].Object as SimpleTable;
@@ -254,7 +250,7 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (System.Exception e)
 			{
-				return Value.CreateErrorValue("unable to perform lookup update", e);
+				return Value.CreateErrorValue("LookupUpdate() unable to perform lookup update", e);
 			}
 		}
 
@@ -267,7 +263,7 @@ namespace Thinkedge.Simple.Script.Process
 
 			if (!parameters[0].IsObject)
 			{
-				return Value.CreateErrorValue("parameter #1 is not a table");
+				return Value.CreateErrorValue("LookupUpdate() parameter #1 is not a table");
 			}
 
 			var table = parameters[0].Object as SimpleTable;
@@ -284,7 +280,7 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (System.Exception e)
 			{
-				return Value.CreateErrorValue("unable to read file: " + parameters[0].String, e);
+				return Value.CreateErrorValue("LookupUpdate() unable to read file: " + parameters[0].String, e);
 			}
 		}
 	}

@@ -31,6 +31,8 @@ namespace Thinkedge.Simple.Expression
 			new KeyValuePair<string, TokenType>("/", TokenType.Division),
 			new KeyValuePair<string, TokenType>("%", TokenType.Modulus),
 			new KeyValuePair<string, TokenType>(",", TokenType.Comma),
+			new KeyValuePair<string, TokenType>("?", TokenType.Questionmark),
+			new KeyValuePair<string, TokenType>(":", TokenType.Colon),
 		};
 
 		public Tokenizer(string expression)
@@ -75,11 +77,11 @@ namespace Thinkedge.Simple.Expression
 					continue;
 				}
 
-				if (c == '{')
-				{
-					ExtractVariable();
-					continue;
-				}
+				//if (c == '$')
+				//{
+				//	ExtractVariable();
+				//	continue;
+				//}
 
 				if (c == '[')
 				{
@@ -109,6 +111,19 @@ namespace Thinkedge.Simple.Expression
 					Tokens[i] = new Token((nextToken.TokenType == TokenType.OpenParens) ? TokenType.Method : TokenType.Variable, token.Value, token.Index);
 				}
 			}
+		}
+
+		private bool ExtractOperand()
+		{
+			foreach (var op in operands)
+			{
+				if (Match(op.Key, op.Value))
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private bool Match(string symbol, TokenType tokenType)
@@ -156,11 +171,6 @@ namespace Thinkedge.Simple.Expression
 			Extract('#', TokenType.DateLiteral);
 		}
 
-		private void ExtractVariable()
-		{
-			Extract('}', TokenType.Variable);
-		}
-
 		private void ExtractField()
 		{
 			Extract(']', TokenType.Field);
@@ -205,19 +215,6 @@ namespace Thinkedge.Simple.Expression
 				Tokens.Add(new Token(TokenType.IntegerLiteral, value, Index));
 		}
 
-		private bool ExtractOperand()
-		{
-			foreach (var op in operands)
-			{
-				if (Match(op.Key, op.Value))
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
 		private void ExtractIdentifier()
 		{
 			int start = Index;
@@ -241,20 +238,36 @@ namespace Thinkedge.Simple.Expression
 			if (value == "true")
 			{
 				Tokens.Add(new Token(TokenType.BooleanTrueLiteral));
-				return;
 			}
-			if (value == "false")
+			else if (value == "false")
 			{
 				Tokens.Add(new Token(TokenType.BooleanFalseLiteral));
-				return;
 			}
-			if (value.StartsWith("$"))
+			else if (value.ToLower() == "if")
+			{
+				Tokens.Add(new Token(TokenType.If));
+			}
+			//else if (value.ToLower() == "then")
+			//{
+			//	Tokens.Add(new Token(TokenType.Then));
+			//}
+			//else if (value.ToLower() == "elseif")
+			//{
+			//	Tokens.Add(new Token(TokenType.Else));
+			//	Tokens.Add(new Token(TokenType.If));
+			//}
+			//else if (value.ToLower() == "else")
+			//{
+			//	Tokens.Add(new Token(TokenType.Else));
+			//}
+			else if (value.StartsWith("$"))
 			{
 				Tokens.Add(new Token(TokenType.Variable, value, Index));
-				return;
 			}
-
-			Tokens.Add(new Token(TokenType.Identifier, value, Index));
+			else
+			{
+				Tokens.Add(new Token(TokenType.Identifier, value, Index));
+			}
 		}
 
 		public override string ToString()
