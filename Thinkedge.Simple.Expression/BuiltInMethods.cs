@@ -13,10 +13,12 @@ namespace Thinkedge.Simple.Expression
 				case "ToDate": return ToDate(parameters);
 				case "ToDecimal": return ToDecimal(parameters);
 				case "IsDate": return IsDate(parameters);
+				case "IsInteger": return IsInteger(parameters);
 				case "IsDecimal": return IsDecimal(parameters);
 				case "IsEmpty": return IsEmpty(parameters);
 				case "IsNull": return IsEmpty(parameters);
 				case "IsNot": return IsNot(parameters);
+				case "IsError": return IsError(parameters);
 				case "IsWhiteSpace": return IsWhiteSpace(parameters);
 				case "Length": return Length(parameters);
 				case "Contain": return Length(parameters);
@@ -30,6 +32,9 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value ToInteger(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("ToInteger() missing parameter");
+
 			var param = parameters[0];
 
 			if (param.IsString)
@@ -44,6 +49,9 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value ToDecimal(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("ToDecimal() missing parameter");
+
 			var param = parameters[0];
 
 			if (param.IsString)
@@ -60,6 +68,9 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value ToDate(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("ToDate() missing parameter");
+
 			var param = parameters[0];
 
 			if (param.IsString)
@@ -72,6 +83,9 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value IsDate(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("IsDate() missing parameter");
+
 			var param = parameters[0];
 
 			if (param.IsString)
@@ -84,6 +98,9 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value IsDecimal(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("IsDecimal() missing parameter");
+
 			var param = parameters[0];
 
 			if (param.IsString)
@@ -98,8 +115,43 @@ namespace Thinkedge.Simple.Expression
 			return Value.CreateErrorValue("IsDecimal() invalid parameter type");
 		}
 
+		public static Value IsInteger(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("IsInteger() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsString)
+				return new Value(Int32.TryParse(param.String, out int i));
+			else if (param.IsInteger)
+				return new Value(true);
+			else if (param.IsFloat)
+				return new Value(true);
+			else if (param.IsDecimal)
+				return new Value(true);
+
+			return Value.CreateErrorValue("IsInteger() invalid parameter type");
+		}
+
+		public static Value IsError(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("IsError() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsError)
+				return new Value(param.IsError);
+
+			return Value.CreateErrorValue("IsError() invalid parameter type");
+		}
+		
 		public static Value IsEmpty(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("IsEmpty() missing parameter");
+
 			var param = parameters[0];
 
 			if (param.IsString)
@@ -110,6 +162,9 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value IsWhiteSpace(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("IsWhiteSpace() missing parameter");
+
 			var param = parameters[0];
 
 			if (param.IsString)
@@ -120,6 +175,9 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value Length(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("Length() missing parameter");
+
 			var param = parameters[0];
 
 			if (param.IsString)
@@ -130,6 +188,9 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value Trim(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("Trim() missing parameter");
+
 			var param = parameters[0];
 
 			if (param.IsString)
@@ -140,6 +201,9 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value Contains(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("Contains() missing parameter");
+
 			var param = parameters[0];
 			var param2 = parameters[1];
 
@@ -156,12 +220,15 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value IsNot(IList<Value> parameters)
 		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("IsNot() missing parameter");
+
 			var param = parameters[0];
 
 			if (param.IsBoolean)
 				return new Value(!param.Boolean);
 
-			return Value.CreateErrorValue("IsEmpty() invalid parameter type");
+			return Value.CreateErrorValue("IsNot() invalid parameter type");
 		}
 	}
 }

@@ -165,32 +165,33 @@ namespace Thinkedge.Simple.Expression
 					var node = new ExpressionNode(token, parameters);
 					return node;
 				}
-				else if (CurrentTokenType == TokenType.Questionmark)
-				{
-					var questionToken = new Token(TokenType.If, null, Index);
-					Index++;
+				//else if (CurrentTokenType == TokenType.Questionmark)
+				//{
+				//	var questionToken = new Token(TokenType.If, null, Index);
+				//	Index++;
 
-					var trueExpression = ParseAddSub();
+				//	var trueExpression = ParseAddSub();
 
-					if (CurrentToken.TokenType != TokenType.Colon)
-					{
-						ErrorMessage = "error at " + CurrentToken.Index.ToString() + " missing colon";
-						return null;
-					}
+				//	if (CurrentToken.TokenType != TokenType.Colon)
+				//	{
+				//		ErrorMessage = "error at " + CurrentToken.Index.ToString() + " missing colon";
+				//		return null;
+				//	}
 
-					Index++; // skip closing colon
+				//	Index++; // skip closing colon
 
-					var falseExpression = ParseAddSub();
+				//	var falseExpression = ParseAddSub();
 
-					var parameters = new List<ExpressionNode>();
+				//	var parameters = new List<ExpressionNode>
+				//	{
+				//		null, // todo
+				//		trueExpression,
+				//		falseExpression
+				//	};
 
-					parameters.Add(null); // todo
-					parameters.Add(trueExpression);
-					parameters.Add(falseExpression);
-
-					var node = new ExpressionNode(questionToken, parameters);
-					return node;
-				}
+				//	var node = new ExpressionNode(questionToken, parameters);
+				//	return node;
+				//}
 
 				return ParseLeaf();
 			}
