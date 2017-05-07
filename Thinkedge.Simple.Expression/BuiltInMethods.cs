@@ -35,6 +35,17 @@ namespace Thinkedge.Simple.Expression
 				//long versions
 				case "Index.Get": return GetIndex(parameters);
 				case "Index.GetValue": return GetIndexValue(parameters);
+
+				//todo: Month,Year,Day
+				//todo: NameOfMonthShort
+				//todo: NameOfMonthLong
+				//todo: Replace
+				//todo: SubString
+				//todo: Right, Left
+				//todo: CountWeekendsDays
+				//todo: CountNonWeekendsDays
+				//todo: IncrementToFirstNonWeekend
+
 				default: break;
 			}
 

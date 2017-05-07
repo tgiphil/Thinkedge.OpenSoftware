@@ -81,7 +81,7 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (System.Exception e)
 			{
-				return Value.CreateErrorValue("SendEMails: unable to read file: " + parameters[0].String, e);
+				return Value.CreateErrorValue("SendEMails: unable to send emails: " + parameters[0].String, e);
 			}
 		}
 	}

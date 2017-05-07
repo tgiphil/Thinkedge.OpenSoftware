@@ -93,12 +93,11 @@ namespace Thinkedge.Simple.Table.Process
 		{
 			var sb = new StringBuilder(TemplateRow);
 
-			for (int i = 0; i < row.ColumnCount; i++)
+			foreach(var column in row.Table.ColumnNames)
 			{
-				var columnName = row.Table.GetColumnName(i);
-				var value = row[i];
+				var value = row[column];
 
-				sb.Replace("[" + columnName + "]", value);
+				sb.Replace("[" + column + "]", value);
 			}
 
 			InProcessRows.Append(sb);
