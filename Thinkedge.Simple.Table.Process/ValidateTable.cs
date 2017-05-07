@@ -5,12 +5,12 @@ namespace Thinkedge.Simple.Table.Process
 {
 	public class ValidateTable : BaseStandardResult
 	{
-		public static StandardResult<SimpleTable> Execute(SimpleTable sourceTable, SimpleTable validationRules, bool rowPerMatch)
+		public static StandardResult<SimpleTable> Execute(SimpleTable sourceTable, SimpleTable validationRules, bool rowPerMatch, bool overwrite)
 		{
-			return new ValidateTable().ExecuteEx(sourceTable, validationRules, rowPerMatch);
+			return new ValidateTable().ExecuteEx(sourceTable, validationRules, rowPerMatch, overwrite);
 		}
 
-		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, SimpleTable validationRules, bool rowPerMatch)
+		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, SimpleTable validationRules, bool rowPerMatch, bool overwrite)
 		{
 			ClearError();
 
@@ -85,7 +85,8 @@ namespace Thinkedge.Simple.Table.Process
 						if (result2.IsError)
 							return ReturnError<SimpleTable>(result2.String);
 
-						row[column] = result2.String;
+						if (overwrite || string.IsNullOrWhiteSpace(row[column]))
+							row[column] = result2.String;
 					}
 				}
 			}

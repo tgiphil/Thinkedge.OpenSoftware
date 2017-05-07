@@ -30,10 +30,10 @@ namespace Thinkedge.Simple.Table
 			}
 		}
 
-		public SimpleTable Copy()
-		{
-			throw new NotImplementedException();
-		}
+		//public SimpleTable Copy()
+		//{
+		//	throw new NotImplementedException();
+		//}
 
 		public bool ContainColumn(string name)
 		{

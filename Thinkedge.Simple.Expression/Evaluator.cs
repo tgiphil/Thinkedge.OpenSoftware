@@ -255,6 +255,10 @@ namespace Thinkedge.Simple.Expression
 			{
 				return new Value(left.Date.AddDays(-right.Integer));
 			}
+			else if (left.IsDate && right.IsDate)
+			{
+				return new Value((left.Date - right.Date).Days);
+			}
 
 			return Value.CreateErrorValue("incompatible types for substraction operator:" + left.ToString() + " and " + right.ToString());
 		}

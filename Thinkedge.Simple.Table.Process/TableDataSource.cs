@@ -18,17 +18,6 @@ namespace Thinkedge.Simple.Table.Process
 			Row = simpleTableRow;
 		}
 
-		public void SetVariable(string name, string value)
-		{
-			Variables.Remove(name);
-			Variables.Add(name, value);
-		}
-
-		public void ClearVariables()
-		{
-			Variables.Clear();
-		}
-
 		Value ITableSource.GetField(string name)
 		{
 			var data = Row.GetField(name);

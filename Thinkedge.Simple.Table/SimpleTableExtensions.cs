@@ -2,7 +2,7 @@
 {
 	public static class SimpleTableExtensions
 	{
-		private static SimpleTable Copy(this SimpleTable table)
+		public static SimpleTable Copy(this SimpleTable table)
 		{
 			var copy = new SimpleTable();
 

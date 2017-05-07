@@ -16,6 +16,7 @@ namespace Thinkedge.Simple.Script.Process
 				case "ParseValuePairs": return ParseValuePairs(parameters);
 				case "ParseCustomINI": return ParseCustomINI(parameters);
 				case "Transform": return Transform(parameters);
+				case "Expand": return Expand(parameters);
 				case "Filter": return Filter(parameters);
 				case "Validate": return Validate(parameters);
 				case "LookupUpdate": return LookupUpdate(parameters);
@@ -25,6 +26,7 @@ namespace Thinkedge.Simple.Script.Process
 				case "Table.ParseValuePairs": return ParseValuePairs(parameters);
 				case "Table.ParseCustomINI": return ParseCustomINI(parameters);
 				case "Table.Transform": return Transform(parameters);
+				case "Table.Expand": return Expand(parameters);
 				case "Table.Filter": return Filter(parameters);
 				case "Table.Validate": return Validate(parameters);
 				case "Table.LookupUpdate": return LookupUpdate(parameters);
@@ -149,6 +151,40 @@ namespace Thinkedge.Simple.Script.Process
 			}
 		}
 
+		public static Value Expand(IList<Value> parameters)
+		{
+			var validate = Evaluator.ValidateHelper("Expand", parameters, 2, new List<ValueType>() { ValueType.Object, ValueType.Object });
+
+			if (validate != null)
+				return validate;
+
+			if (!(parameters[0].Object is SimpleTable))
+			{
+				return Value.CreateErrorValue("Expand() parameter #1 is not a table");
+			}
+			else if (!(parameters[1].Object is SimpleTable))
+			{
+				return Value.CreateErrorValue("Expand() parameter #2 is not a table");
+			}
+
+			var sourceTable = parameters[0].Object as SimpleTable;
+			var mapTable = parameters[1].Object as SimpleTable;
+
+			try
+			{
+				var result = ExpandTable.Execute(sourceTable, mapTable);
+
+				if (result.HasError)
+					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);
+
+				return new Value(result.Result);
+			}
+			catch (System.Exception e)
+			{
+				return Value.CreateErrorValue("unable to expand table", e);
+			}
+		}
+
 		public static Value Filter(IList<Value> parameters)
 		{
 			var validate = Evaluator.ValidateHelper("Filter", parameters, 2, new List<ValueType>() { ValueType.Object, ValueType.String });
@@ -181,7 +217,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value Validate(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("Validate", parameters, 3, new List<ValueType>() { ValueType.Object, ValueType.Object, ValueType.Boolean });
+			var validate = Evaluator.ValidateHelper("Validate", parameters, 4, new List<ValueType>() { ValueType.Object, ValueType.Object, ValueType.Boolean, ValueType.Boolean });
 
 			if (validate != null)
 				return validate;
@@ -198,10 +234,11 @@ namespace Thinkedge.Simple.Script.Process
 			var sourceTable = parameters[0].Object as SimpleTable;
 			var validationRules = parameters[1].Object as SimpleTable;
 			var rowPerMatch = parameters[2].Boolean;
+			var overwrite = parameters[3].Boolean;
 
 			try
 			{
-				var result = ValidateTable.Execute(sourceTable, validationRules, rowPerMatch);
+				var result = ValidateTable.Execute(sourceTable, validationRules, rowPerMatch, overwrite);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);

@@ -41,7 +41,10 @@ namespace Thinkedge.Simple.Table.Process
 
 				foreach (var map in mapTable)
 				{
-					var evaluator = cache.Compile(map["source"]);
+					var source = map["source"];
+					var destination = map["destination"];
+
+					var evaluator = cache.Compile(source);
 
 					var result = evaluator.Evaluate(tableSource);
 
@@ -50,7 +53,7 @@ namespace Thinkedge.Simple.Table.Process
 						return ReturnError<SimpleTable>(result.String);
 					}
 
-					destinationRow.SetField(map["destination"], result.String);
+					destinationRow[destination] = ExpandTable.ToString(result);
 				}
 			}
 

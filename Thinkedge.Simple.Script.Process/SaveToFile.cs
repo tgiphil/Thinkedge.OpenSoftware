@@ -24,7 +24,7 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (Exception e)
 			{
-				return ReturnError<bool>("unable to read file: " + filename, e);
+				return ReturnError<bool>("unable to save file: " + filename, e);
 			}
 		}
 	}

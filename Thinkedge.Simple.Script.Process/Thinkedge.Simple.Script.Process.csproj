@@ -47,7 +47,6 @@
     <Compile Include="EMailMethods.cs" />
     <Compile Include="FileMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IndexMethods.cs" />
     <Compile Include="TableMethods.cs" />
   </ItemGroup>
   <ItemGroup>
