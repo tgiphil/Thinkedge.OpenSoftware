@@ -11,6 +11,7 @@ namespace Thinkedge.Simple.Expression
 			{
 				//short versions
 				case "ToInteger": return ToInteger(parameters);
+				case "ToInt": return ToInteger(parameters);
 				case "ToDate": return ToDate(parameters);
 				case "ToDecimal": return ToDecimal(parameters);
 				case "IsDate": return IsDate(parameters);
@@ -20,13 +21,15 @@ namespace Thinkedge.Simple.Expression
 				case "IsNull": return IsEmpty(parameters);
 				case "IsNot": return IsNot(parameters);
 				case "IsError": return IsError(parameters);
-				case "IsWhiteSpace": return IsWhiteSpace(parameters);
 				case "Length": return Length(parameters);
-				case "Contain": return Length(parameters);
+				case "Contains": return Contains(parameters);
 				case "Trim": return Trim(parameters);
 				case "Today": return Today(parameters);
 				case "DaysInMonth": return DaysInMonth(parameters);
+				case "FirstDayOfMonth": return FirstDayOfMonth(parameters);
 				case "LastDayOfMonth": return LastDayOfMonth(parameters);
+				case "FirstDayOfYear": return FirstDayOfYear(parameters);
+				case "LastDayOfYear": return LastDayOfYear(parameters);
 				case "GetIndex": return GetIndex(parameters);
 				case "GetIndexValue": return GetIndexValue(parameters);
 				//long versions
@@ -175,19 +178,6 @@ namespace Thinkedge.Simple.Expression
 			return Value.CreateErrorValue("IsEmpty() contains invalid parameter type");
 		}
 
-		public static Value IsWhiteSpace(IList<Value> parameters)
-		{
-			if (parameters.Count != 1)
-				return Value.CreateErrorValue("IsWhiteSpace() missing parameter");
-
-			var param = parameters[0];
-
-			if (param.IsString)
-				return new Value(string.IsNullOrWhiteSpace(param.String));
-
-			return Value.CreateErrorValue("IsWhiteSpace() contains invalid parameter type");
-		}
-
 		public static Value Length(IList<Value> parameters)
 		{
 			if (parameters.Count != 1)
@@ -261,6 +251,51 @@ namespace Thinkedge.Simple.Expression
 			}
 
 			return Value.CreateErrorValue("LastDayOfMonth() contains invalid parameter type");
+		}
+
+		public static Value FirstDayOfMonth(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("FirstDayOfMonth() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+			{
+				return new Value(new DateTime(param.Date.Year, param.Date.Month, 1));
+			}
+
+			return Value.CreateErrorValue("FirstDayOfMonth() contains invalid parameter type");
+		}
+
+		public static Value LastDayOfYear(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("LastDayOfYear() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+			{
+				return new Value(new DateTime(param.Date.Year, param.Date.Month, 31));
+			}
+
+			return Value.CreateErrorValue("LastDayOfYear() contains invalid parameter type");
+		}
+
+		public static Value FirstDayOfYear(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("FirstDayOfMonth() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+			{
+				return new Value(new DateTime(param.Date.Year, 1, 1));
+			}
+
+			return Value.CreateErrorValue("FirstDayOfMonth() contains invalid parameter type");
 		}
 
 		public static Value IsNot(IList<Value> parameters)

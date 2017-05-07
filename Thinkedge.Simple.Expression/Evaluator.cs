@@ -166,7 +166,7 @@ namespace Thinkedge.Simple.Expression
 				default: break;
 			}
 
-			return Value.CreateErrorValue("invalid token type:" + token.ToString());
+			return Value.CreateErrorValue("invalid token type: " + token.ToString());
 		}
 
 		protected static Value Eval(TokenType tokenType, Value left, Value right)
@@ -188,7 +188,7 @@ namespace Thinkedge.Simple.Expression
 				default: break;
 			}
 
-			return Value.CreateErrorValue("invalid token type:" + tokenType.ToString());
+			return Value.CreateErrorValue("invalid token type: " + tokenType.ToString());
 		}
 
 		protected static Value Eval(TokenType tokenType, Value left)
@@ -200,7 +200,7 @@ namespace Thinkedge.Simple.Expression
 				default: break;
 			}
 
-			return Value.CreateErrorValue("invalid token type:" + tokenType.ToString());
+			return Value.CreateErrorValue("invalid token type: " + tokenType.ToString());
 		}
 
 		protected static Value Not(Value left)
@@ -210,7 +210,7 @@ namespace Thinkedge.Simple.Expression
 				return new Value(!left.Boolean);
 			}
 
-			return Value.CreateErrorValue("incompatible type for not operator:" + left.ToString());
+			return Value.CreateErrorValue("incompatible type for not operator: " + left.ToString());
 		}
 
 		protected static Value Negate(Value left)
@@ -223,8 +223,12 @@ namespace Thinkedge.Simple.Expression
 			{
 				return new Value(-left.Float);
 			}
+			else if (left.IsDecimal)
+			{
+				return new Value(-left.Decimal);
+			}
 
-			return Value.CreateErrorValue("incompatible type for Negate operator:" + left.ToString());
+			return Value.CreateErrorValue("incompatible type for Negate operator: " + left.ToString());
 		}
 
 		protected static Value Addition(Value left, Value right)
@@ -237,12 +241,24 @@ namespace Thinkedge.Simple.Expression
 			{
 				return new Value(left.Date.AddDays(right.Integer));
 			}
-			if (left.IsString && right.IsString)
+			else if (left.IsInteger && right.IsDate)
+			{
+				return new Value(right.Date.AddDays(left.Integer));
+			}
+			else if (left.IsString && right.IsString)
 			{
 				return new Value(left.String + right.String);
 			}
+			else if (left.IsDecimal && right.IsDecimal)
+			{
+				return new Value(left.Decimal + right.Decimal);
+			}
+			else if (left.IsFloat && right.IsFloat)
+			{
+				return new Value(left.Float + right.Float);
+			}
 
-			return Value.CreateErrorValue("incompatible types for addition operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for addition operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value Subtract(Value left, Value right)
@@ -259,8 +275,16 @@ namespace Thinkedge.Simple.Expression
 			{
 				return new Value((left.Date - right.Date).Days);
 			}
+			else if (left.IsDecimal && right.IsDecimal)
+			{
+				return new Value(left.Decimal - right.Decimal);
+			}
+			else if (left.IsFloat && right.IsFloat)
+			{
+				return new Value(left.Float - right.Float);
+			}
 
-			return Value.CreateErrorValue("incompatible types for substraction operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for substraction operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value Multiplication(Value left, Value right)
@@ -269,8 +293,16 @@ namespace Thinkedge.Simple.Expression
 			{
 				return new Value(left.Integer * right.Integer);
 			}
+			else if (left.IsDecimal && right.IsDecimal)
+			{
+				return new Value(left.Decimal * right.Decimal);
+			}
+			else if (left.IsFloat && right.IsFloat)
+			{
+				return new Value(left.Float * right.Float);
+			}
 
-			return Value.CreateErrorValue("incompatible types for multiplication operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for multiplication operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value Division(Value left, Value right)
@@ -281,8 +313,16 @@ namespace Thinkedge.Simple.Expression
 
 				return new Value(left.Integer / right.Integer);
 			}
+			else if (left.IsDecimal && right.IsDecimal)
+			{
+				return new Value(left.Decimal / right.Decimal);
+			}
+			else if (left.IsFloat && right.IsFloat)
+			{
+				return new Value(left.Float / right.Float);
+			}
 
-			return Value.CreateErrorValue("incompatible types for division operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for division operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value And(Value left, Value right)
@@ -292,7 +332,7 @@ namespace Thinkedge.Simple.Expression
 				return new Value(left.Boolean && right.Boolean);
 			}
 
-			return Value.CreateErrorValue("incompatible types for and operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for and operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value Or(Value left, Value right)
@@ -302,7 +342,7 @@ namespace Thinkedge.Simple.Expression
 				return new Value(left.Boolean || right.Boolean);
 			}
 
-			return Value.CreateErrorValue("incompatible types for or operator operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for or operator operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value CompareEqual(Value left, Value right)
@@ -332,7 +372,7 @@ namespace Thinkedge.Simple.Expression
 				return new Value(left.Decimal == right.Decimal);
 			}
 
-			return Value.CreateErrorValue("incompatible types for comparison operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for comparison operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value CompareNotEqual(Value left, Value right)
@@ -362,7 +402,7 @@ namespace Thinkedge.Simple.Expression
 				return new Value(left.Decimal != right.Decimal);
 			}
 
-			return Value.CreateErrorValue("incompatible types for comparison operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for comparison operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value CompareGreaterThanOrEqual(Value left, Value right)
@@ -384,7 +424,7 @@ namespace Thinkedge.Simple.Expression
 				return new Value(left.Decimal >= right.Decimal);
 			}
 
-			return Value.CreateErrorValue("incompatible types for comparison operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for comparison operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value CompareLessThanOrEqual(Value left, Value right)
@@ -406,7 +446,7 @@ namespace Thinkedge.Simple.Expression
 				return new Value(left.Decimal <= right.Decimal);
 			}
 
-			return Value.CreateErrorValue("incompatible types for comparison operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for comparison operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value CompareLessThan(Value left, Value right)
@@ -428,7 +468,7 @@ namespace Thinkedge.Simple.Expression
 				return new Value(left.Decimal < right.Decimal);
 			}
 
-			return Value.CreateErrorValue("incompatible types for comparison operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for comparison operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value CompareGreaterThan(Value left, Value right)
@@ -450,7 +490,7 @@ namespace Thinkedge.Simple.Expression
 				return new Value(left.Decimal > right.Decimal);
 			}
 
-			return Value.CreateErrorValue("incompatible types for comparison operator:" + left.ToString() + " and " + right.ToString());
+			return Value.CreateErrorValue("incompatible types for comparison operator: " + left.ToString() + " and " + right.ToString());
 		}
 
 		protected static Value IfStatement(ExpressionNode node, IMethodSource builtInMethods, IVariableSource variableSource, ITableSource tableSource, IMethodSource methodSource)
@@ -526,7 +566,7 @@ namespace Thinkedge.Simple.Expression
 
 				if (parameter.ValueType != type)
 				{
-					var typename = System.Enum.GetName(typeof(ValueType), type);
+					var typename = Enum.GetName(typeof(ValueType), type);
 
 					return Value.CreateErrorValue(method + "() parameter #" + i.ToString() + " is not of the expected type: " + typename);
 				}
