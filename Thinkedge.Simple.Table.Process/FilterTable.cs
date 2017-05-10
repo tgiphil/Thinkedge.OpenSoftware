@@ -47,7 +47,7 @@ namespace Thinkedge.Simple.Table.Process
 
 				if (!result.IsBoolean)
 				{
-					return ReturnError<SimpleTable>("filter error: invalid resultr");
+					return ReturnError<SimpleTable>("filter error: invalid result");
 				}
 
 				if (result.Boolean)

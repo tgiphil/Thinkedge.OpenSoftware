@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Thinkedge.Simple.Expression
 {
@@ -25,26 +26,40 @@ namespace Thinkedge.Simple.Expression
 				case "Contains": return Contains(parameters);
 				case "Trim": return Trim(parameters);
 				case "Today": return Today(parameters);
+				case "Tomorrow": return Tomorrow(parameters);
+				case "Yesterday": return Yesterday(parameters);
 				case "DaysInMonth": return DaysInMonth(parameters);
-				case "FirstDayOfMonth": return FirstDayOfMonth(parameters);
-				case "LastDayOfMonth": return LastDayOfMonth(parameters);
 				case "FirstDayOfYear": return FirstDayOfYear(parameters);
+				case "FirstDayOfMonth": return FirstDayOfMonth(parameters);
+				case "FirstDayOfQuarter": return FirstDayOfQuarter(parameters);
+				case "LastDayOfQuarter": return LastDayOfQuarter(parameters);
+				case "LastDayOfMonth": return LastDayOfMonth(parameters);
 				case "LastDayOfYear": return LastDayOfYear(parameters);
 				case "GetIndex": return GetIndex(parameters);
 				case "GetIndexValue": return GetIndexValue(parameters);
+				case "Month": return Month(parameters);
+				case "Year": return Year(parameters);
+				case "Day": return Day(parameters);
+				case "Quarter": return Quarter(parameters);
+				case "MonthName": return MonthName(parameters);
+				case "MonthShortName": return MonthShortName(parameters);
+				case "IsWeekend": return IsWeekend(parameters);
+				case "DayOfWeek": return DayOfWeek(parameters);
+				case "DayOfYear": return DayOfYear(parameters);
+				case "Replace": return Replace(parameters);
+				case "In": return InList(parameters);
+				case "InList": return InList(parameters);
+				case "Between": return Between(parameters);
 				//long versions
 				case "Index.Get": return GetIndex(parameters);
 				case "Index.GetValue": return GetIndexValue(parameters);
 
-				//todo: Month,Year,Day
-				//todo: NameOfMonthShort
-				//todo: NameOfMonthLong
-				//todo: Replace
-				//todo: SubString
-				//todo: Right, Left
-				//todo: CountWeekendsDays
-				//todo: CountNonWeekendsDays
-				//todo: IncrementToFirstNonWeekend
+				//todo:
+				//  SubString
+				//  Right, Left
+				//  CountWeekendsDays
+				//  CountNonWeekendsDays
+				//  IncrementToFirstNonWeekend
 
 				default: break;
 			}
@@ -66,7 +81,7 @@ namespace Thinkedge.Simple.Expression
 			else if (param.IsInteger)
 				return new Value(param.Integer);
 
-			return Value.CreateErrorValue("ToInteger(): invalid parameter type");
+			return Value.CreateErrorValue("ToInteger() invalid parameter type");
 		}
 
 		public static Value ToDecimal(IList<Value> parameters)
@@ -113,9 +128,7 @@ namespace Thinkedge.Simple.Expression
 			if (param.IsString)
 			{
 				if (string.IsNullOrWhiteSpace(param.String))
-				{
 					return new Value(false);
-				}
 
 				return new Value(DateTime.TryParse(param.String, out DateTime date));
 			}
@@ -229,9 +242,34 @@ namespace Thinkedge.Simple.Expression
 			return Value.CreateErrorValue("Contains() contains invalid parameter type");
 		}
 
+		public static Value Replace(IList<Value> parameters)
+		{
+			if (parameters.Count != 3)
+				return Value.CreateErrorValue("Replace() missing parameter");
+
+			var param1 = parameters[0];
+			var param2 = parameters[1];
+			var param3 = parameters[2];
+
+			if (param1.IsString && param2.IsString && param3.IsString)
+				return new Value(param1.String.Replace(param2.String, param3.String));
+
+			return Value.CreateErrorValue("Replace() contains invalid parameter type");
+		}
+
 		public static Value Today(IList<Value> parameters)
 		{
 			return new Value(DateTime.Now.Date);
+		}
+
+		public static Value Tomorrow(IList<Value> parameters)
+		{
+			return new Value(DateTime.Now.Date.AddDays(1));
+		}
+
+		public static Value Yesterday(IList<Value> parameters)
+		{
+			return new Value(DateTime.Now.Date.AddDays(-1));
 		}
 
 		public static Value DaysInMonth(IList<Value> parameters)
@@ -242,9 +280,7 @@ namespace Thinkedge.Simple.Expression
 			var param = parameters[0];
 
 			if (param.IsDate)
-			{
 				return new Value(DateTime.DaysInMonth(param.Date.Year, param.Date.Month));
-			}
 
 			return Value.CreateErrorValue("DaysInMonth() contains invalid parameter type");
 		}
@@ -257,11 +293,41 @@ namespace Thinkedge.Simple.Expression
 			var param = parameters[0];
 
 			if (param.IsDate)
-			{
 				return new Value(new DateTime(param.Date.Year, param.Date.Month, DateTime.DaysInMonth(param.Date.Year, param.Date.Month)));
-			}
 
 			return Value.CreateErrorValue("LastDayOfMonth() contains invalid parameter type");
+		}
+
+		public static Value FirstDayOfQuarter(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("FirstDayOfQuarter() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+			{
+				int month = ((((param.Date.Month - 1) / 3) + 1) * 3) - 2;
+				return new Value(new DateTime(param.Date.Year, month, 1));
+			}
+
+			return Value.CreateErrorValue("FirstDayOfQuarter() contains invalid parameter type");
+		}
+
+		public static Value LastDayOfQuarter(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("LastDayOfQuarter() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+			{
+				int month = (((param.Date.Month - 1) / 3) + 1) * 3;
+				return new Value(new DateTime(param.Date.Year, month, DateTime.DaysInMonth(param.Date.Year, month)));
+			}
+
+			return Value.CreateErrorValue("LastDayOfQuarter() contains invalid parameter type");
 		}
 
 		public static Value FirstDayOfMonth(IList<Value> parameters)
@@ -272,9 +338,7 @@ namespace Thinkedge.Simple.Expression
 			var param = parameters[0];
 
 			if (param.IsDate)
-			{
 				return new Value(new DateTime(param.Date.Year, param.Date.Month, 1));
-			}
 
 			return Value.CreateErrorValue("FirstDayOfMonth() contains invalid parameter type");
 		}
@@ -287,11 +351,100 @@ namespace Thinkedge.Simple.Expression
 			var param = parameters[0];
 
 			if (param.IsDate)
-			{
 				return new Value(new DateTime(param.Date.Year, param.Date.Month, 31));
-			}
 
 			return Value.CreateErrorValue("LastDayOfYear() contains invalid parameter type");
+		}
+
+		public static Value Year(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("GetYear() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+				return new Value(param.Date.Year);
+
+			return Value.CreateErrorValue("GetYear() contains invalid parameter type");
+		}
+
+		public static Value Month(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("GetMonth() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+				return new Value(param.Date.Month);
+
+			return Value.CreateErrorValue("GetMonth() contains invalid parameter type");
+		}
+
+		public static Value Day(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("GetDay() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+				return new Value(param.Date.Day);
+
+			return Value.CreateErrorValue("GetDay() contains invalid parameter type");
+		}
+
+		public static Value Quarter(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("GetQuarter() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+				return new Value(((param.Date.Month - 1) / 3) + 1);
+
+			return Value.CreateErrorValue("GetQuarter() contains invalid parameter type");
+		}
+
+		public static Value DayOfWeek(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("DayOfWeek() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+				return new Value(param.Date.DayOfWeek);
+
+			return Value.CreateErrorValue("DayOfWeek() contains invalid parameter type");
+		}
+
+		public static Value DayOfYear(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("DayOfWeek() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+				return new Value((int)param.Date.DayOfYear);
+
+			return Value.CreateErrorValue("DayOfWeek() contains invalid parameter type");
+		}
+
+		public static Value IsWeekend(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("IsWeekend() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+				return new Value(param.Date.DayOfWeek == System.DayOfWeek.Saturday || param.Date.DayOfWeek == System.DayOfWeek.Sunday);
+
+			return Value.CreateErrorValue("IsWeekend() contains invalid parameter type");
 		}
 
 		public static Value FirstDayOfYear(IList<Value> parameters)
@@ -302,11 +455,39 @@ namespace Thinkedge.Simple.Expression
 			var param = parameters[0];
 
 			if (param.IsDate)
-			{
 				return new Value(new DateTime(param.Date.Year, 1, 1));
-			}
 
 			return Value.CreateErrorValue("FirstDayOfMonth() contains invalid parameter type");
+		}
+
+		public static Value MonthName(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("GetMonthName() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+				return new Value(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(param.Date.Month));
+			else if (param.IsInteger && param.Integer >= 1 && param.Integer <= 12)
+				return new Value(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(param.Integer));
+
+			return Value.CreateErrorValue("GetMonthName() contains invalid parameter type");
+		}
+
+		public static Value MonthShortName(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("GetMonthShortName() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsDate)
+				return new Value(CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(param.Date.Month));
+			else if (param.IsInteger && param.Integer >= 1 && param.Integer <= 12)
+				return new Value(CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(param.Integer));
+
+			return Value.CreateErrorValue("GetMonthShortName() contains invalid parameter type");
 		}
 
 		public static Value IsNot(IList<Value> parameters)
@@ -340,33 +521,19 @@ namespace Thinkedge.Simple.Expression
 				var param = parameters[i];
 
 				if (match.IsString && match.String == param.String)
-				{
 					return new Value(i);
-				}
 				else if (match.IsInteger && match.Integer == param.Integer)
-				{
 					return new Value(i);
-				}
 				else if (match.IsBoolean && match.Boolean == param.Boolean)
-				{
 					return new Value(i);
-				}
 				else if (match.IsDate && match.Date == param.Date)
-				{
 					return new Value(i);
-				}
 				else if (match.IsDecimal && match.Decimal == param.Decimal)
-				{
 					return new Value(i);
-				}
 				else if (match.IsFloat && match.Float == param.Float)
-				{
 					return new Value(i);
-				}
 				else if (param.IsError)
-				{
 					return param;
-				}
 			}
 
 			return new Value(0);
@@ -398,5 +565,69 @@ namespace Thinkedge.Simple.Expression
 
 			return parameters[index];
 		}
+
+		public static Value InList(IList<Value> parameters)
+		{
+			if (parameters.Count >= 2)
+				return Value.CreateErrorValue("InList() missing parameter");
+
+			var match = parameters[0];
+
+			for (int i = 1; i < parameters.Count; i++)
+			{
+				var param = parameters[i];
+
+				if (match.ValueType != match.ValueType)
+					continue;
+
+				if (match.IsString && param.IsString && match.String == param.String)
+					return new Value(true);
+				else if (match.IsInteger && param.IsInteger && match.Integer == param.Integer)
+					return new Value(true);
+				else if (match.IsDate && param.IsDate && match.Date == param.Date)
+					return new Value(true);
+				else if (match.IsFloat && param.IsFloat && match.Float == param.Float)
+					return new Value(true);
+				else if (match.IsBoolean && param.IsBoolean && match.Boolean == param.Boolean)
+					return new Value(true);
+				else if (match.IsDecimal && param.IsBoolean && match.Decimal == param.Decimal)
+					return new Value(true);
+			}
+
+			return new Value(false);
+		}
+
+		public static Value Between(IList<Value> parameters)
+		{
+			if (parameters.Count != 3)
+				return Value.CreateErrorValue("Between() missing parameter");
+
+			var param = parameters[0];
+			var a = parameters[1];
+			var b = parameters[2];
+
+			if (param.ValueType != a.ValueType || param.ValueType != b.ValueType)
+				return Value.CreateErrorValue("Between() contains invalid parameter types");
+
+			if (param.IsInteger && a.Integer >= b.Integer && a.Integer <= b.Integer)
+				return new Value(true);
+			else if (param.IsInteger && b.Integer >= a.Integer && b.Integer <= a.Integer)
+				return new Value(true);
+			else if (param.IsDate && a.Date >= b.Date && a.Date <= b.Date)
+				return new Value(true);
+			else if (param.IsDate && b.Date >= a.Date && b.Date <= a.Date)
+				return new Value(true);
+			else if (param.IsFloat && a.Float >= b.Float && a.Float <= b.Float)
+				return new Value(true);
+			else if (param.IsFloat && b.Float >= a.Float && b.Float <= a.Float)
+				return new Value(true);
+			else if (param.IsDecimal && a.Decimal >= b.Decimal && a.Decimal <= b.Decimal)
+				return new Value(true);
+			else if (param.IsDecimal && b.Decimal >= a.Decimal && b.Decimal <= a.Decimal)
+				return new Value(true);
+
+			return Value.CreateErrorValue("Between() contains invalid parameter types");
+		}
+
 	}
 }

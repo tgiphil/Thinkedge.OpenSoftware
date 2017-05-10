@@ -6,28 +6,24 @@ namespace Thinkedge.Simple.Table.Process
 {
 	public class CreateEMails : BaseStandardResult
 	{
-		public static StandardResult<SimpleTable> Execute(SimpleTable sourceTable, string template, string fromMail, string toField, string groupExpression = null)
+		public static StandardResult<SimpleTable> Execute(SimpleTable sourceTable, string template, string sendFromMail, string sendToFieldExpression, string groupExpression = null)
 		{
-			return new CreateEMails().ExecuteEx(sourceTable, template, fromMail, toField, groupExpression);
+			return new CreateEMails().ExecuteEx(sourceTable, template, sendFromMail, sendToFieldExpression, groupExpression);
 		}
 
-		protected string Template;
-		protected string GroupExpression = null;
 		protected EvaluatorCache Cache = new EvaluatorCache();
 
-		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, string template, string fromMail, string toField, string groupExpression = null)
+		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, string template, string sendFromMail, string sendToFieldExpression, string groupExpression = null)
 		{
-			Template = template;
-
 			var templates = new List<MessageTemplate>();
 			var lookup = (groupExpression != null) ? new Dictionary<string, MessageTemplate>() : null;
 
-			GroupExpression = string.IsNullOrWhiteSpace(groupExpression) ? null : groupExpression;
+			groupExpression = string.IsNullOrWhiteSpace(groupExpression) ? null : groupExpression;
 
 			foreach (var row in sourceTable)
 			{
-				var sendTo = row[toField];
-				var groupName = GetGroupingName(row);
+				var sendTo = EvaulateExpression(row, sendToFieldExpression);
+				var groupName = EvaulateExpression(row, groupExpression);
 
 				if (lookup == null || groupName == null || !lookup.TryGetValue(groupName, out MessageTemplate message))
 				{
@@ -63,25 +59,23 @@ namespace Thinkedge.Simple.Table.Process
 				row["Mail-Body"] = message.Body;
 				row["Mail-Subject"] = message.Subject;
 				row["Mail-To"] = message.To;
-				row["Mail-From"] = fromMail;
+				row["Mail-From"] = sendFromMail;
 			}
 
 			return ReturnResult<SimpleTable>(messageTable);
 		}
 
-		protected string GetGroupingName(SimpleTableRow row)
+		protected string EvaulateExpression(SimpleTableRow row, string expression)
 		{
-			if (GroupExpression == null)
-			{
+			if (expression == null)
 				return null;
-			}
 
 			var tableSource = new TableDataSource()
 			{
 				Row = row
 			};
 
-			var evaluation = Cache.Compile(GroupExpression);
+			var evaluation = Cache.Compile(expression);
 
 			var result = evaluation.Evaluate(tableSource);
 
@@ -93,7 +87,7 @@ namespace Thinkedge.Simple.Table.Process
 
 			if (!result.IsString)
 			{
-				SetError("message processing error - group evaulation result not a string");
+				SetError("message processing error - expression evaulation did not result in a string");
 				return null;
 			}
 

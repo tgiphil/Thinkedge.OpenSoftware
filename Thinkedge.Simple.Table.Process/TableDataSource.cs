@@ -20,6 +20,9 @@ namespace Thinkedge.Simple.Table.Process
 
 		Value ITableSource.GetField(string name)
 		{
+			if (Row.Table.GetColumnIndex(name) < 0)
+				return Value.CreateErrorValue("unknown column: " + name);
+
 			var data = Row.GetField(name);
 
 			return new Value(data);

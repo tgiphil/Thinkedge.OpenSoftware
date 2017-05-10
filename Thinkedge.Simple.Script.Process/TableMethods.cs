@@ -136,7 +136,7 @@ namespace Thinkedge.Simple.Script.Process
 			var sourceTable = parameters[0].Object as SimpleTable;
 			var mapTable = parameters[1].Object as SimpleTable;
 
-			try
+			//try
 			{
 				var result = TransformTable.Execute(sourceTable, mapTable);
 
@@ -145,10 +145,10 @@ namespace Thinkedge.Simple.Script.Process
 
 				return new Value(result.Result);
 			}
-			catch (System.Exception e)
-			{
-				return Value.CreateErrorValue("unable to transform table", e);
-			}
+			//catch (System.Exception e)
+			//{
+			//	return Value.CreateErrorValue("unable to transform table", e);
+			//}
 		}
 
 		public static Value Expand(IList<Value> parameters)
