@@ -66,7 +66,7 @@ namespace Thinkedge.Simple.Table.Process
 			if (value.IsString) return value.String;
 			else if (value.IsInteger) return value.Integer.ToString();
 			else if (value.IsDecimal) return value.Decimal.ToString();
-			else if (value.IsBoolean) return value.IsBoolean ? "true" : "false";
+			else if (value.IsBoolean) return value.Boolean ? "true" : "false";
 			else if (value.IsDate) return value.Date.ToShortDateString();
 			
 			//todo

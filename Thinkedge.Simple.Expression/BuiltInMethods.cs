@@ -15,6 +15,7 @@ namespace Thinkedge.Simple.Expression
 				case "ToInt": return ToInteger(parameters);
 				case "ToDate": return ToDate(parameters);
 				case "ToDecimal": return ToDecimal(parameters);
+				case "ToBoolean": return ToBoolean(parameters);
 				case "IsDate": return IsDate(parameters);
 				case "IsInteger": return IsInteger(parameters);
 				case "IsDecimal": return IsDecimal(parameters);
@@ -103,6 +104,27 @@ namespace Thinkedge.Simple.Expression
 			return Value.CreateErrorValue("ToDecimal() contains invalid parameter type");
 		}
 
+		public static Value ToBoolean(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("ToBoolean() missing parameter");
+
+			var param = parameters[0];
+
+			if (param.IsString && !string.IsNullOrWhiteSpace(param.String))
+			{
+				var s = param.String.Trim().ToLower();
+
+				if (s == "true" || s == "yes" | s == "t" || s == "y")
+					return new Value(true);
+				else if (s == "false" || s == "no" | s == "f" || s == "n")
+					return new Value(true);
+			}
+			else if (param.IsBoolean)
+				return param;
+
+			return Value.CreateErrorValue("ToDecimal() contains invalid parameter type");
+		}
 		public static Value ToDate(IList<Value> parameters)
 		{
 			if (parameters.Count != 1)
@@ -568,7 +590,7 @@ namespace Thinkedge.Simple.Expression
 
 		public static Value InList(IList<Value> parameters)
 		{
-			if (parameters.Count >= 2)
+			if (parameters.Count < 2)
 				return Value.CreateErrorValue("InList() missing parameter");
 
 			var match = parameters[0];
@@ -577,7 +599,7 @@ namespace Thinkedge.Simple.Expression
 			{
 				var param = parameters[i];
 
-				if (match.ValueType != match.ValueType)
+				if (match.ValueType != param.ValueType)
 					continue;
 
 				if (match.IsString && param.IsString && match.String == param.String)
