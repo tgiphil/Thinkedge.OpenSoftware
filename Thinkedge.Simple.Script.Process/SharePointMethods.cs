@@ -34,10 +34,6 @@ namespace Thinkedge.Simple.Script.Process
 			{
 				return Value.CreateErrorValue("parameter #5 is not a string");
 			}
-			else if (!(parameters[0].Object is SimpleTable))
-			{
-				return Value.CreateErrorValue("parameter #1 is not a table");
-			}
 
 			var site = parameters[0].String;
 

@@ -20,6 +20,7 @@ namespace Thinkedge.TableScript
 			script.AddMethodSources(new FileMethods());
 			script.AddMethodSources(new TableMethods());
 			script.AddMethodSources(new EMailMethods());
+			script.AddMethodSources(new SharePointMethods());
 
 			if (args.Length >= 1 && args[0] == "-file")
 			{

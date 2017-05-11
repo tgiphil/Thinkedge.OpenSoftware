@@ -25,6 +25,8 @@ namespace Thinkedge.Simple.Expression
 				case "IsError": return IsError(parameters);
 				case "Length": return Length(parameters);
 				case "Contains": return Contains(parameters);
+				case "StartsWith": return StartsWith(parameters);
+				case "EndsWith": return EndsWith(parameters);
 				case "Trim": return Trim(parameters);
 				case "Today": return Today(parameters);
 				case "Tomorrow": return Tomorrow(parameters);
@@ -115,16 +117,17 @@ namespace Thinkedge.Simple.Expression
 			{
 				var s = param.String.Trim().ToLower();
 
-				if (s == "true" || s == "yes" | s == "t" || s == "y")
+				if (s == "true" || s == "yes" || s == "t" || s == "y")
 					return new Value(true);
-				else if (s == "false" || s == "no" | s == "f" || s == "n")
-					return new Value(true);
+				else if (s == "false" || s == "no" || s == "f" || s == "n")
+					return new Value(false);
 			}
 			else if (param.IsBoolean)
 				return param;
 
 			return Value.CreateErrorValue("ToDecimal() contains invalid parameter type");
 		}
+
 		public static Value ToDate(IList<Value> parameters)
 		{
 			if (parameters.Count != 1)
@@ -262,6 +265,34 @@ namespace Thinkedge.Simple.Expression
 				return new Value(param.String.Contains(param2.String));
 
 			return Value.CreateErrorValue("Contains() contains invalid parameter type");
+		}
+
+		public static Value StartsWith(IList<Value> parameters)
+		{
+			if (parameters.Count != 2)
+				return Value.CreateErrorValue("StartsWith() missing parameter");
+
+			var param = parameters[0];
+			var param2 = parameters[1];
+
+			if (param.IsString && param2.IsString)
+				return new Value(param.String.StartsWith(param2.String));
+
+			return Value.CreateErrorValue("StartsWith() contains invalid parameter type");
+		}
+
+		public static Value EndsWith(IList<Value> parameters)
+		{
+			if (parameters.Count != 2)
+				return Value.CreateErrorValue("EndsWith() missing parameter");
+
+			var param = parameters[0];
+			var param2 = parameters[1];
+
+			if (param.IsString && param2.IsString)
+				return new Value(param.String.EndsWith(param2.String));
+
+			return Value.CreateErrorValue("EndsWith() contains invalid parameter type");
 		}
 
 		public static Value Replace(IList<Value> parameters)
@@ -650,6 +681,5 @@ namespace Thinkedge.Simple.Expression
 
 			return Value.CreateErrorValue("Between() contains invalid parameter types");
 		}
-
 	}
 }
