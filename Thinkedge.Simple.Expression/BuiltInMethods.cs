@@ -95,7 +95,12 @@ namespace Thinkedge.Simple.Expression
 			var param = parameters[0];
 
 			if (param.IsString)
+			{
+				if (!Decimal.TryParse(param.String, out Decimal d))
+					return Value.CreateErrorValue("ToDecimal(): invalid decimal: " + param.String);
+
 				return new Value(Convert.ToDecimal(param.String));
+			}
 			else if (param.IsFloat)
 				return new Value(Convert.ToDecimal(param.Float));
 			else if (param.IsInteger)
@@ -136,7 +141,12 @@ namespace Thinkedge.Simple.Expression
 			var param = parameters[0];
 
 			if (param.IsString)
+			{
+				if (!DateTime.TryParse(param.String, out DateTime date))
+					return Value.CreateErrorValue("ToDate(): invalid date: " + param.String);
+
 				return new Value(Convert.ToDateTime(param.String));
+			}
 			else if (param.IsDate)
 				return new Value(param.Date);
 
@@ -190,7 +200,12 @@ namespace Thinkedge.Simple.Expression
 			var param = parameters[0];
 
 			if (param.IsString)
+			{
+				if (!Int32.TryParse(param.String, out Int32 date))
+					return Value.CreateErrorValue("IsInteger(): invalid integer: " + param.String);
+
 				return new Value(Int32.TryParse(param.String, out int i));
+			}
 			else if (param.IsInteger)
 				return new Value(true);
 			else if (param.IsFloat)

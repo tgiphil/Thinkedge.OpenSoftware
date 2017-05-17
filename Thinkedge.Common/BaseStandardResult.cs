@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Thinkedge.Common
 {
@@ -12,7 +13,7 @@ namespace Thinkedge.Common
 		public string FirstErrorMessage { get { return IsValid ? null : Errors[0]; } }
 		public string LastErrorMessage { get { return IsValid ? null : Errors[Errors.Count - 1]; } }
 
-		public string ErrorMessage { get { return FirstErrorMessage; } set { AddError(value); } }
+		public string ErrorMessage { get { return GetAllErrorMessage(); } set { AddError(value); } }
 		public Exception Exception { get; protected set; } = null;
 
 		protected void ClearError()
@@ -24,6 +25,12 @@ namespace Thinkedge.Common
 		protected void AddError(string message)
 		{
 			Errors.Add(message);
+		}
+
+		protected void SetException(Exception exception)
+		{
+			if (exception != null)
+				Exception = exception;
 		}
 
 		protected void SetError(string message, Exception exception = null)
@@ -49,6 +56,14 @@ namespace Thinkedge.Common
 			return new StandardResult<T>(default(T), this);
 		}
 
+		protected StandardResult<T> ReturnError<T>(string errorOuter, string errorInner, Exception exception = null)
+		{
+			AddError(errorOuter);
+			AddError(errorInner);
+			SetException(exception);
+			return new StandardResult<T>(default(T), this);
+		}
+
 		protected StandardResult<T> ReturnError<T>()
 		{
 			if (!HasError)
@@ -59,9 +74,26 @@ namespace Thinkedge.Common
 
 		protected StandardResult<T> ReturnError<T>(Exception exception = null)
 		{
-			ErrorMessage = "An exception has occurred. See excepton for details.";
+			ErrorMessage = "An exception has occurred. See exception for details.";
 			Exception = exception;
 			return new StandardResult<T>(default(T), this);
+		}
+
+		protected string GetAllErrorMessage()
+		{
+			if (Errors.Count == 0) return null;
+			else if (Errors.Count == 1) return Errors[0];
+
+			var sb = new StringBuilder();
+
+			foreach (string error in Errors)
+			{
+				sb.AppendLine(error);
+			}
+
+			sb.Length--;
+
+			return sb.ToString();
 		}
 	}
 }

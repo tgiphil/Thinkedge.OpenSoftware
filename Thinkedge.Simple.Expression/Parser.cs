@@ -88,6 +88,11 @@ namespace Thinkedge.Simple.Expression
 					op = CurrentToken;
 					Index++;
 				}
+				else if (CurrentToken.TokenType == TokenType.Equal)
+				{
+					op = CurrentToken;
+					Index++;
+				}
 				else
 				{
 					return lhs;
@@ -107,7 +112,7 @@ namespace Thinkedge.Simple.Expression
 
 				if (IsOutOfTokens)
 				{
-					ErrorMessage = "parser unexpected end";
+					AddError("parser unexpected end");
 					return null;
 				}
 
@@ -214,7 +219,7 @@ namespace Thinkedge.Simple.Expression
 
 				if (CurrentToken.TokenType != TokenType.CloseParens)
 				{
-					ErrorMessage = "error at " + CurrentToken.Index.ToString() + " missing closing parenthesis";
+					AddError("error at " + CurrentToken.Index.ToString() + " missing closing parenthesis");
 					return null;
 				}
 
@@ -236,7 +241,7 @@ namespace Thinkedge.Simple.Expression
 				return node;
 			}
 
-			ErrorMessage = "error at " + CurrentToken.Index.ToString() + " unexpected token: " + CurrentToken.ToString();
+			AddError("error at " + CurrentToken.Index.ToString() + " unexpected token: " + CurrentToken.ToString());
 			return null;
 		}
 

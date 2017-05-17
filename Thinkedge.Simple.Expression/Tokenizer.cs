@@ -33,6 +33,7 @@ namespace Thinkedge.Simple.Expression
 			new KeyValuePair<string, TokenType>(",", TokenType.Comma),
 			new KeyValuePair<string, TokenType>("?", TokenType.Questionmark),
 			new KeyValuePair<string, TokenType>(":", TokenType.Colon),
+			//new KeyValuePair<string, TokenType>("=", TokenType.Equal),
 		};
 
 		public Tokenizer(string expression)
@@ -98,7 +99,7 @@ namespace Thinkedge.Simple.Expression
 					continue;
 				}
 
-				ErrorMessage = "error at " + Index.ToString() + ": syntax error";
+				AddError("error at " + Index.ToString() + ": syntax error");
 			}
 
 			for (int i = 0; i < Tokens.Count - 1; i++)
@@ -150,7 +151,7 @@ namespace Thinkedge.Simple.Expression
 
 			if (term < 0)
 			{
-				ErrorMessage = "error at " + Index.ToString() + ": missing closing " + termChar + " character";
+				AddError("error at " + Index.ToString() + ": missing closing " + termChar + " character");
 				return;
 			}
 
@@ -189,7 +190,7 @@ namespace Thinkedge.Simple.Expression
 				{
 					if (decimalsymbol)
 					{
-						ErrorMessage = "error at " + Index.ToString() + ": too many decimal characters";
+						AddError("error at " + Index.ToString() + ": too many decimal characters");
 						return;
 					}
 

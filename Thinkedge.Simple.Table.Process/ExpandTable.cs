@@ -13,9 +13,7 @@ namespace Thinkedge.Simple.Table.Process
 		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, SimpleTable expandTable)
 		{
 			if (expandTable == null)
-			{
-				return ReturnError<SimpleTable>("ExpandTable error: add table null");
-			}
+				return ReturnError<SimpleTable>("ExpandTable() error: add table null");
 
 			var newTable = sourceTable.Copy();
 
@@ -31,7 +29,7 @@ namespace Thinkedge.Simple.Table.Process
 				var evaluator = cache.Compile(source);
 
 				if (evaluator == null)
-					return ReturnError<SimpleTable>("transformation error: evaluator returns null");
+					return ReturnError<SimpleTable>("ExpandTable() error: evaluator returns null");
 			}
 
 			var tableSource = new TableDataSource();
@@ -50,9 +48,7 @@ namespace Thinkedge.Simple.Table.Process
 					var result = evaluator.Evaluate(tableSource);
 
 					if (result.IsError)
-					{
-						return ReturnError<SimpleTable>(result.String);
-					}
+						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, result.String);
 
 					newRow[destination] = ToString(result);
 				}
@@ -68,7 +64,7 @@ namespace Thinkedge.Simple.Table.Process
 			else if (value.IsDecimal) return value.Decimal.ToString();
 			else if (value.IsBoolean) return value.Boolean ? "true" : "false";
 			else if (value.IsDate) return value.Date.ToShortDateString();
-			
+
 			//todo
 
 			return null;

@@ -14,9 +14,7 @@ namespace Thinkedge.Simple.Table.Process
 		internal StandardResult<bool> ExecuteEx(MailMessage message)
 		{
 			if (!MailHelper.SendMailMessage(message, out Exception e))
-			{
-				return ReturnError<bool>("unable to send e-mail to: " + message.To + "\nReason: " + e.ToString(), e);
-			}
+				return ReturnError<bool>("SendEMail() error: unable to send e-mail to: " + message.To, "Reason: " + e.ToString(), e);
 
 			return ReturnResult<bool>(true);
 		}

@@ -53,6 +53,9 @@
 		CompareLessThan,
 		CompareGreaterThan,
 
+		// assignment
+		Equal,
+
 		// others
 		Field,
 

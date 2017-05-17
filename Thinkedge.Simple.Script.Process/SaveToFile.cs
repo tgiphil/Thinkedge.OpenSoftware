@@ -20,11 +20,11 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (FileNotFoundException)
 			{
-				return ReturnError<bool>("file not found: " + filename);
+				return ReturnError<bool>("SaveToFile() error: file not found: " + filename);
 			}
 			catch (Exception e)
 			{
-				return ReturnError<bool>("unable to save file: " + filename, e);
+				return ReturnError<bool>("SaveToFile() error: unable to save file: " + filename, e);
 			}
 		}
 	}

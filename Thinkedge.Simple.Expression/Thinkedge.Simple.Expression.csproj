@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ITableSource.cs" />
     <Compile Include="IMethodSource.cs" />
+    <Compile Include="IVariableDestination.cs" />
     <Compile Include="IVariableSource.cs" />
     <Compile Include="Evaluator.cs" />
     <Compile Include="Parser.cs" />

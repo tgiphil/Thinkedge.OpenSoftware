@@ -61,7 +61,7 @@ namespace Thinkedge.Simple.Script
 
 			if (!eval.IsValid)
 			{
-				ErrorMessage = "compile error";
+				AddError("compile error");
 				return false;
 			}
 

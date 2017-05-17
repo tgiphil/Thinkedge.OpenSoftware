@@ -12,8 +12,6 @@ namespace Thinkedge.Simple.Table.Process
 
 		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable table, string includeExpression)
 		{
-			//ClearError();
-
 			if (string.IsNullOrWhiteSpace(includeExpression))
 			{
 				return ReturnResult<SimpleTable>(table.Copy());
@@ -41,28 +39,21 @@ namespace Thinkedge.Simple.Table.Process
 				var result = evaluator.Evaluate(tableSource);
 
 				if (!evaluator.IsValid)
-				{
-					return ReturnError<SimpleTable>("compile error");
-				}
+					return ReturnError<SimpleTable>("FilterTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, "invalid result: " + result.String);
 
 				if (!result.IsBoolean)
+					return ReturnError<SimpleTable>("FilterTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, "result was not boolean: " + result.String);
+
+				var newRow = newTable.CreateRow();
+
+				for (int i = 0; i < sourceRow.ColumnCount; i++)
 				{
-					return ReturnError<SimpleTable>("filter error: invalid result");
-				}
+					var value = sourceRow[i];
 
-				if (result.Boolean)
-				{
-					var newRow = newTable.CreateRow();
+					if (value == null)
+						continue;
 
-					for (int i = 0; i < sourceRow.ColumnCount; i++)
-					{
-						var value = sourceRow[i];
-
-						if (value == null)
-							continue;
-
-						newRow[i] = value;
-					}
+					newRow[i] = value;
 				}
 			}
 

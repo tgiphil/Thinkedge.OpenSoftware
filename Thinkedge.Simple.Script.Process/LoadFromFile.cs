@@ -20,11 +20,11 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (FileNotFoundException)
 			{
-				return ReturnError<string>("file not found: " + filename);
+				return ReturnError<string>("LoadFromFile() error: file not found: " + filename);
 			}
 			catch (Exception e)
 			{
-				return ReturnError<string>("unable to read file: " + filename, e);
+				return ReturnError<string>("LoadFromFile() error: unable to read file: " + filename, e);
 			}
 		}
 	}

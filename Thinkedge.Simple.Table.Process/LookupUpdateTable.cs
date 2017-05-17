@@ -13,14 +13,10 @@ namespace Thinkedge.Simple.Table.Process
 		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, string sourceKeyField, string mergeField, SimpleTable lookupTable, string lookupKeyField, string lookupDataField, bool overwrite, bool caseInsensitive = true)
 		{
 			if (!sourceTable.ColumnNames.Contains(sourceKeyField))
-			{
-				return ReturnError<SimpleTable>("merge error - source key field does not exists: " + sourceKeyField);
-			}
+				return ReturnError<SimpleTable>("LookupUpdateTable() error: source key field does not exists: " + sourceKeyField);
 
 			if (!sourceTable.ColumnNames.Contains(mergeField))
-			{
-				return ReturnError<SimpleTable>("merge error - merge field does not exists: " + mergeField);
-			}
+				return ReturnError<SimpleTable>("LookupUpdateTable() error: merge field does not exists: " + mergeField);
 
 			var newTable = new SimpleTable();
 			var cache = new EvaluatorCache();

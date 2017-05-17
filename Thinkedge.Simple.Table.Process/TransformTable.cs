@@ -13,9 +13,7 @@ namespace Thinkedge.Simple.Table.Process
 		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, SimpleTable mapTable)
 		{
 			if (mapTable == null)
-			{
-				return ReturnError<SimpleTable>("transformation error: map table null");
-			}
+				return ReturnError<SimpleTable>("TransformTable() error: map table null");
 
 			var newTable = new SimpleTable();
 			var cache = new EvaluatorCache();
@@ -26,7 +24,7 @@ namespace Thinkedge.Simple.Table.Process
 				var evaluator = cache.Compile(map["source"]);
 
 				if (evaluator == null)
-					return ReturnError<SimpleTable>("transformation error: evaluator returns null");
+					return ReturnError<SimpleTable>("TransformTable() error: evaluator returns null");
 
 				newTable.AddColumnName(map["destination"]);
 			}
@@ -46,12 +44,16 @@ namespace Thinkedge.Simple.Table.Process
 
 					var evaluator = cache.Compile(source);
 
+					if (evaluator == null)
+						return ReturnError<SimpleTable>("ExpandTable() error: evaluator returns null");
+
+					if (!evaluator.IsValid)
+						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression);
+
 					var result = evaluator.Evaluate(tableSource);
 
 					if (result.IsError)
-					{
-						return ReturnError<SimpleTable>(result.String);
-					}
+						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, result.String);
 
 					destinationRow[destination] = ExpandTable.ToString(result);
 				}

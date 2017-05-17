@@ -93,7 +93,7 @@ namespace Thinkedge.Simple.Table.Process
 		{
 			var sb = new StringBuilder(TemplateRow);
 
-			foreach(var column in row.Table.ColumnNames)
+			foreach (var column in row.Table.ColumnNames)
 			{
 				var value = row[column];
 

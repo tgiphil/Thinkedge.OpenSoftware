@@ -27,13 +27,9 @@ namespace Thinkedge.Simple.Script.Process
 				return validate;
 
 			if (parameters.Count == 5 && !parameters[4].IsString)
-			{
 				return Value.CreateErrorValue("CreateEMails: parameter #5 is not a string");
-			}
 			else if (!(parameters[0].Object is SimpleTable))
-			{
 				return Value.CreateErrorValue("CreateEMails: parameter #1 is not a table");
-			}
 
 			var sourceTable = parameters[0].Object as SimpleTable;
 			var template = parameters[1].String;
@@ -64,9 +60,7 @@ namespace Thinkedge.Simple.Script.Process
 				return validate;
 
 			if (!parameters[0].IsObject)
-			{
 				return Value.CreateErrorValue("SendEMails: parameter #1 is not a table");
-			}
 
 			var sourceTable = parameters[0].Object as SimpleTable;
 
@@ -81,7 +75,7 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (System.Exception e)
 			{
-				return Value.CreateErrorValue("SendEMails: unable to send emails: " + parameters[0].String, e);
+				return Value.CreateErrorValue("SendEMails: unable to send emails: " + e.ToString(), e);
 			}
 		}
 	}

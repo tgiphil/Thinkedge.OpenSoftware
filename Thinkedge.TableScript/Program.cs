@@ -11,7 +11,7 @@ namespace Thinkedge.TableScript
 		{
 			Console.WriteLine("TableScript V1.0");
 			Console.WriteLine("Copyright (C) 2017. Phil Garcia. All rights reserved.");
-			Console.WriteLine("Licenced under GPLv3 Licensed.");
+			Console.WriteLine("Licenced under GPLv3 License.");
 			Console.WriteLine("Usage: [-file filename] [arg1] [arg2] ...");
 			Console.WriteLine();
 
@@ -45,7 +45,8 @@ namespace Thinkedge.TableScript
 
 					if (script.HasError)
 					{
-						Console.WriteLine("Error: " + script.ErrorMessage);
+						Console.WriteLine("Error: ");
+						Console.WriteLine(script.ErrorMessage);
 						return 1;
 					}
 				}
@@ -74,7 +75,8 @@ namespace Thinkedge.TableScript
 
 					if (script.HasError)
 					{
-						Console.WriteLine("Error: " + script.ErrorMessage);
+						Console.WriteLine("Error: ");
+						Console.WriteLine(script.ErrorMessage);
 						return 1;
 					}
 				}

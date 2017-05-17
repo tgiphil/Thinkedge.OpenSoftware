@@ -5,8 +5,6 @@ namespace Thinkedge.Simple.Table.Process
 {
 	public class VariableSource : IVariableSource
 	{
-		public SimpleTableRow Row { get; set; } = null;
-
 		protected Dictionary<string, string> Variables = new Dictionary<string, string>();
 
 		public VariableSource()

@@ -238,5 +238,17 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			Assert.Equal(result.Integer, 2);
 		}
+
+		//[Fact]
+		//public void EvaluatorTest18()
+		//{
+		//	var tokenizer = new Tokenizer("food='test'");
+		//	var parser = new Parser(tokenizer);
+		//	var evaluator = new Evaluator(parser);
+
+		//	var result = evaluator.Evaluate();
+
+		//	Assert.Equal(result.String, "test");
+		//}
 	}
 }

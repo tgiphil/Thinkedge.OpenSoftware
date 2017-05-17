@@ -39,14 +39,10 @@ namespace Thinkedge.Simple.Expression
 		public Value Evaluate(IVariableSource variableSource = null, ITableSource tableSource = null, IMethodSource methodSource = null)
 		{
 			if (Parser.HasError)
-			{
 				return Value.CreateErrorValue(Parser.ErrorMessage);
-			}
 
 			if (Root == null)
-			{
 				return Value.CreateErrorValue("invalid parameter to parser");
-			}
 
 			var result = Evaluate(Root, BuiltInMethods, variableSource, tableSource, methodSource);
 
@@ -61,6 +57,9 @@ namespace Thinkedge.Simple.Expression
 			{
 				var left = Evaluate(root.Left, builtInMethods, variableSource, tableSource, methodSource);
 
+				if (left.IsError)
+					return left;
+
 				// shortcut evaluation
 				if (root.Token.TokenType == TokenType.And & left.IsBoolean && left.Boolean == false)
 				{
@@ -73,12 +72,18 @@ namespace Thinkedge.Simple.Expression
 
 				var right = Evaluate(root.Right, builtInMethods, variableSource, tableSource, methodSource);
 
+				if (right.IsError)
+					return right;
+
 				var result = Eval(root.Token.TokenType, left, right);
 				return result;
 			}
 			else if (root.Left != null && root.Right == null)
 			{
 				var left = Evaluate(root.Left, builtInMethods, variableSource, tableSource, methodSource);
+
+				if (left.IsError)
+					return left;
 
 				var result = Eval(root.Token.TokenType, left);
 				return result;
@@ -127,9 +132,7 @@ namespace Thinkedge.Simple.Expression
 			}
 
 			if (value == null)
-			{
 				return Value.CreateErrorValue("unknown field: " + name);
-			}
 
 			return value;
 		}
@@ -145,9 +148,7 @@ namespace Thinkedge.Simple.Expression
 			}
 
 			if (value == null)
-			{
 				return Value.CreateErrorValue("variable unassigned: " + name);
-			}
 
 			return value;
 		}
@@ -185,6 +186,7 @@ namespace Thinkedge.Simple.Expression
 				case TokenType.CompareLessThanOrEqual: return CompareLessThanOrEqual(left, right);
 				case TokenType.CompareLessThan: return CompareLessThan(left, right);
 				case TokenType.CompareGreaterThan: return CompareGreaterThan(left, right);
+				//case TokenType.Equal: return Equal(left, right);
 				default: break;
 			}
 
@@ -471,6 +473,17 @@ namespace Thinkedge.Simple.Expression
 			return Value.CreateErrorValue("incompatible types for comparison operator: " + left.ToString() + " and " + right.ToString());
 		}
 
+		protected static Value Equal(Value left, Value right)
+		{
+			if (!left.IsError && !right.IsError && left.IsString)
+			{
+				// TODO
+				return right;
+			}
+
+			return Value.CreateErrorValue("incompatible types for assignment operator: " + left.ToString() + " and " + right.ToString());
+		}
+
 		protected static Value CompareGreaterThan(Value left, Value right)
 		{
 			if (left.IsInteger && right.IsInteger)
@@ -518,6 +531,9 @@ namespace Thinkedge.Simple.Expression
 			foreach (var parameter in node.Parameters)
 			{
 				var results = Evaluate(parameter, builtInMethods, variableSource, tableSource, methodSource);
+
+				if (results.IsError)
+					return results;
 
 				parameters.Add(results);
 			}

@@ -31,9 +31,7 @@ namespace Thinkedge.Simple.Script.Process
 				return validate;
 
 			if (parameters.Count == 5 && !parameters[4].IsString)
-			{
 				return Value.CreateErrorValue("parameter #5 is not a string");
-			}
 
 			var site = parameters[0].String;
 
