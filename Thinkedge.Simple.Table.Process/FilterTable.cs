@@ -44,6 +44,9 @@ namespace Thinkedge.Simple.Table.Process
 				if (!result.IsBoolean)
 					return ReturnError<SimpleTable>("FilterTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, "result was not boolean: " + result.String);
 
+				if (!result.Boolean)
+					continue;
+
 				var newRow = newTable.CreateRow();
 
 				for (int i = 0; i < sourceRow.ColumnCount; i++)
