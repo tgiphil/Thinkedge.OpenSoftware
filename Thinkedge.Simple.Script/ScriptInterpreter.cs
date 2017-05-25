@@ -24,22 +24,22 @@ namespace Thinkedge.Simple.Script
 			Variables.Add("$" + index.ToString(), new Value(value));
 		}
 
-		public bool Execute(string command)
+		public StandardResult<Value> Execute(string command)
 		{
 			ClearError();
 
-			var success = InternalExecute(command);
+			var result = InternalExecute(command);
 
-			return !HasError;
+			return result;
 		}
 
-		protected bool InternalExecute(string command)
+		protected StandardResult<Value> InternalExecute(string command)
 		{
 			if (string.IsNullOrWhiteSpace(command))
-				return true;
+				return ReturnResult<Value>(new Value(string.Empty));
 
 			if (command.StartsWith("#"))
-				return true;
+				return ReturnResult<Value>(new Value(string.Empty));
 
 			var variable = string.Empty;
 			var expression = string.Empty;
@@ -60,20 +60,12 @@ namespace Thinkedge.Simple.Script
 			var eval = cache.Compile(expression);
 
 			if (!eval.IsValid)
-			{
-				AddError("compile error");
-				return false;
-			}
+				return ReturnError<Value>("ValidateTable() error: occurred during evaluating: " + eval.Parser.Tokenizer.Expression);
 
-			var result = eval.Evaluate(this, this);
+			var result = eval.Evaluate(new Context() { MethodSource = this, VariableSource = this });
 
 			if (result.IsError)
-			{
-				if (!HasError)
-					ErrorMessage = result.String;
-
-				return false;
-			}
+				return ReturnResult<Value>(result);
 
 			if (!string.IsNullOrWhiteSpace(variable))
 			{
@@ -81,7 +73,7 @@ namespace Thinkedge.Simple.Script
 				Variables.Add(variable, result);
 			}
 
-			return true;
+			return ReturnResult<Value>(result);
 		}
 
 		Value IVariableSource.GetVariable(string name)

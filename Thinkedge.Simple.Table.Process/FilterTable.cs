@@ -25,18 +25,18 @@ namespace Thinkedge.Simple.Table.Process
 				newTable.AddColumnName(column);
 			}
 
-			var tableSource = new TableDataSource();
+			var fieldSource = new TableDataSource();
 
 			var evaluator = cache.Compile(includeExpression);
 
 			foreach (var sourceRow in table)
 			{
-				tableSource.Row = sourceRow;
+				fieldSource.Row = sourceRow;
 
 				if (string.IsNullOrWhiteSpace(includeExpression))
 					continue;
 
-				var result = evaluator.Evaluate(tableSource);
+				var result = evaluator.Evaluate(new Context() { FieldSource = fieldSource });
 
 				if (!evaluator.IsValid)
 					return ReturnError<SimpleTable>("FilterTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, "invalid result: " + result.String);

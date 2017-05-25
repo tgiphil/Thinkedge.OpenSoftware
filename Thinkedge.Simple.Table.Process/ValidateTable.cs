@@ -30,11 +30,11 @@ namespace Thinkedge.Simple.Table.Process
 				resultsTable.AddColumnName(column);
 			}
 
-			var tableSource = new TableDataSource();
+			var fieldSource = new TableDataSource();
 
 			foreach (var sourceRow in sourceTable)
 			{
-				tableSource.Row = sourceRow;
+				fieldSource.Row = sourceRow;
 
 				SimpleTableRow row = null;
 
@@ -53,7 +53,7 @@ namespace Thinkedge.Simple.Table.Process
 					if (!evaluator.IsValid)
 						return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression);
 
-					var result = evaluator.Evaluate(tableSource);
+					var result = evaluator.Evaluate(new Context() { FieldSource = fieldSource });
 
 					if (result.IsError)
 						return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, result.String);
@@ -89,7 +89,7 @@ namespace Thinkedge.Simple.Table.Process
 						if (!evaluator2.IsValid)
 							return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + evaluator2.Parser.Tokenizer.Expression);
 
-						var result2 = evaluator2.Evaluate(tableSource);
+						var result2 = evaluator2.Evaluate(new Context() { FieldSource = fieldSource });
 
 						if (result2.IsError)
 							return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + evaluator2.Parser.Tokenizer.Expression, result2.String);

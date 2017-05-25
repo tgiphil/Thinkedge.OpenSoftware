@@ -3,7 +3,7 @@ using Thinkedge.Simple.Expression;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class TableDataSource : ITableSource
+	public class TableDataSource : IFieldSource
 	{
 		public SimpleTableRow Row { get; set; } = null;
 
@@ -18,7 +18,7 @@ namespace Thinkedge.Simple.Table.Process
 			Row = simpleTableRow;
 		}
 
-		Value ITableSource.GetField(string name)
+		Value IFieldSource.GetField(string name)
 		{
 			if (Row.Table.GetColumnIndex(name) < 0)
 				return Value.CreateErrorValue("unknown column: " + name);

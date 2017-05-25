@@ -32,11 +32,11 @@ namespace Thinkedge.Simple.Table.Process
 					return ReturnError<SimpleTable>("ExpandTable() error: evaluator returns null");
 			}
 
-			var tableSource = new TableDataSource();
+			var fieldSource = new TableDataSource();
 
 			foreach (var newRow in newTable)
 			{
-				tableSource.Row = newRow;
+				fieldSource.Row = newRow;
 
 				foreach (var map in expandTable)
 				{
@@ -45,7 +45,7 @@ namespace Thinkedge.Simple.Table.Process
 
 					var evaluator = cache.Compile(source);
 
-					var result = evaluator.Evaluate(tableSource);
+					var result = evaluator.Evaluate(new Context() { FieldSource = fieldSource });
 
 					if (result.IsError)
 						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, result.String);

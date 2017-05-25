@@ -23,20 +23,10 @@ namespace Thinkedge.Simple.Expression
 
 		public Value Evaluate()
 		{
-			return Evaluate(null, null, null);
+			return Evaluate(new Context());
 		}
 
-		public Value Evaluate(IVariableSource variableSource = null, IMethodSource methodSource = null)
-		{
-			return Evaluate(variableSource, null, methodSource);
-		}
-
-		public Value Evaluate(ITableSource tableSource = null, IMethodSource methodSource = null)
-		{
-			return Evaluate(null, tableSource, methodSource);
-		}
-
-		public Value Evaluate(IVariableSource variableSource = null, ITableSource tableSource = null, IMethodSource methodSource = null)
+		public Value Evaluate(Context context)
 		{
 			if (Parser.HasError)
 				return Value.CreateErrorValue(Parser.ErrorMessage);
@@ -44,18 +34,18 @@ namespace Thinkedge.Simple.Expression
 			if (Root == null)
 				return Value.CreateErrorValue("invalid parameter to parser");
 
-			var result = Evaluate(Root, BuiltInMethods, variableSource, tableSource, methodSource);
+			var result = Evaluate(Root, BuiltInMethods, context);
 
 			return result;
 		}
 
-		protected static Value Evaluate(ExpressionNode root, IMethodSource builtInMethods, IVariableSource variableSource, ITableSource tableSource, IMethodSource methodSource)
+		protected static Value Evaluate(ExpressionNode root, IMethodSource builtInMethods, Context context)
 		{
 			Debug.Assert(root != null);
 
 			if (root.Left != null && root.Right != null)
 			{
-				var left = Evaluate(root.Left, builtInMethods, variableSource, tableSource, methodSource);
+				var left = Evaluate(root.Left, builtInMethods, context);
 
 				if (left.IsError)
 					return left;
@@ -70,7 +60,7 @@ namespace Thinkedge.Simple.Expression
 					return left;
 				}
 
-				var right = Evaluate(root.Right, builtInMethods, variableSource, tableSource, methodSource);
+				var right = Evaluate(root.Right, builtInMethods, context);
 
 				if (right.IsError)
 					return right;
@@ -80,7 +70,7 @@ namespace Thinkedge.Simple.Expression
 			}
 			else if (root.Left != null && root.Right == null)
 			{
-				var left = Evaluate(root.Left, builtInMethods, variableSource, tableSource, methodSource);
+				var left = Evaluate(root.Left, builtInMethods, context);
 
 				if (left.IsError)
 					return left;
@@ -92,22 +82,22 @@ namespace Thinkedge.Simple.Expression
 			{
 				if (root.Token.TokenType == TokenType.If)
 				{
-					var result = IfStatement(root, builtInMethods, variableSource, tableSource, methodSource);
+					var result = IfStatement(root, builtInMethods, context);
 					return result;
 				}
 				else if (root.Token.TokenType == TokenType.Field)
 				{
-					var result = Field(root, tableSource);
+					var result = Field(root, context);
 					return result;
 				}
 				else if (root.Token.TokenType == TokenType.Variable)
 				{
-					var result = Variable(root, variableSource);
+					var result = Variable(root, context);
 					return result;
 				}
 				else if (root.Token.TokenType == TokenType.Method)
 				{
-					var result = Method(root, builtInMethods, variableSource, tableSource, methodSource);
+					var result = Method(root, builtInMethods, context);
 					return result;
 				}
 				else
@@ -121,14 +111,14 @@ namespace Thinkedge.Simple.Expression
 			return Value.CreateErrorValue("unexpected token type: " + root.Token.ToString());
 		}
 
-		protected static Value Field(ExpressionNode node, ITableSource tableSource)
+		protected static Value Field(ExpressionNode node, Context context)
 		{
 			Value value = null;
 			var name = node.Token.Value;
 
-			if (tableSource != null)
+			if (context.FieldSource != null)
 			{
-				value = tableSource.GetField(name);
+				value = context.FieldSource.GetField(name);
 			}
 
 			if (value == null)
@@ -137,14 +127,14 @@ namespace Thinkedge.Simple.Expression
 			return value;
 		}
 
-		protected static Value Variable(ExpressionNode node, IVariableSource variableSource)
+		protected static Value Variable(ExpressionNode node, Context context)
 		{
 			Value value = null;
 			var name = node.Token.Value;
 
-			if (variableSource != null)
+			if (context.VariableSource != null)
 			{
-				value = variableSource.GetVariable(name);
+				value = context.VariableSource.GetVariable(name);
 			}
 
 			if (value == null)
@@ -506,12 +496,12 @@ namespace Thinkedge.Simple.Expression
 			return Value.CreateErrorValue("incompatible types for comparison operator: " + left.ToString() + " and " + right.ToString());
 		}
 
-		protected static Value IfStatement(ExpressionNode node, IMethodSource builtInMethods, IVariableSource variableSource, ITableSource tableSource, IMethodSource methodSource)
+		protected static Value IfStatement(ExpressionNode node, IMethodSource builtInMethods, Context context)
 		{
 			if (node.Parameters.Count < 2 || node.Parameters.Count > 3)
 				return Value.CreateErrorValue("Incomplete if statement");
 
-			var condition = Evaluate(node.Parameters[0], builtInMethods, variableSource, tableSource, methodSource);
+			var condition = Evaluate(node.Parameters[0], builtInMethods, context);
 
 			if (!condition.IsBoolean)
 				return Value.CreateErrorValue("if statement condition does not evaluate to true or false");
@@ -519,18 +509,18 @@ namespace Thinkedge.Simple.Expression
 			if (node.Parameters.Count == 2 && !condition.Boolean)
 				return new Value(string.Empty); // default value is emptry string when missing else statement
 
-			var value = Evaluate(node.Parameters[condition.Boolean ? 1 : 2], builtInMethods, variableSource, tableSource, methodSource);
+			var value = Evaluate(node.Parameters[condition.Boolean ? 1 : 2], builtInMethods, context);
 
 			return value;
 		}
 
-		protected static Value Method(ExpressionNode node, IMethodSource builtInMethods, IVariableSource variableSource, ITableSource tableSource, IMethodSource methodSource)
+		protected static Value Method(ExpressionNode node, IMethodSource builtInMethods, Context context)
 		{
 			var parameters = new List<Value>(node.Parameters.Count);
 
 			foreach (var parameter in node.Parameters)
 			{
-				var results = Evaluate(parameter, builtInMethods, variableSource, tableSource, methodSource);
+				var results = Evaluate(parameter, builtInMethods, context);
 
 				if (results.IsError)
 					return results;
@@ -545,9 +535,9 @@ namespace Thinkedge.Simple.Expression
 			if (result != null)
 				return result;
 
-			if (methodSource != null)
+			if (context.MethodSource != null)
 			{
-				result = methodSource.Evaluate(name, parameters);
+				result = context.MethodSource.Evaluate(name, parameters);
 
 				if (result != null)
 					return result;

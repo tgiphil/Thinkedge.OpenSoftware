@@ -29,11 +29,11 @@ namespace Thinkedge.Simple.Table.Process
 				newTable.AddColumnName(map["destination"]);
 			}
 
-			var tableSource = new TableDataSource();
+			var fieldSource = new TableDataSource();
 
 			foreach (var sourceRow in sourceTable)
 			{
-				tableSource.Row = sourceRow;
+				fieldSource.Row = sourceRow;
 
 				var destinationRow = newTable.CreateRow();
 
@@ -50,7 +50,7 @@ namespace Thinkedge.Simple.Table.Process
 					if (!evaluator.IsValid)
 						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression);
 
-					var result = evaluator.Evaluate(tableSource);
+					var result = evaluator.Evaluate(new Context() { FieldSource = fieldSource });
 
 					if (result.IsError)
 						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, result.String);

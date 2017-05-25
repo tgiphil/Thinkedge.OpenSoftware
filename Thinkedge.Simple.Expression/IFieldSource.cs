@@ -1,6 +1,6 @@
 ﻿namespace Thinkedge.Simple.Expression
 {
-	public interface ITableSource
+	public interface IFieldSource
 	{
 		Value GetField(string name);
 	}

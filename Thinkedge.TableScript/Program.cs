@@ -41,12 +41,12 @@ namespace Thinkedge.TableScript
 				{
 					Console.WriteLine("> " + line);
 
-					script.Execute(line);
+					var result = script.Execute(line);
 
-					if (script.HasError)
+					if (result.HasError)
 					{
 						Console.WriteLine("Error: ");
-						Console.WriteLine(script.ErrorMessage);
+						Console.WriteLine(result.ErrorMessage);
 						return 1;
 					}
 				}
@@ -62,7 +62,7 @@ namespace Thinkedge.TableScript
 						script.SetVariableArgument(i + 1, args[i]);
 					}
 
-					Console.Write(" >");
+					Console.Write("> ");
 
 					var line = Console.ReadLine().TrimEnd();
 
@@ -71,13 +71,17 @@ namespace Thinkedge.TableScript
 						return 0;
 					}
 
-					script.Execute(line);
+					var result = script.Execute(line);
 
-					if (script.HasError)
+					if (result.HasError)
 					{
 						Console.WriteLine("Error: ");
-						Console.WriteLine(script.ErrorMessage);
+						Console.WriteLine(result.ErrorMessage);
 						return 1;
+					}
+					else
+					{
+						Console.WriteLine("Result: " + result.Result.ToString());
 					}
 				}
 			}

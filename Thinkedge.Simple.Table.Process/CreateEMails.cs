@@ -70,14 +70,14 @@ namespace Thinkedge.Simple.Table.Process
 			if (expression == null)
 				return null;
 
-			var tableSource = new TableDataSource()
+			var fieldSource = new TableDataSource()
 			{
 				Row = row
 			};
 
 			var evaluation = Cache.Compile(expression);
 
-			var result = evaluation.Evaluate(tableSource);
+			var result = evaluation.Evaluate(new Context() { FieldSource= fieldSource });
 
 			if (result.IsError)
 			{

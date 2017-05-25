@@ -40,7 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITableSource.cs" />
+    <Compile Include="Context.cs" />
+    <Compile Include="IFieldSource.cs" />
     <Compile Include="IMethodSource.cs" />
     <Compile Include="IVariableDestination.cs" />
     <Compile Include="IVariableSource.cs" />
