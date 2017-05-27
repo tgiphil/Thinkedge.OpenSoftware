@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Thinkedge.Simple.Expression;
+using Thinkedge.Simple.Evaluator;
 using Thinkedge.Simple.Table;
 using Thinkedge.Simple.Table.Process;
 
@@ -7,7 +7,7 @@ namespace Thinkedge.Simple.Script.Process
 {
 	public class TableMethods : IMethodSource
 	{
-		Value IMethodSource.Evaluate(string name, IList<Value> parameters)
+		Value IMethodSource.Evaluate(string name, IList<Value> parameters, Context context)
 		{
 			switch (name)
 			{
@@ -40,7 +40,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value ParseTabDelimited(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("ParseTabDelimited", parameters, 1, new List<ValueType>() { ValueType.String, ValueType.Boolean, ValueType.Boolean });
+			var validate = Expression.ValidateHelper("ParseTabDelimited", parameters, 1, new List<ValueType>() { ValueType.String, ValueType.Boolean, ValueType.Boolean });
 
 			if (validate != null)
 				return validate;
@@ -66,7 +66,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value ParseValuePairs(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("ParseValuePairs", parameters, 1, new List<ValueType>() { ValueType.String, ValueType.String, ValueType.String, ValueType.String });
+			var validate = Expression.ValidateHelper("ParseValuePairs", parameters, 1, new List<ValueType>() { ValueType.String, ValueType.String, ValueType.String, ValueType.String });
 
 			if (validate != null)
 				return validate;
@@ -93,7 +93,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value ParseCustomINI(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("ParseCustomINI", parameters, 1, new List<ValueType>() { ValueType.String, ValueType.String, ValueType.String });
+			var validate = Expression.ValidateHelper("ParseCustomINI", parameters, 1, new List<ValueType>() { ValueType.String, ValueType.String, ValueType.String });
 
 			if (validate != null)
 				return validate;
@@ -119,7 +119,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value Transform(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("Transform", parameters, 2, new List<ValueType>() { ValueType.Object, ValueType.Object });
+			var validate = Expression.ValidateHelper("Transform", parameters, 2, new List<ValueType>() { ValueType.Object, ValueType.Object });
 
 			if (validate != null)
 				return validate;
@@ -149,7 +149,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value Expand(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("Expand", parameters, 2, new List<ValueType>() { ValueType.Object, ValueType.Object });
+			var validate = Expression.ValidateHelper("Expand", parameters, 2, new List<ValueType>() { ValueType.Object, ValueType.Object });
 
 			if (validate != null)
 				return validate;
@@ -179,7 +179,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value Filter(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("Filter", parameters, 2, new List<ValueType>() { ValueType.Object, ValueType.String });
+			var validate = Expression.ValidateHelper("Filter", parameters, 2, new List<ValueType>() { ValueType.Object, ValueType.String });
 
 			if (validate != null)
 				return validate;
@@ -194,7 +194,7 @@ namespace Thinkedge.Simple.Script.Process
 
 			try
 			{
-				var result = FilterTable.Execute(sourceTable, expression); //Process.Filter(sourceTable, expression);
+				var result = FilterTable.Execute(sourceTable, expression);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);
@@ -209,7 +209,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value Validate(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("Validate", parameters, 4, new List<ValueType>() { ValueType.Object, ValueType.Object, ValueType.Boolean, ValueType.Boolean });
+			var validate = Expression.ValidateHelper("Validate", parameters, 4, new List<ValueType>() { ValueType.Object, ValueType.Object, ValueType.Boolean, ValueType.Boolean });
 
 			if (validate != null)
 				return validate;
@@ -241,7 +241,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value LookupUpdate(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("LookupUpdate", parameters, 7, new List<ValueType>() { ValueType.Object, ValueType.String, ValueType.String, ValueType.Object, ValueType.String, ValueType.String, ValueType.Boolean, ValueType.Boolean });
+			var validate = Expression.ValidateHelper("LookupUpdate", parameters, 7, new List<ValueType>() { ValueType.Object, ValueType.String, ValueType.String, ValueType.Object, ValueType.String, ValueType.String, ValueType.Boolean, ValueType.Boolean });
 
 			if (validate != null)
 				return validate;
@@ -277,7 +277,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value FormatToTabDelimited(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("FormatToTabDelimited", parameters, 1, new List<ValueType>() { ValueType.Object, ValueType.Boolean });
+			var validate = Expression.ValidateHelper("FormatToTabDelimited", parameters, 1, new List<ValueType>() { ValueType.Object, ValueType.Boolean });
 
 			if (validate != null)
 				return validate;

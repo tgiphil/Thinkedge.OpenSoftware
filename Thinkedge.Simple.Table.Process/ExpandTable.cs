@@ -1,5 +1,5 @@
 ﻿using Thinkedge.Common;
-using Thinkedge.Simple.Expression;
+using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Table.Process
 {
@@ -17,8 +17,6 @@ namespace Thinkedge.Simple.Table.Process
 
 			var newTable = sourceTable.Copy();
 
-			var cache = new EvaluatorCache();
-
 			// create columns
 			foreach (var map in expandTable)
 			{
@@ -26,9 +24,9 @@ namespace Thinkedge.Simple.Table.Process
 				var destination = map["destination"];
 				newTable.AddColumnName(destination);
 
-				var evaluator = cache.Compile(source);
+				var expression = ExpressionCache.Compile(source);
 
-				if (evaluator == null)
+				if (expression == null)
 					return ReturnError<SimpleTable>("ExpandTable() error: evaluator returns null");
 			}
 
@@ -43,12 +41,12 @@ namespace Thinkedge.Simple.Table.Process
 					var source = map["source"];
 					var destination = map["destination"];
 
-					var evaluator = cache.Compile(source);
+					var expression = ExpressionCache.Compile(source);
 
-					var result = evaluator.Evaluate(new Context() { FieldSource = fieldSource });
+					var result = expression.Evaluate(new Context() { FieldSource = fieldSource });
 
 					if (result.IsError)
-						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, result.String);
+						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression, result.String);
 
 					newRow[destination] = ToString(result);
 				}

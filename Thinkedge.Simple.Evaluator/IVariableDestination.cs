@@ -1,4 +1,4 @@
-﻿namespace Thinkedge.Simple.Expression
+﻿namespace Thinkedge.Simple.Evaluator
 {
 	public interface IVariableDestination
 	{

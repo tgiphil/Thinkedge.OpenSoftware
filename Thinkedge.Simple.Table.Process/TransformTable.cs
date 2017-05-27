@@ -1,5 +1,5 @@
 ﻿using Thinkedge.Common;
-using Thinkedge.Simple.Expression;
+using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Table.Process
 {
@@ -16,14 +16,13 @@ namespace Thinkedge.Simple.Table.Process
 				return ReturnError<SimpleTable>("TransformTable() error: map table null");
 
 			var newTable = new SimpleTable();
-			var cache = new EvaluatorCache();
 
 			// create columns
 			foreach (var map in mapTable)
 			{
-				var evaluator = cache.Compile(map["source"]);
+				var expression = ExpressionCache.Compile(map["source"]);
 
-				if (evaluator == null)
+				if (expression == null)
 					return ReturnError<SimpleTable>("TransformTable() error: evaluator returns null");
 
 				newTable.AddColumnName(map["destination"]);
@@ -42,18 +41,18 @@ namespace Thinkedge.Simple.Table.Process
 					var source = map["source"];
 					var destination = map["destination"];
 
-					var evaluator = cache.Compile(source);
+					var expression = ExpressionCache.Compile(source);
 
-					if (evaluator == null)
+					if (expression == null)
 						return ReturnError<SimpleTable>("ExpandTable() error: evaluator returns null");
 
-					if (!evaluator.IsValid)
-						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression);
+					if (!expression.IsValid)
+						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression);
 
-					var result = evaluator.Evaluate(new Context() { FieldSource = fieldSource });
+					var result = expression.Evaluate(new Context() { FieldSource = fieldSource });
 
 					if (result.IsError)
-						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, result.String);
+						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression, result.String);
 
 					destinationRow[destination] = ExpandTable.ToString(result);
 				}

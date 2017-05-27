@@ -2,14 +2,14 @@
 using System.IO;
 using System.Net;
 using System.Web.Script.Serialization;
-using Thinkedge.Simple.Expression;
+using Thinkedge.Simple.Evaluator;
 using Thinkedge.Simple.Table;
 
 namespace Thinkedge.Simple.Script.Process
 {
 	public class SharePointMethods : IMethodSource
 	{
-		Value IMethodSource.Evaluate(string name, IList<Value> parameters)
+		Value IMethodSource.Evaluate(string name, IList<Value> parameters, Context context)
 		{
 			switch (name)
 			{
@@ -25,7 +25,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value GetAllUsers(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("GetAllUsers", parameters, 1, new List<ValueType>() { ValueType.String });
+			var validate = Expression.ValidateHelper("GetAllUsers", parameters, 1, new List<ValueType>() { ValueType.String });
 
 			if (validate != null)
 				return validate;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Thinkedge.Common;
-using Thinkedge.Simple.Expression;
+using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Script
 {
@@ -8,7 +8,6 @@ namespace Thinkedge.Simple.Script
 	{
 		protected Dictionary<string, Value> Variables = new Dictionary<string, Value>();
 		protected IList<IMethodSource> MethodSources = new List<IMethodSource>();
-		protected EvaluatorCache cache = new EvaluatorCache();
 
 		public ScriptInterpreter()
 		{
@@ -42,27 +41,27 @@ namespace Thinkedge.Simple.Script
 				return ReturnResult<Value>(new Value(string.Empty));
 
 			var variable = string.Empty;
-			var expression = string.Empty;
+			var expressionText = string.Empty;
 
 			int posEqual = command.IndexOf('=');
 
 			if (posEqual > 0)
 			{
-				expression = command.Substring(posEqual + 1);
+				expressionText = command.Substring(posEqual + 1);
 				variable = command.Substring(0, posEqual - 1);
 			}
 			else
 			{
 				variable = string.Empty;
-				expression = command;
+				expressionText = command;
 			}
 
-			var eval = cache.Compile(expression);
+			var expression = ExpressionCache.Compile(expressionText);
 
-			if (!eval.IsValid)
-				return ReturnError<Value>("ValidateTable() error: occurred during evaluating: " + eval.Parser.Tokenizer.Expression);
+			if (!expression.IsValid)
+				return ReturnError<Value>("ValidateTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression);
 
-			var result = eval.Evaluate(new Context() { MethodSource = this, VariableSource = this });
+			var result = expression.Evaluate(new Context() { MethodSource = this, VariableSource = this });
 
 			if (result.IsError)
 				return ReturnResult<Value>(result);
@@ -87,11 +86,11 @@ namespace Thinkedge.Simple.Script
 			return null;
 		}
 
-		Value IMethodSource.Evaluate(string name, IList<Value> parameters)
+		Value IMethodSource.Evaluate(string name, IList<Value> parameters, Context context)
 		{
 			foreach (var methodSource in MethodSources)
 			{
-				var result = methodSource.Evaluate(name, parameters);
+				var result = methodSource.Evaluate(name, parameters, context);
 
 				if (result == null)
 					continue;

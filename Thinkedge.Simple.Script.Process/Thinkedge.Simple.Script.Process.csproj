@@ -54,9 +54,9 @@
       <Project>{5f0a3783-d7bb-4f32-877f-2d90f15a15d9}</Project>
       <Name>Thinkedge.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Expression\Thinkedge.Simple.Expression.csproj">
+    <ProjectReference Include="..\Thinkedge.Simple.Evaluator\Thinkedge.Simple.Evaluator.csproj">
       <Project>{28bcba5e-eb24-4bc5-912c-57e5b835165e}</Project>
-      <Name>Thinkedge.Simple.Expression</Name>
+      <Name>Thinkedge.Simple.Evaluator</Name>
     </ProjectReference>
     <ProjectReference Include="..\Thinkedge.Simple.Script\Thinkedge.Simple.Script.csproj">
       <Project>{a90d9737-d224-486c-8712-aa555157e645}</Project>

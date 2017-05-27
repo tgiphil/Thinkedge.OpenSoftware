@@ -7,8 +7,8 @@
     <ProjectGuid>{9359CA3E-7CCA-42F8-A9D9-06095CED43D4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Thinkedge.Simple.Expression.Tests</RootNamespace>
-    <AssemblyName>Thinkedge.Simple.Expression.Tests</AssemblyName>
+    <RootNamespace>Thinkedge.Simple.Evaluator.Tests</RootNamespace>
+    <AssemblyName>Thinkedge.Simple.Evaluator.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -67,9 +67,9 @@
     <Compile Include="TokenizerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Thinkedge.Simple.Expression\Thinkedge.Simple.Expression.csproj">
+    <ProjectReference Include="..\Thinkedge.Simple.Evaluator\Thinkedge.Simple.Evaluator.csproj">
       <Project>{28bcba5e-eb24-4bc5-912c-57e5b835165e}</Project>
-      <Name>Thinkedge.Simple.Expression</Name>
+      <Name>Thinkedge.Simple.Evaluator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

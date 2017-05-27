@@ -1,5 +1,4 @@
 ﻿using Thinkedge.Common;
-using Thinkedge.Simple.Expression;
 
 namespace Thinkedge.Simple.Table.Process
 {
@@ -19,7 +18,6 @@ namespace Thinkedge.Simple.Table.Process
 				return ReturnError<SimpleTable>("LookupUpdateTable() error: merge field does not exists: " + mergeField);
 
 			var newTable = new SimpleTable();
-			var cache = new EvaluatorCache();
 
 			foreach (var column in sourceTable.ColumnNames)
 			{

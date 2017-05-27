@@ -1,5 +1,5 @@
 ﻿using Thinkedge.Common;
-using Thinkedge.Simple.Expression;
+using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Table.Process
 {
@@ -15,7 +15,6 @@ namespace Thinkedge.Simple.Table.Process
 			ClearError();
 
 			var resultsTable = new SimpleTable();
-			var cache = new EvaluatorCache();
 
 			foreach (var column in sourceTable.ColumnNames)
 			{
@@ -45,18 +44,18 @@ namespace Thinkedge.Simple.Table.Process
 					if (string.IsNullOrWhiteSpace(match))
 						continue;
 
-					var evaluator = cache.Compile(match);
+					var expression = ExpressionCache.Compile(match);
 
-					if (evaluator == null)
+					if (expression == null)
 						return ReturnError<SimpleTable>("ValidateTable() error: evaluator returns null");
 
-					if (!evaluator.IsValid)
-						return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression);
+					if (!expression.IsValid)
+						return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression);
 
-					var result = evaluator.Evaluate(new Context() { FieldSource = fieldSource });
+					var result = expression.Evaluate(new Context() { FieldSource = fieldSource });
 
 					if (result.IsError)
-						return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, result.String);
+						return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression, result.String);
 
 					if (!result.Boolean)
 						continue;
@@ -81,18 +80,18 @@ namespace Thinkedge.Simple.Table.Process
 						if (string.IsNullOrWhiteSpace(text))
 							continue;
 
-						var evaluator2 = cache.Compile(text);
+						var expression2 = ExpressionCache.Compile(text);
 
-						if (evaluator2 == null)
+						if (expression2 == null)
 							return ReturnError<SimpleTable>("ValidateTable() error: evaluator returns null");
 
-						if (!evaluator2.IsValid)
-							return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + evaluator2.Parser.Tokenizer.Expression);
+						if (!expression2.IsValid)
+							return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + expression2.Parser.Tokenizer.Expression);
 
-						var result2 = evaluator2.Evaluate(new Context() { FieldSource = fieldSource });
+						var result2 = expression2.Evaluate(new Context() { FieldSource = fieldSource });
 
 						if (result2.IsError)
-							return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + evaluator2.Parser.Tokenizer.Expression, result2.String);
+							return ReturnError<SimpleTable>("ValidateTable() error: occurred during evaluating: " + expression2.Parser.Tokenizer.Expression, result2.String);
 
 						if (overwrite || string.IsNullOrWhiteSpace(row[column]))
 							row[column] = result2.String;

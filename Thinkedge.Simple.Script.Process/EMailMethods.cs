@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using Thinkedge.Simple.Expression;
+using Thinkedge.Simple.Evaluator;
 using Thinkedge.Simple.Table;
 
 namespace Thinkedge.Simple.Script.Process
 {
 	public class EMailMethods : IMethodSource
 	{
-		Value IMethodSource.Evaluate(string name, IList<Value> parameters)
+		Value IMethodSource.Evaluate(string name, IList<Value> parameters, Context context)
 		{
 			switch (name)
 			{
@@ -21,7 +21,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value CreateEMails(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("CreateEMails", parameters, 5, new List<ValueType>() { ValueType.Object, ValueType.String, ValueType.String, ValueType.String, ValueType.String });
+			var validate = Expression.ValidateHelper("CreateEMails", parameters, 5, new List<ValueType>() { ValueType.Object, ValueType.String, ValueType.String, ValueType.String, ValueType.String });
 
 			if (validate != null)
 				return validate;
@@ -54,7 +54,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value SendEMails(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("SendEMails", parameters, 1, new List<ValueType>() { ValueType.Object, ValueType.String });
+			var validate = Expression.ValidateHelper("SendEMails", parameters, 1, new List<ValueType>() { ValueType.Object, ValueType.String });
 
 			if (validate != null)
 				return validate;

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Thinkedge.Simple.Expression
+namespace Thinkedge.Simple.Evaluator
 {
 	public class BuiltInMethods : IMethodSource
 	{
-		Value IMethodSource.Evaluate(string name, IList<Value> parameters)
+		Value IMethodSource.Evaluate(string name, IList<Value> parameters, Context context)
 		{
 			switch (name)
 			{
@@ -53,9 +53,6 @@ namespace Thinkedge.Simple.Expression
 				case "In": return InList(parameters);
 				case "InList": return InList(parameters);
 				case "Between": return Between(parameters);
-				//long versions
-				case "Index.Get": return GetIndex(parameters);
-				case "Index.GetValue": return GetIndexValue(parameters);
 
 				//todo:
 				//  SubString
@@ -63,6 +60,8 @@ namespace Thinkedge.Simple.Expression
 				//  CountWeekendsDays
 				//  CountNonWeekendsDays
 				//  IncrementToFirstNonWeekend
+				//  Max
+				//  Min
 
 				default: break;
 			}

@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Thinkedge.Simple.Expression.Tests
+namespace Thinkedge.Simple.Evaluator.Tests
 {
 	public class ExpressionTests
 	{

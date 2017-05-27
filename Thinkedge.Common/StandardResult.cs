@@ -10,5 +10,36 @@
 			Errors = standard.Errors;
 			Exception = standard.Exception;
 		}
+
+		public StandardResult(T result)
+		{
+			Result = result;
+		}
+
+		public StandardResult(string error)
+		{
+			AddError(error);
+		}
+
+		public StandardResult(string innerError, string outerError)
+		{
+			AddError(innerError);
+			AddError(outerError);
+		}
+
+		public static StandardResult<T> ReturnResult(T result)
+		{
+			return new StandardResult<T>(result);
+		}
+
+		public static StandardResult<T> ReturnError(string error)
+		{
+			return new StandardResult<T>(error);
+		}
+
+		public static StandardResult<T> ReturnError(string innerError, string outerError)
+		{
+			return new StandardResult<T>(innerError, outerError);
+		}
 	}
 }

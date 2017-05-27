@@ -62,9 +62,9 @@
       <Project>{5F0A3783-D7BB-4F32-877F-2D90F15A15D9}</Project>
       <Name>Thinkedge.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Expression\Thinkedge.Simple.Expression.csproj">
+    <ProjectReference Include="..\Thinkedge.Simple.Evaluator\Thinkedge.Simple.Evaluator.csproj">
       <Project>{28bcba5e-eb24-4bc5-912c-57e5b835165e}</Project>
-      <Name>Thinkedge.Simple.Expression</Name>
+      <Name>Thinkedge.Simple.Evaluator</Name>
     </ProjectReference>
     <ProjectReference Include="..\Thinkedge.Simple.Table\Thinkedge.Simple.Table.csproj">
       <Project>{b19c937b-245e-42be-a51d-f40803a43414}</Project>

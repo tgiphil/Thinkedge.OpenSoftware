@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Thinkedge.Simple.Expression
+namespace Thinkedge.Simple.Evaluator
 {
 	public class Value
 	{

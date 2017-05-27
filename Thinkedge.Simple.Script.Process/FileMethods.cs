@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Thinkedge.Simple.Expression;
+using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Script.Process
 {
 	public class FileMethods : IMethodSource
 	{
-		Value IMethodSource.Evaluate(string name, IList<Value> parameters)
+		Value IMethodSource.Evaluate(string name, IList<Value> parameters, Context context)
 		{
 			switch (name)
 			{
@@ -23,7 +23,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value LoadFromFile(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("LoadFromFile", parameters, 1, new List<ValueType>() { ValueType.String });
+			var validate = Expression.ValidateHelper("LoadFromFile", parameters, 1, new List<ValueType>() { ValueType.String });
 
 			if (validate != null)
 				return validate;
@@ -38,7 +38,7 @@ namespace Thinkedge.Simple.Script.Process
 
 		public static Value SaveToFile(IList<Value> parameters)
 		{
-			var validate = Evaluator.ValidateHelper("SaveToFile", parameters, 1, new List<ValueType>() { ValueType.String, ValueType.String });
+			var validate = Expression.ValidateHelper("SaveToFile", parameters, 1, new List<ValueType>() { ValueType.String, ValueType.String });
 
 			if (validate != null)
 				return validate;

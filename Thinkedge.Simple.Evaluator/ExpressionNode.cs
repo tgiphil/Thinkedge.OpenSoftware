@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Thinkedge.Simple.Expression
+namespace Thinkedge.Simple.Evaluator
 {
 	public class ExpressionNode
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Thinkedge.Common;
-using Thinkedge.Simple.Expression;
+using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Table.Process
 {
@@ -10,8 +10,6 @@ namespace Thinkedge.Simple.Table.Process
 		{
 			return new CreateEMails().ExecuteEx(sourceTable, template, sendFromMail, sendToFieldExpression, groupExpression);
 		}
-
-		protected EvaluatorCache Cache = new EvaluatorCache();
 
 		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, string template, string sendFromMail, string sendToFieldExpression, string groupExpression = null)
 		{
@@ -65,9 +63,9 @@ namespace Thinkedge.Simple.Table.Process
 			return ReturnResult<SimpleTable>(messageTable);
 		}
 
-		protected string EvaulateExpression(SimpleTableRow row, string expression)
+		protected string EvaulateExpression(SimpleTableRow row, string expressionText)
 		{
-			if (expression == null)
+			if (expressionText == null)
 				return null;
 
 			var fieldSource = new TableDataSource()
@@ -75,9 +73,9 @@ namespace Thinkedge.Simple.Table.Process
 				Row = row
 			};
 
-			var evaluation = Cache.Compile(expression);
+			var expression = ExpressionCache.Compile(expressionText);
 
-			var result = evaluation.Evaluate(new Context() { FieldSource= fieldSource });
+			var result = expression.Evaluate(new Context() { FieldSource = fieldSource });
 
 			if (result.IsError)
 			{

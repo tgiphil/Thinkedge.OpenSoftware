@@ -1,25 +1,16 @@
 ﻿using Thinkedge.Common;
-using Thinkedge.Simple.Expression;
+using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class FilterTable : BaseStandardResult
+	public static class FilterTable
 	{
 		public static StandardResult<SimpleTable> Execute(SimpleTable table, string includeExpression)
 		{
-			return new FilterTable().ExecuteEx(table, includeExpression);
-		}
-
-		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable table, string includeExpression)
-		{
 			if (string.IsNullOrWhiteSpace(includeExpression))
-			{
-				return ReturnResult<SimpleTable>(table.Copy());
-			}
+				return StandardResult<SimpleTable>.ReturnResult(table.Copy());
 
 			var newTable = new SimpleTable();
-			var cache = new EvaluatorCache();
-
 			foreach (var column in table.ColumnNames)
 			{
 				newTable.AddColumnName(column);
@@ -27,7 +18,7 @@ namespace Thinkedge.Simple.Table.Process
 
 			var fieldSource = new TableDataSource();
 
-			var evaluator = cache.Compile(includeExpression);
+			var expression = ExpressionCache.Compile(includeExpression);
 
 			foreach (var sourceRow in table)
 			{
@@ -36,13 +27,13 @@ namespace Thinkedge.Simple.Table.Process
 				if (string.IsNullOrWhiteSpace(includeExpression))
 					continue;
 
-				var result = evaluator.Evaluate(new Context() { FieldSource = fieldSource });
+				var result = expression.Evaluate(new Context() { FieldSource = fieldSource });
 
-				if (!evaluator.IsValid)
-					return ReturnError<SimpleTable>("FilterTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, "invalid result: " + result.String);
+				if (!expression.IsValid)
+					return StandardResult<SimpleTable>.ReturnError("FilterTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression, "invalid result: " + result.String);
 
 				if (!result.IsBoolean)
-					return ReturnError<SimpleTable>("FilterTable() error: occurred during evaluating: " + evaluator.Parser.Tokenizer.Expression, "result was not boolean: " + result.String);
+					return StandardResult<SimpleTable>.ReturnError("FilterTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression, "result was not boolean: " + result.String);
 
 				if (!result.Boolean)
 					continue;
@@ -60,7 +51,7 @@ namespace Thinkedge.Simple.Table.Process
 				}
 			}
 
-			return ReturnResult<SimpleTable>(newTable);
+			return StandardResult<SimpleTable>.ReturnResult(newTable);
 		}
 	}
 }

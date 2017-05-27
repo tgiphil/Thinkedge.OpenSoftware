@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace Thinkedge.Simple.Expression.Tests
+namespace Thinkedge.Simple.Evaluator.Tests
 {
 	public class EvaluatorTests
 	{
@@ -12,9 +12,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("1 + 2 + 10 * 8 + 10 * 20 + 7");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Integer, value);
 		}
@@ -26,9 +26,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("1 + 2 + (10 * 8) + 10 * 20 + 7");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Integer, value);
 		}
@@ -40,9 +40,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("1 + (2 + 10) * 8 + 10 * 20 + 7");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Integer, value);
 		}
@@ -54,9 +54,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("1 == 2");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, value);
 		}
@@ -68,9 +68,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("true == true");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, value);
 		}
@@ -82,9 +82,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("false == false");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, value);
 		}
@@ -96,9 +96,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("true && true");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, value);
 		}
@@ -110,9 +110,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("false && true");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, value);
 		}
@@ -124,9 +124,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("#1/1/2017#");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Date, value);
 		}
@@ -138,9 +138,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("#1/1/2017# + 1");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Date, value);
 		}
@@ -152,9 +152,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("1 > 2");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, value);
 		}
@@ -166,9 +166,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("\"Test\" == \"Test\"");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, value);
 		}
@@ -180,9 +180,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("\"Test1\" == \"Test2\"");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, value);
 		}
@@ -194,9 +194,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer("!(1 > 2)");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, value);
 		}
@@ -208,9 +208,9 @@ namespace Thinkedge.Simple.Expression.Tests
 
 			var tokenizer = new Tokenizer(" !(1 > 2) && ((1 < 6) || !(1 > 3))");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, value);
 		}
@@ -220,9 +220,9 @@ namespace Thinkedge.Simple.Expression.Tests
 		{
 			var tokenizer = new Tokenizer("if (true, 1, 2)==1");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Boolean, true);
 		}
@@ -232,9 +232,9 @@ namespace Thinkedge.Simple.Expression.Tests
 		{
 			var tokenizer = new Tokenizer("if (false, 1, 2)");
 			var parser = new Parser(tokenizer);
-			var evaluator = new Evaluator(parser);
+			var expression = new Expression(parser);
 
-			var result = evaluator.Evaluate();
+			var result = expression.Evaluate();
 
 			Assert.Equal(result.Integer, 2);
 		}
@@ -246,7 +246,7 @@ namespace Thinkedge.Simple.Expression.Tests
 		//	var parser = new Parser(tokenizer);
 		//	var evaluator = new Evaluator(parser);
 
-		//	var result = evaluator.Evaluate();
+		//	var result = expression.Evaluate();
 
 		//	Assert.Equal(result.String, "test");
 		//}

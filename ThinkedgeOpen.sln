@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.StateLink", "Thinkedge.StateLink\Thinkedge.StateLink.csproj", "{06B2A5C6-BBA7-4A07-B248-22D66490BAB2}"
 EndProject
@@ -13,9 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Table", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Table.Tests", "Thinkedge.Simple.Table.Test\Thinkedge.Simple.Table.Tests.csproj", "{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Expression", "Thinkedge.Simple.Expression\Thinkedge.Simple.Expression.csproj", "{28BCBA5E-EB24-4BC5-912C-57E5B835165E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Evaluator", "Thinkedge.Simple.Evaluator\Thinkedge.Simple.Evaluator.csproj", "{28BCBA5E-EB24-4BC5-912C-57E5B835165E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Expression.Tests", "Thinkedge.Simple.Expression.Tests\Thinkedge.Simple.Expression.Tests.csproj", "{9359CA3E-7CCA-42F8-A9D9-06095CED43D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Evaluator.Tests", "Thinkedge.Simple.Evaluator.Tests\Thinkedge.Simple.Evaluator.Tests.csproj", "{9359CA3E-7CCA-42F8-A9D9-06095CED43D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Table.Process", "Thinkedge.Simple.Table.Process\Thinkedge.Simple.Table.Process.csproj", "{C25BAA0D-6E9B-48EB-B27B-101341C6166B}"
 EndProject

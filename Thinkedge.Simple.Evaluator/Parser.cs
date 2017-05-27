@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Thinkedge.Common;
 
-namespace Thinkedge.Simple.Expression
+namespace Thinkedge.Simple.Evaluator
 {
 	public class Parser : BaseStandardResult
 	{
