@@ -3,17 +3,12 @@ using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class TransformTable : BaseStandardResult
+	public static class TransformTable
 	{
 		public static StandardResult<SimpleTable> Execute(SimpleTable sourceTable, SimpleTable mapTable)
 		{
-			return new TransformTable().ExecuteEx(sourceTable, mapTable);
-		}
-
-		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, SimpleTable mapTable)
-		{
 			if (mapTable == null)
-				return ReturnError<SimpleTable>("TransformTable() error: map table null");
+				return StandardResult<SimpleTable>.ReturnError("TransformTable() error: map table null");
 
 			var newTable = new SimpleTable();
 
@@ -23,7 +18,7 @@ namespace Thinkedge.Simple.Table.Process
 				var expression = ExpressionCache.Compile(map["source"]);
 
 				if (expression == null)
-					return ReturnError<SimpleTable>("TransformTable() error: evaluator returns null");
+					return StandardResult<SimpleTable>.ReturnError("TransformTable() error: evaluator returns null");
 
 				newTable.AddColumnName(map["destination"]);
 			}
@@ -44,21 +39,21 @@ namespace Thinkedge.Simple.Table.Process
 					var expression = ExpressionCache.Compile(source);
 
 					if (expression == null)
-						return ReturnError<SimpleTable>("ExpandTable() error: evaluator returns null");
+						return StandardResult<SimpleTable>.ReturnError("ExpandTable() error: evaluator returns null");
 
 					if (!expression.IsValid)
-						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression);
+						return StandardResult<SimpleTable>.ReturnError("ExpandTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression);
 
 					var result = expression.Evaluate(new Context() { FieldSource = fieldSource });
 
 					if (result.IsError)
-						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression, result.String);
+						return StandardResult<SimpleTable>.ReturnError("ExpandTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression, result.String);
 
 					destinationRow[destination] = ExpandTable.ToString(result);
 				}
 			}
 
-			return ReturnResult<SimpleTable>(newTable);
+			return StandardResult<SimpleTable>.ReturnResult(newTable);
 		}
 	}
 }

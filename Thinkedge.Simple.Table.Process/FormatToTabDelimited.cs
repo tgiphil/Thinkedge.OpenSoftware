@@ -3,17 +3,10 @@ using Thinkedge.Common;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class FormatToTabDelimited : BaseStandardResult
+	public static class FormatToTabDelimited
 	{
 		public static StandardResult<string> Execute(SimpleTable table, bool escape = true)
 		{
-			return new FormatToTabDelimited().ExecuteEx(table, escape);
-		}
-
-		internal StandardResult<string> ExecuteEx(SimpleTable table, bool escape = true)
-		{
-			//ClearError();
-
 			var sb = new StringBuilder();
 
 			foreach (var column in table.ColumnNames)
@@ -42,7 +35,7 @@ namespace Thinkedge.Simple.Table.Process
 				sb.AppendLine();
 			}
 
-			return ReturnResult<string>(sb.ToString());
+			return StandardResult<string>.ReturnResult(sb.ToString());
 		}
 
 		internal static string Escape(string s)

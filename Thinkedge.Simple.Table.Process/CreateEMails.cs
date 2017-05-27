@@ -4,14 +4,9 @@ using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class CreateEMails : BaseStandardResult
+	public static class CreateEMails
 	{
 		public static StandardResult<SimpleTable> Execute(SimpleTable sourceTable, string template, string sendFromMail, string sendToFieldExpression, string groupExpression = null)
-		{
-			return new CreateEMails().ExecuteEx(sourceTable, template, sendFromMail, sendToFieldExpression, groupExpression);
-		}
-
-		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, string template, string sendFromMail, string sendToFieldExpression, string groupExpression = null)
 		{
 			var templates = new List<MessageTemplate>();
 			var lookup = (groupExpression != null) ? new Dictionary<string, MessageTemplate>() : null;
@@ -21,27 +16,31 @@ namespace Thinkedge.Simple.Table.Process
 			foreach (var row in sourceTable)
 			{
 				var sendTo = EvaulateExpression(row, sendToFieldExpression);
+
+				if (sendTo.HasError)
+					return StandardResult<SimpleTable>.ReturnError(sendTo.ErrorMessage); // fixme
+
 				var groupName = EvaulateExpression(row, groupExpression);
 
-				if (lookup == null || groupName == null || !lookup.TryGetValue(groupName, out MessageTemplate message))
+				if (groupName.HasError)
+					return StandardResult<SimpleTable>.ReturnError(groupName.ErrorMessage); // fixme
+
+				if (lookup == null || groupName.Result == null || !lookup.TryGetValue(groupName.Result, out MessageTemplate message))
 				{
 					message = new MessageTemplate(template);
 					message.SetBodyFields(row);
 
-					message.To = sendTo;
+					message.To = sendTo.Result;
 
 					templates.Add(message);
 
 					if (lookup != null || groupName != null)
 					{
-						lookup.Add(groupName, message);
+						lookup.Add(groupName.Result, message);
 					}
 				}
 
 				message.SetRowFields(row);
-
-				if (HasError)
-					return ReturnError<SimpleTable>();
 			}
 
 			var messageTable = new SimpleTable();
@@ -60,13 +59,13 @@ namespace Thinkedge.Simple.Table.Process
 				row["Mail-From"] = sendFromMail;
 			}
 
-			return ReturnResult<SimpleTable>(messageTable);
+			return StandardResult<SimpleTable>.ReturnResult(messageTable);
 		}
 
-		protected string EvaulateExpression(SimpleTableRow row, string expressionText)
+		private static StandardResult<string> EvaulateExpression(SimpleTableRow row, string expressionText)
 		{
 			if (expressionText == null)
-				return null;
+				return StandardResult<string>.ReturnResult(null);
 
 			var fieldSource = new TableDataSource()
 			{
@@ -78,18 +77,12 @@ namespace Thinkedge.Simple.Table.Process
 			var result = expression.Evaluate(new Context() { FieldSource = fieldSource });
 
 			if (result.IsError)
-			{
-				SetError(result.String);
-				return null;
-			}
+				StandardResult<string>.ReturnError(result.String);
 
 			if (!result.IsString)
-			{
-				SetError("message processing error - expression evaulation did not result in a string");
-				return null;
-			}
+				StandardResult<string>.ReturnError("message processing error - expression evaulation did not result in a string");
 
-			return result.String;
+			return StandardResult<string>.ReturnResult(result.String);
 		}
 	}
 }

@@ -4,19 +4,14 @@ using Thinkedge.Common;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class SendEMail : BaseStandardResult
+	public static class SendEMail
 	{
 		public static StandardResult<bool> Execute(MailMessage message)
 		{
-			return new SendEMail().ExecuteEx(message);
-		}
-
-		internal StandardResult<bool> ExecuteEx(MailMessage message)
-		{
 			if (!MailHelper.SendMailMessage(message, out Exception e))
-				return ReturnError<bool>("SendEMail() error: unable to send e-mail to: " + message.To, "Reason: " + e.ToString(), e);
+				return StandardResult<bool>.ReturnError("SendEMail() error: unable to send e-mail to: " + message.To, "Reason: " + e.ToString(), e);
 
-			return ReturnResult<bool>(true);
+			return StandardResult<bool>.ReturnResult(true);
 		}
 	}
 }

@@ -4,14 +4,9 @@ using Thinkedge.Common;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class ParseCustomINI : BaseStandardResult
+	public static class ParseCustomINI
 	{
 		public static StandardResult<SimpleTable> Execute(string data, string newRow, char delimiter = '=', IList<string> columns = null)
-		{
-			return new ParseCustomINI().ExecuteEx(data, newRow, delimiter, columns);
-		}
-
-		internal StandardResult<SimpleTable> ExecuteEx(string data, string newRow, char delimiter = '=', IList<string> columns = null)
 		{
 			var lines = data.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 			var table = new SimpleTable();
@@ -60,12 +55,7 @@ namespace Thinkedge.Simple.Table.Process
 				}
 			}
 
-			return ReturnResult<SimpleTable>(table);
-		}
-
-		public static object EXecute(string data, string newRow, char delimiter)
-		{
-			throw new NotImplementedException();
+			return StandardResult<SimpleTable>.ReturnResult(table);
 		}
 	}
 }

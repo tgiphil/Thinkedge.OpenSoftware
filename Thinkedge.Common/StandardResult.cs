@@ -1,4 +1,6 @@
-﻿namespace Thinkedge.Common
+﻿using System;
+
+namespace Thinkedge.Common
 {
 	public class StandardResult<T> : BaseStandardResult
 	{
@@ -16,12 +18,24 @@
 			Result = result;
 		}
 
-		public StandardResult(string error)
+		protected StandardResult(string error)
 		{
 			AddError(error);
 		}
 
-		public StandardResult(string innerError, string outerError)
+		protected StandardResult(string error, Exception exception)
+		{
+			AddError(error);
+			SetException(exception);
+		}
+
+		protected StandardResult(string innerError, string outerError)
+		{
+			AddError(innerError);
+			AddError(outerError);
+		}
+
+		protected StandardResult(string innerError, string outerError, Exception exception)
 		{
 			AddError(innerError);
 			AddError(outerError);
@@ -37,9 +51,19 @@
 			return new StandardResult<T>(error);
 		}
 
+		public static StandardResult<T> ReturnError(string error, Exception exception)
+		{
+			return new StandardResult<T>(error, exception);
+		}
+
 		public static StandardResult<T> ReturnError(string innerError, string outerError)
 		{
 			return new StandardResult<T>(innerError, outerError);
+		}
+
+		public static StandardResult<T> ReturnError(string innerError, string outerError, Exception exception)
+		{
+			return new StandardResult<T>(innerError, outerError, exception);
 		}
 	}
 }

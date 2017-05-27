@@ -2,20 +2,15 @@
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class LookupUpdateTable : BaseStandardResult
+	public static class LookupUpdateTable
 	{
 		public static StandardResult<SimpleTable> Execute(SimpleTable sourceTable, string sourceKeyField, string mergeField, SimpleTable lookupTable, string lookupKeyField, string lookupDataField, bool overwrite, bool caseInsensitive = true)
 		{
-			return new LookupUpdateTable().ExecuteEx(sourceTable, sourceKeyField, mergeField, lookupTable, lookupKeyField, lookupDataField, overwrite, caseInsensitive);
-		}
-
-		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, string sourceKeyField, string mergeField, SimpleTable lookupTable, string lookupKeyField, string lookupDataField, bool overwrite, bool caseInsensitive = true)
-		{
 			if (!sourceTable.ColumnNames.Contains(sourceKeyField))
-				return ReturnError<SimpleTable>("LookupUpdateTable() error: source key field does not exists: " + sourceKeyField);
+				return StandardResult<SimpleTable>.ReturnError("LookupUpdateTable() error: source key field does not exists: " + sourceKeyField);
 
 			if (!sourceTable.ColumnNames.Contains(mergeField))
-				return ReturnError<SimpleTable>("LookupUpdateTable() error: merge field does not exists: " + mergeField);
+				return StandardResult<SimpleTable>.ReturnError("LookupUpdateTable() error: merge field does not exists: " + mergeField);
 
 			var newTable = new SimpleTable();
 
@@ -54,10 +49,10 @@ namespace Thinkedge.Simple.Table.Process
 				row[mergeField] = lookup;
 			}
 
-			return ReturnResult<SimpleTable>(newTable);
+			return StandardResult<SimpleTable>.ReturnResult(newTable);
 		}
 
-		protected static string Lookup(SimpleTable source, string key, string keyField, string dataField, bool caseInsensitive = true)
+		private static string Lookup(SimpleTable source, string key, string keyField, string dataField, bool caseInsensitive = true)
 		{
 			if (string.IsNullOrEmpty(key))
 				return string.Empty;

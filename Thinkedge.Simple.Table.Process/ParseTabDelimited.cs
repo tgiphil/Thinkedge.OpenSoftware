@@ -3,14 +3,9 @@ using Thinkedge.Common;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class ParseTabDelimited : BaseStandardResult
+	public static class ParseTabDelimited
 	{
 		public static StandardResult<SimpleTable> Execute(string data, bool containsHeader = true, bool mapHeaderNames = true, bool unespace = true)
-		{
-			return new ParseTabDelimited().ExecuteEx(data, containsHeader, mapHeaderNames, unespace);
-		}
-
-		internal StandardResult<SimpleTable> ExecuteEx(string data, bool containsHeader = true, bool mapHeaderNames = true, bool unespace = true)
 		{
 			var lines = data.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
@@ -58,7 +53,7 @@ namespace Thinkedge.Simple.Table.Process
 				}
 			}
 
-			return ReturnResult<SimpleTable>(table);
+			return StandardResult<SimpleTable>.ReturnResult(table);
 		}
 
 		public static string Unescape(string s)

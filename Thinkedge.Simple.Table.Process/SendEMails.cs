@@ -3,14 +3,9 @@ using Thinkedge.Common;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class SendEMails : BaseStandardResult
+	public static class SendEMails
 	{
 		public static StandardResult<bool> Execute(SimpleTable sourceTable)
-		{
-			return new SendEMails().ExecuteEx(sourceTable);
-		}
-
-		internal StandardResult<bool> ExecuteEx(SimpleTable sourceTable)
 		{
 			foreach (var row in sourceTable)
 			{
@@ -30,7 +25,7 @@ namespace Thinkedge.Simple.Table.Process
 				}
 			}
 
-			return ReturnResult<bool>(true);
+			return StandardResult<bool>.ReturnResult(true);
 		}
 	}
 }

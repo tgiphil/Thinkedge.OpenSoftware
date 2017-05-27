@@ -3,14 +3,9 @@ using Thinkedge.Common;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class ParseValuePairs : BaseStandardResult
+	public static class ParseValuePairs
 	{
 		public static StandardResult<SimpleTable> Execute(string data, string destination = "name", string source = "value", char delimiter = '=')
-		{
-			return new ParseValuePairs().ExecuteEx(data, destination, source, delimiter);
-		}
-
-		internal StandardResult<SimpleTable> ExecuteEx(string data, string destination = "name", string source = "value", char delimiter = '=')
 		{
 			var lines = data.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
@@ -41,7 +36,7 @@ namespace Thinkedge.Simple.Table.Process
 				row.SetField(1, src);
 			}
 
-			return ReturnResult<SimpleTable>(table);
+			return StandardResult<SimpleTable>.ReturnResult(table);
 		}
 	}
 }

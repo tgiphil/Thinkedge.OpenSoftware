@@ -3,17 +3,12 @@ using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class ExpandTable : BaseStandardResult
+	public static class ExpandTable
 	{
 		public static StandardResult<SimpleTable> Execute(SimpleTable sourceTable, SimpleTable expandTable)
 		{
-			return new ExpandTable().ExecuteEx(sourceTable, expandTable);
-		}
-
-		internal StandardResult<SimpleTable> ExecuteEx(SimpleTable sourceTable, SimpleTable expandTable)
-		{
 			if (expandTable == null)
-				return ReturnError<SimpleTable>("ExpandTable() error: add table null");
+				return StandardResult<SimpleTable>.ReturnError("ExpandTable() error: add table null");
 
 			var newTable = sourceTable.Copy();
 
@@ -27,7 +22,7 @@ namespace Thinkedge.Simple.Table.Process
 				var expression = ExpressionCache.Compile(source);
 
 				if (expression == null)
-					return ReturnError<SimpleTable>("ExpandTable() error: evaluator returns null");
+					return StandardResult<SimpleTable>.ReturnError("ExpandTable() error: evaluator returns null");
 			}
 
 			var fieldSource = new TableDataSource();
@@ -46,13 +41,13 @@ namespace Thinkedge.Simple.Table.Process
 					var result = expression.Evaluate(new Context() { FieldSource = fieldSource });
 
 					if (result.IsError)
-						return ReturnError<SimpleTable>("ExpandTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression, result.String);
+						return StandardResult<SimpleTable>.ReturnError("ExpandTable() error: occurred during evaluating: " + expression.Parser.Tokenizer.Expression, result.String);
 
 					newRow[destination] = ToString(result);
 				}
 			}
 
-			return ReturnResult<SimpleTable>(newTable);
+			return StandardResult<SimpleTable>.ReturnResult(newTable);
 		}
 
 		public static string ToString(Value value)
