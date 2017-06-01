@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregateTable.cs" />
     <Compile Include="ExpandTable.cs" />
+    <Compile Include="AggregateFieldSource.cs" />
     <Compile Include="VariableSource.cs" />
-    <Compile Include="TableDataSource.cs" />
+    <Compile Include="FieldDataSource.cs" />
     <Compile Include="CreateEMails.cs" />
     <Compile Include="MessageTemplate.cs" />
     <Compile Include="ParseValuePairs.cs" />

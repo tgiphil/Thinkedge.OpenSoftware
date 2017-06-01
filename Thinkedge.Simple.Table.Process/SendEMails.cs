@@ -15,6 +15,16 @@ namespace Thinkedge.Simple.Table.Process
 					Body = row["Mail-Body"]
 				};
 
+				if (sourceTable.ContainColumn("Mail-CC"))
+				{
+					var cc = row["Mail-CC"];
+
+					if (!string.IsNullOrWhiteSpace(cc))
+					{
+						message.CC.Add(cc);
+					}
+				}
+
 				message.IsBodyHtml = true;
 
 				var result = SendEMail.Execute(message);

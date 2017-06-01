@@ -79,6 +79,14 @@ namespace Thinkedge.Common
 			return new StandardResult<T>(default(T), this);
 		}
 
+		protected StandardResult<T> ReturnError<T>(BaseStandardResult result)
+		{
+			foreach (var error in Errors)
+				AddError(error);
+			Exception = result.Exception;
+			return new StandardResult<T>(default(T), this);
+		}
+
 		protected string GetAllErrorMessage()
 		{
 			if (Errors.Count == 0) return null;

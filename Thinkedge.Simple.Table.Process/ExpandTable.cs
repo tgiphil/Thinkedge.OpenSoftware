@@ -7,8 +7,10 @@ namespace Thinkedge.Simple.Table.Process
 	{
 		public static StandardResult<SimpleTable> Execute(SimpleTable sourceTable, SimpleTable expandTable)
 		{
+			if (sourceTable == null)
+				return StandardResult<SimpleTable>.ReturnError("ExpandTable() error: source table null");
 			if (expandTable == null)
-				return StandardResult<SimpleTable>.ReturnError("ExpandTable() error: add table null");
+				return StandardResult<SimpleTable>.ReturnError("ExpandTable() error: aggregate table null");
 
 			var newTable = sourceTable.Copy();
 
@@ -22,10 +24,10 @@ namespace Thinkedge.Simple.Table.Process
 				var expression = ExpressionCache.Compile(source);
 
 				if (expression == null)
-					return StandardResult<SimpleTable>.ReturnError("ExpandTable() error: evaluator returns null");
+					return StandardResult<SimpleTable>.ReturnError("AggregateTable() error: evaluator returns null", "Source: " + source);
 			}
 
-			var fieldSource = new TableDataSource();
+			var fieldSource = new FieldDataSource();
 
 			foreach (var newRow in newTable)
 			{

@@ -15,7 +15,7 @@ namespace Thinkedge.Simple.Evaluator
 				//Max
 				//Min
 				//STDEV
-				//VAR - variance 
+				//VAR - variance
 
 				default: break;
 			}
@@ -25,12 +25,12 @@ namespace Thinkedge.Simple.Evaluator
 
 		public static Value Count(ExpressionNode node, Context context, Evaluation eval)
 		{
-			if (context.AggregateTableSource == null)
+			if (context.AggregateFieldSource == null)
 				return Value.CreateErrorValue("Count() error - not allowed in this context");
 
 			int rows = 0;
 
-			foreach (var row in context.AggregateTableSource.Rows)
+			foreach (var row in context.AggregateFieldSource.Rows)
 			{
 				rows++;
 			}
@@ -40,14 +40,14 @@ namespace Thinkedge.Simple.Evaluator
 
 		public static Value Sum(ExpressionNode node, Context context, Evaluation eval)
 		{
-			if (context.AggregateTableSource == null)
+			if (context.AggregateFieldSource == null)
 				return Value.CreateErrorValue("Sum() error - not allowed in this context");
 
 			Value sum = null;
 
 			var rowContext = new Context() { VariableSource = context.VariableSource, MethodSource = context.MethodSource };
 
-			foreach (var row in context.AggregateTableSource.Rows)
+			foreach (var row in context.AggregateFieldSource.Rows)
 			{
 				rowContext.FieldSource = row;
 
@@ -88,7 +88,7 @@ namespace Thinkedge.Simple.Evaluator
 
 		public static Value Average(ExpressionNode node, Context context, Evaluation eval)
 		{
-			if (context.AggregateTableSource == null)
+			if (context.AggregateFieldSource == null)
 				return Value.CreateErrorValue("Average() error - not allowed in this context");
 
 			Value sum = null;
@@ -96,7 +96,7 @@ namespace Thinkedge.Simple.Evaluator
 
 			var rowContext = new Context() { VariableSource = context.VariableSource, MethodSource = context.MethodSource };
 
-			foreach (var row in context.AggregateTableSource.Rows)
+			foreach (var row in context.AggregateFieldSource.Rows)
 			{
 				count++;
 				rowContext.FieldSource = row;

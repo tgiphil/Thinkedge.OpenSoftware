@@ -16,7 +16,7 @@ namespace Thinkedge.Simple.Table.Process
 				newTable.AddColumnName(column);
 			}
 
-			var fieldSource = new TableDataSource();
+			var fieldSource = new FieldDataSource();
 
 			var expression = ExpressionCache.Compile(includeExpression);
 

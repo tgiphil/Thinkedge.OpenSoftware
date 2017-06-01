@@ -3,17 +3,17 @@ using Thinkedge.Simple.Evaluator;
 
 namespace Thinkedge.Simple.Table.Process
 {
-	public class TableDataSource : IFieldSource
+	public class FieldDataSource : IFieldSource
 	{
 		public SimpleTableRow Row { get; set; } = null;
 
 		protected Dictionary<string, string> Variables = new Dictionary<string, string>();
 
-		public TableDataSource()
+		public FieldDataSource()
 		{
 		}
 
-		public TableDataSource(SimpleTableRow simpleTableRow)
+		public FieldDataSource(SimpleTableRow simpleTableRow)
 		{
 			Row = simpleTableRow;
 		}

@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="BuiltInAggregateMethods.cs" />
     <Compile Include="Context.cs" />
-    <Compile Include="IAggregateTableSource.cs" />
+    <Compile Include="IAggregateFieldSource.cs" />
     <Compile Include="IFieldSource.cs" />
     <Compile Include="IAggregateMethodSource.cs" />
     <Compile Include="IMethodSource.cs" />

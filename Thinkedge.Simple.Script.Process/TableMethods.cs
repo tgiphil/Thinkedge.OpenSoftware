@@ -18,6 +18,7 @@ namespace Thinkedge.Simple.Script.Process
 				case "Transform": return Transform(parameters);
 				case "Expand": return Expand(parameters);
 				case "Filter": return Filter(parameters);
+				case "Aggregate": return Aggregate(parameters);
 				case "Validate": return Validate(parameters);
 				case "LookupUpdate": return LookupUpdate(parameters);
 				case "FormatToTabDelimited": return FormatToTabDelimited(parameters);
@@ -28,6 +29,7 @@ namespace Thinkedge.Simple.Script.Process
 				case "Table.Transform": return Transform(parameters);
 				case "Table.Expand": return Expand(parameters);
 				case "Table.Filter": return Filter(parameters);
+				case "Table.Aggregate": return Aggregate(parameters);
 				case "Table.Validate": return Validate(parameters);
 				case "Table.LookupUpdate": return LookupUpdate(parameters);
 				case "Table.FormatToTabDelimited": return FormatToTabDelimited(parameters);
@@ -173,7 +175,37 @@ namespace Thinkedge.Simple.Script.Process
 			}
 			catch (System.Exception e)
 			{
-				return Value.CreateErrorValue("unable to expand table: " + e.ToString(), e);
+				return Value.CreateErrorValue("Expand() unable to expand table: " + e.ToString(), e);
+			}
+		}
+
+		public static Value Aggregate(IList<Value> parameters)
+		{
+			var validate = Expression.ValidateHelper("Aggregate", parameters, 2, new List<ValueType>() { ValueType.Object, ValueType.Object });
+
+			if (validate != null)
+				return validate;
+
+			if (!(parameters[0].Object is SimpleTable))
+				return Value.CreateErrorValue("Aggregate() parameter #1 is not a table");
+			else if (!(parameters[1].Object is SimpleTable))
+				return Value.CreateErrorValue("Aggregate() parameter #2 is not a table");
+
+			var sourceTable = parameters[0].Object as SimpleTable;
+			var mapTable = parameters[1].Object as SimpleTable;
+
+			try
+			{
+				var result = AggregateTable.Execute(sourceTable, mapTable);
+
+				if (result.HasError)
+					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);
+
+				return new Value(result.Result);
+			}
+			catch (System.Exception e)
+			{
+				return Value.CreateErrorValue("Aggregate() unable to expand table: " + e.ToString(), e);
 			}
 		}
 

@@ -9,6 +9,7 @@ namespace Thinkedge.Simple.Table.Process
 		protected StringBuilder InProcessRows;
 
 		public string To { get; set; }
+		public string CC { get; set; }
 		public string Subject { get; set; }
 
 		protected string TemplateFull;

@@ -64,7 +64,7 @@ namespace Thinkedge.Simple.Script
 			var result = expression.Evaluate(new Context() { MethodSource = this, VariableSource = this });
 
 			if (result.IsError)
-				return ReturnResult<Value>(result);
+				return ReturnError<Value>(result.String);
 
 			if (!string.IsNullOrWhiteSpace(variable))
 			{

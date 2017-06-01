@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Thinkedge.Simple.Evaluator
+﻿namespace Thinkedge.Simple.Evaluator
 {
 	public interface IAggregateMethodSource
 	{

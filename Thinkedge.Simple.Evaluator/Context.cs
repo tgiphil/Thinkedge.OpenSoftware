@@ -7,6 +7,6 @@
 		public IMethodSource MethodSource { get; set; } = null;
 		//public IAggregateMethodSource AggregateMethodSource { get; set; } = null;
 
-		public IAggregateTableSource AggregateTableSource { get; set; } = null;
+		public IAggregateFieldSource AggregateFieldSource { get; set; } = null;
 	}
 }

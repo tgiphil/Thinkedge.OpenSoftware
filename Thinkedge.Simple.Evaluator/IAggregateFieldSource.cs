@@ -2,7 +2,7 @@
 
 namespace Thinkedge.Simple.Evaluator
 {
-	public interface IAggregateTableSource
+	public interface IAggregateFieldSource
 	{
 		IEnumerable<IFieldSource> Rows { get; }
 	}

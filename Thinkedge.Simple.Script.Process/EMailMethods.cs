@@ -39,7 +39,7 @@ namespace Thinkedge.Simple.Script.Process
 
 			try
 			{
-				var result = Table.Process.CreateEMails.Execute(sourceTable, template, fromMail, toField, groupExpression);
+				var result = Table.Process.CreateEMails.Execute(sourceTable, template, fromMail, toField, string.Empty, groupExpression);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);

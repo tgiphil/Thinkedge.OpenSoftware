@@ -23,7 +23,7 @@ namespace Thinkedge.Simple.Table.Process
 				newTable.AddColumnName(map["destination"]);
 			}
 
-			var fieldSource = new TableDataSource();
+			var fieldSource = new FieldDataSource();
 
 			foreach (var sourceRow in sourceTable)
 			{

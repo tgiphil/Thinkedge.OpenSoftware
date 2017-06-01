@@ -22,7 +22,7 @@ namespace Thinkedge.Simple.Table.Process
 				resultsTable.AddColumnName(column);
 			}
 
-			var fieldSource = new TableDataSource();
+			var fieldSource = new FieldDataSource();
 
 			foreach (var sourceRow in sourceTable)
 			{
