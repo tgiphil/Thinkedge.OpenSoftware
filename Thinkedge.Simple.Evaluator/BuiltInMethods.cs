@@ -694,22 +694,14 @@ namespace Thinkedge.Simple.Evaluator
 			if (param.ValueType != a.ValueType || param.ValueType != b.ValueType)
 				return Value.CreateErrorValue("Between() contains invalid parameter types");
 
-			if (param.IsInteger && a.Integer >= b.Integer && a.Integer <= b.Integer)
-				return new Value(true);
-			else if (param.IsInteger && b.Integer >= a.Integer && b.Integer <= a.Integer)
-				return new Value(true);
-			else if (param.IsDate && a.Date >= b.Date && a.Date <= b.Date)
-				return new Value(true);
-			else if (param.IsDate && b.Date >= a.Date && b.Date <= a.Date)
-				return new Value(true);
-			else if (param.IsFloat && a.Float >= b.Float && a.Float <= b.Float)
-				return new Value(true);
-			else if (param.IsFloat && b.Float >= a.Float && b.Float <= a.Float)
-				return new Value(true);
-			else if (param.IsDecimal && a.Decimal >= b.Decimal && a.Decimal <= b.Decimal)
-				return new Value(true);
-			else if (param.IsDecimal && b.Decimal >= a.Decimal && b.Decimal <= a.Decimal)
-				return new Value(true);
+			if (param.IsInteger)
+				return new Value((param.Integer >= a.Integer && param.Integer <= b.Integer) || (param.Integer <= a.Integer && param.Integer >= b.Integer));
+			else if (param.IsDate)
+				return new Value((param.Date >= a.Date && param.Date <= b.Date) || (param.Date <= a.Date && param.Date >= b.Date));
+			else if (param.IsFloat)
+				return new Value((param.Float >= a.Float && param.Float <= b.Float) || (param.Float <= a.Float && param.Float >= b.Float));
+			else if (param.IsDecimal)
+				return new Value((param.Decimal >= a.Decimal && param.Decimal <= b.Decimal) || (param.Decimal <= a.Decimal && param.Decimal >= b.Decimal));
 
 			return Value.CreateErrorValue("Between() contains invalid parameter types");
 		}

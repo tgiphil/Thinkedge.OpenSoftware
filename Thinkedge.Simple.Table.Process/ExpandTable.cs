@@ -54,7 +54,8 @@ namespace Thinkedge.Simple.Table.Process
 
 		public static string ToString(Value value)
 		{
-			if (value.IsString) return value.String;
+			if (value.IsNull) return string.Empty;
+			else if (value.IsString) return value.String;
 			else if (value.IsInteger) return value.Integer.ToString();
 			else if (value.IsDecimal) return value.Decimal.ToString();
 			else if (value.IsBoolean) return value.Boolean ? "true" : "false";
