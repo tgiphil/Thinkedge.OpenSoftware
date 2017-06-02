@@ -51,11 +51,22 @@ namespace Thinkedge.Simple.Evaluator
 			ValueType = ValueType.Object; Object = u;
 		}
 
+		protected Value(ValueType valueType, bool isNull)
+		{
+			ValueType = valueType;
+			IsNull = IsNull;
+		}
+
 		public Value(Exception exception, String error)
 		{
 			ValueType = ValueType.Error;
 			String = error;
 			Exception = exception;
+		}
+
+		public static Value CreateNullValue(ValueType valueType)
+		{
+			return new Value(valueType, true);
 		}
 
 		public static Value CreateErrorValue(string error, Exception exception = null)
@@ -71,25 +82,22 @@ namespace Thinkedge.Simple.Evaluator
 		public bool IsFloat { get { return ValueType == ValueType.Float; } }
 		public bool IsObject { get { return ValueType == ValueType.Object; } }
 		public bool IsError { get { return ValueType == ValueType.Error; } }
+		public bool IsNull { get; protected set; } = false;
+
+		public bool IsStringEmptyNonWhiteSpace { get { return IsString && string.IsNullOrWhiteSpace(String); } }
 
 		public override string ToString()
 		{
 			var sb = new StringBuilder();
 
-			sb.Append(ValueType.ToString());
-			sb.Append(" = ");
-
-			if (IsInteger)
+			if (IsNull)
+				sb.Append("(null)");
+			else if (IsInteger)
 				sb.Append(Integer.ToString());
 			else if (IsDate)
 				sb.Append(Date.ToShortDateString());
 			else if (IsBoolean)
-			{
-				if (Boolean)
-					sb.Append("true");
-				else
-					sb.Append("false");
-			}
+				sb.Append(Boolean ? "true" : "false");
 			else if (IsDecimal)
 				sb.Append(Decimal.ToString());
 			else if (IsString)
@@ -100,6 +108,10 @@ namespace Thinkedge.Simple.Evaluator
 				sb.Append(Object.ToString());
 			else if (IsError)
 				sb.Append(String);
+
+			sb.Append(" [");
+			sb.Append(ValueType.ToString());
+			sb.Append("]");
 
 			return sb.ToString();
 		}

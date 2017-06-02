@@ -200,6 +200,9 @@ namespace Thinkedge.Simple.Evaluator
 
 		protected static Value Not(Value left)
 		{
+			if (left.IsNull)
+				return Value.CreateErrorValue("incompatible operation due to null value: " + left.ToString());
+
 			if (left.IsBoolean)
 			{
 				return new Value(!left.Boolean);
@@ -212,32 +215,50 @@ namespace Thinkedge.Simple.Evaluator
 		{
 			if (left.IsInteger)
 			{
+				if (left.IsNull)
+					return Value.CreateNullValue(ValueType.Integer);
+
 				return new Value(-left.Integer);
 			}
 			else if (left.IsFloat)
 			{
+				if (left.IsNull)
+					return Value.CreateNullValue(ValueType.Float);
+
 				return new Value(-left.Float);
 			}
 			else if (left.IsDecimal)
 			{
+				if (left.IsNull)
+					return Value.CreateNullValue(ValueType.Decimal);
+
 				return new Value(-left.Decimal);
 			}
 
-			return Value.CreateErrorValue("incompatible type for Negate operator: " + left.ToString());
+			return Value.CreateErrorValue("incompatible type for negate operator: " + left.ToString());
 		}
 
 		protected static Value Addition(Value left, Value right)
 		{
 			if (left.IsInteger && right.IsInteger)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Integer);
+
 				return new Value(left.Integer + right.Integer);
 			}
 			else if (left.IsDate && right.IsInteger)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Date);
+
 				return new Value(left.Date.AddDays(right.Integer));
 			}
 			else if (left.IsInteger && right.IsDate)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Date);
+
 				return new Value(right.Date.AddDays(left.Integer));
 			}
 			else if (left.IsString && right.IsString)
@@ -246,10 +267,16 @@ namespace Thinkedge.Simple.Evaluator
 			}
 			else if (left.IsDecimal && right.IsDecimal)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Decimal);
+
 				return new Value(left.Decimal + right.Decimal);
 			}
 			else if (left.IsFloat && right.IsFloat)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Float);
+
 				return new Value(left.Float + right.Float);
 			}
 
@@ -260,22 +287,37 @@ namespace Thinkedge.Simple.Evaluator
 		{
 			if (left.IsInteger && right.IsInteger)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Integer);
+
 				return new Value(left.Integer - right.Integer);
 			}
 			else if (left.IsDate && right.IsInteger)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Date);
+
 				return new Value(left.Date.AddDays(-right.Integer));
 			}
 			else if (left.IsDate && right.IsDate)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Date);
+
 				return new Value((left.Date - right.Date).Days);
 			}
 			else if (left.IsDecimal && right.IsDecimal)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Decimal);
+
 				return new Value(left.Decimal - right.Decimal);
 			}
 			else if (left.IsFloat && right.IsFloat)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Float);
+
 				return new Value(left.Float - right.Float);
 			}
 
@@ -286,14 +328,23 @@ namespace Thinkedge.Simple.Evaluator
 		{
 			if (left.IsInteger && right.IsInteger)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Integer);
+
 				return new Value(left.Integer * right.Integer);
 			}
 			else if (left.IsDecimal && right.IsDecimal)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Decimal);
+
 				return new Value(left.Decimal * right.Decimal);
 			}
 			else if (left.IsFloat && right.IsFloat)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Float);
+
 				return new Value(left.Float * right.Float);
 			}
 
@@ -304,16 +355,25 @@ namespace Thinkedge.Simple.Evaluator
 		{
 			if (left.IsInteger && right.IsInteger)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Integer);
+
 				//if (right.Integer == 0) ;
 
 				return new Value(left.Integer / right.Integer);
 			}
 			else if (left.IsDecimal && right.IsDecimal)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Decimal);
+
 				return new Value(left.Decimal / right.Decimal);
 			}
 			else if (left.IsFloat && right.IsFloat)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Float);
+
 				return new Value(left.Float / right.Float);
 			}
 
@@ -324,6 +384,9 @@ namespace Thinkedge.Simple.Evaluator
 		{
 			if (left.IsBoolean && right.IsBoolean)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Boolean);
+
 				return new Value(left.Boolean && right.Boolean);
 			}
 
@@ -334,6 +397,9 @@ namespace Thinkedge.Simple.Evaluator
 		{
 			if (left.IsBoolean && right.IsBoolean)
 			{
+				if (left.IsNull || right.IsNull)
+					return Value.CreateNullValue(ValueType.Boolean);
+
 				return new Value(left.Boolean || right.Boolean);
 			}
 
@@ -342,6 +408,9 @@ namespace Thinkedge.Simple.Evaluator
 
 		protected static Value CompareEqual(Value left, Value right)
 		{
+			if ((left.IsNull || right.IsNull) && left.ValueType == right.ValueType)
+				return Value.CreateNullValue(ValueType.Boolean);
+
 			if (left.IsBoolean && right.IsBoolean)
 			{
 				return new Value(left.Boolean == right.Boolean);
@@ -372,6 +441,9 @@ namespace Thinkedge.Simple.Evaluator
 
 		protected static Value CompareNotEqual(Value left, Value right)
 		{
+			if ((left.IsNull || right.IsNull) && left.ValueType == right.ValueType)
+				return Value.CreateNullValue(ValueType.Boolean);
+
 			if (left.IsBoolean && right.IsBoolean)
 			{
 				return new Value(left.Boolean != right.Boolean);
@@ -402,6 +474,9 @@ namespace Thinkedge.Simple.Evaluator
 
 		protected static Value CompareGreaterThanOrEqual(Value left, Value right)
 		{
+			if ((left.IsNull || right.IsNull) && left.ValueType == right.ValueType)
+				return Value.CreateNullValue(ValueType.Boolean);
+
 			if (left.IsInteger && right.IsInteger)
 			{
 				return new Value(left.Integer >= right.Integer);
@@ -424,6 +499,9 @@ namespace Thinkedge.Simple.Evaluator
 
 		protected static Value CompareLessThanOrEqual(Value left, Value right)
 		{
+			if ((left.IsNull || right.IsNull) && left.ValueType == right.ValueType)
+				return Value.CreateNullValue(ValueType.Boolean);
+
 			if (left.IsInteger && right.IsInteger)
 			{
 				return new Value(left.Integer <= right.Integer);
@@ -446,6 +524,9 @@ namespace Thinkedge.Simple.Evaluator
 
 		protected static Value CompareLessThan(Value left, Value right)
 		{
+			if ((left.IsNull || right.IsNull) && left.ValueType == right.ValueType)
+				return Value.CreateNullValue(ValueType.Boolean);
+
 			if (left.IsInteger && right.IsInteger)
 			{
 				return new Value(left.Integer < right.Integer);
@@ -468,6 +549,9 @@ namespace Thinkedge.Simple.Evaluator
 
 		protected static Value CompareGreaterThan(Value left, Value right)
 		{
+			if ((left.IsNull || right.IsNull) && left.ValueType == right.ValueType)
+				return Value.CreateNullValue(ValueType.Boolean);
+
 			if (left.IsInteger && right.IsInteger)
 			{
 				return new Value(left.Integer > right.Integer);
@@ -498,6 +582,9 @@ namespace Thinkedge.Simple.Evaluator
 			if (!condition.IsBoolean)
 				return Value.CreateErrorValue("if statement condition does not evaluate to true or false");
 
+			if (condition.IsNull)
+				return Value.CreateErrorValue("incompatible operation due to null value: " + condition.ToString());
+
 			if (node.Parameters.Count == 2 && !condition.Boolean)
 				return new Value(string.Empty); // default value is emptry string when missing else statement
 
@@ -515,14 +602,6 @@ namespace Thinkedge.Simple.Evaluator
 
 			if (result != null)
 				return result;
-
-			//if (context.AggregateMethodSource != null)
-			//{
-			//	result = context.AggregateMethodSource.Evaluate(name, context, node, Evaluate);
-
-			//	if (result != null)
-			//		return result;
-			//}
 
 			// non aggregate methods (second)
 			var parameters = new List<Value>(node.Parameters.Count);

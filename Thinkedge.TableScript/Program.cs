@@ -9,7 +9,7 @@ namespace Thinkedge.TableScript
 	{
 		private static int Main(string[] args)
 		{
-			Console.WriteLine("TableScript V1.0");
+			Console.WriteLine("TableScript V1.1");
 			Console.WriteLine("Copyright (C) 2017. Phil Garcia. All rights reserved.");
 			Console.WriteLine("Licenced under GPLv3 License.");
 			Console.WriteLine("Usage: [-file filename] [arg1] [arg2] ...");

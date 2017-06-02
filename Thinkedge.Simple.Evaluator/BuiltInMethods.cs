@@ -20,7 +20,7 @@ namespace Thinkedge.Simple.Evaluator
 				case "IsInteger": return IsInteger(parameters);
 				case "IsDecimal": return IsDecimal(parameters);
 				case "IsEmpty": return IsEmpty(parameters);
-				case "IsNull": return IsEmpty(parameters);
+				case "IsNull": return IsNull(parameters);
 				case "IsNot": return IsNot(parameters);
 				case "IsError": return IsError(parameters);
 				case "Length": return Length(parameters);
@@ -52,7 +52,9 @@ namespace Thinkedge.Simple.Evaluator
 				case "Replace": return Replace(parameters);
 				case "In": return InList(parameters);
 				case "InList": return InList(parameters);
-				case "Between": return Between(parameters);
+				case "IsBetween": return IsBetween(parameters);
+				case "Max": return Max(parameters);
+				case "Min": return Min(parameters);
 
 				//todo:
 				//  SubString
@@ -60,8 +62,6 @@ namespace Thinkedge.Simple.Evaluator
 				//  CountWeekendsDays
 				//  CountNonWeekendsDays
 				//  IncrementToFirstNonWeekend
-				//  Max
-				//  Min
 
 				default: break;
 			}
@@ -77,7 +77,15 @@ namespace Thinkedge.Simple.Evaluator
 			var param = parameters[0];
 
 			if (param.IsString)
+			{
+				if (param.IsStringEmptyNonWhiteSpace)
+					return new Value(string.Empty);
+
+				if (!Int32.TryParse(param.String, out Int32 date))
+					return Value.CreateNullValue(ValueType.Integer);
+
 				return new Value(Convert.ToInt32(param.String));
+			}
 			else if (param.IsFloat)
 				return new Value(Convert.ToInt32(param.Float));
 			else if (param.IsInteger)
@@ -96,7 +104,7 @@ namespace Thinkedge.Simple.Evaluator
 			if (param.IsString)
 			{
 				if (!Decimal.TryParse(param.String, out Decimal d))
-					return Value.CreateErrorValue("ToDecimal(): invalid decimal: " + param.String);
+					return Value.CreateNullValue(ValueType.Decimal);
 
 				return new Value(Convert.ToDecimal(param.String));
 			}
@@ -142,9 +150,9 @@ namespace Thinkedge.Simple.Evaluator
 			if (param.IsString)
 			{
 				if (!DateTime.TryParse(param.String, out DateTime date))
-					return Value.CreateErrorValue("ToDate(): invalid date: " + param.String);
+					return Value.CreateNullValue(ValueType.Date);
 
-				return new Value(Convert.ToDateTime(param.String));
+				return new Value(Convert.ToDateTime(param.String).Date);
 			}
 			else if (param.IsDate)
 				return new Value(param.Date);
@@ -161,7 +169,7 @@ namespace Thinkedge.Simple.Evaluator
 
 			if (param.IsString)
 			{
-				if (string.IsNullOrWhiteSpace(param.String))
+				if (param.IsStringEmptyNonWhiteSpace)
 					return new Value(false);
 
 				return new Value(DateTime.TryParse(param.String, out DateTime date));
@@ -236,9 +244,19 @@ namespace Thinkedge.Simple.Evaluator
 			var param = parameters[0];
 
 			if (param.IsString)
-				return new Value(string.IsNullOrWhiteSpace(param.String));
+				return new Value(param.IsStringEmptyNonWhiteSpace);
 
 			return Value.CreateErrorValue("IsEmpty() contains invalid parameter type");
+		}
+
+		public static Value IsNull(IList<Value> parameters)
+		{
+			if (parameters.Count != 1)
+				return Value.CreateErrorValue("IsNull() missing parameter");
+
+			var param = parameters[0];
+
+			return new Value(param.IsNull);
 		}
 
 		public static Value Length(IList<Value> parameters)
@@ -664,7 +682,7 @@ namespace Thinkedge.Simple.Evaluator
 			return new Value(false);
 		}
 
-		public static Value Between(IList<Value> parameters)
+		public static Value IsBetween(IList<Value> parameters)
 		{
 			if (parameters.Count != 3)
 				return Value.CreateErrorValue("Between() missing parameter");
@@ -694,6 +712,44 @@ namespace Thinkedge.Simple.Evaluator
 				return new Value(true);
 
 			return Value.CreateErrorValue("Between() contains invalid parameter types");
+		}
+
+		public static Value Max(IList<Value> parameters)
+		{
+			if (parameters.Count != 2)
+				return Value.CreateErrorValue("Max() missing parameter");
+
+			var a = parameters[0];
+			var b = parameters[1];
+
+			if (a.ValueType != b.ValueType)
+				return Value.CreateErrorValue("Max() contains invalid parameter types");
+
+			if (a.IsInteger) return (a.Integer >= b.Integer) ? a : b;
+			if (a.IsDate) return (a.Date >= b.Date) ? a : b;
+			if (a.IsFloat) return (a.Float >= b.Float) ? a : b;
+			if (a.IsDecimal) return (a.Decimal >= b.Decimal) ? a : b;
+
+			return Value.CreateErrorValue("Max() contains invalid parameter types");
+		}
+
+		public static Value Min(IList<Value> parameters)
+		{
+			if (parameters.Count != 2)
+				return Value.CreateErrorValue("Min() missing parameter");
+
+			var a = parameters[0];
+			var b = parameters[1];
+
+			if (a.ValueType != b.ValueType)
+				return Value.CreateErrorValue("Min() contains invalid parameter types");
+
+			if (a.IsInteger) return (a.Integer < b.Integer) ? a : b;
+			if (a.IsDate) return (a.Date < b.Date) ? a : b;
+			if (a.IsFloat) return (a.Float < b.Float) ? a : b;
+			if (a.IsDecimal) return (a.Decimal < b.Decimal) ? a : b;
+
+			return Value.CreateErrorValue("Min() contains invalid parameter types");
 		}
 	}
 }

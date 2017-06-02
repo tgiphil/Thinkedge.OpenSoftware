@@ -6,7 +6,7 @@ namespace Thinkedge.Simple.Table.Process
 {
 	public static class AggregateTable
 	{
-		private static IList<string> aggregateMethodsNames = new string[] { "count", "sum" };
+		private static IList<string> aggregateMethodsNames = new string[] { "Count", "Sum", "Average", "Max", "Min", "Min", "VarianceFromSample", "VarianceFromPopulation", "StandardDeviationFromSample", "StandardDeviationFromPopulation", "Var", "VarP", "Stdev", "StdevP", "CountNonEmpty" };
 
 		public static StandardResult<SimpleTable> Execute(SimpleTable sourceTable, SimpleTable aggregateTable)
 		{
@@ -36,15 +36,10 @@ namespace Thinkedge.Simple.Table.Process
 				bool aggregateMethods = false;
 				foreach (var token in expression.Parser.Tokenizer.Tokens)
 				{
-					if (token.TokenType == TokenType.Method)
+					if (token.TokenType == TokenType.Method && aggregateMethodsNames.Contains(token.Value))
 					{
-						var value = token.Value.ToLower();
-
-						if (aggregateMethodsNames.Contains(value))
-						{
-							aggregateMethods = true;
-							break;
-						}
+						aggregateMethods = true;
+						break;
 					}
 				}
 
