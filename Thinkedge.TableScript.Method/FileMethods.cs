@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Thinkedge.Simple.ExpressionEngine;
 
-namespace Thinkedge.Simple.ScriptEngine.Method
+namespace Thinkedge.TableScript.Method
 {
 	public class FileMethods : IMethodSource
 	{

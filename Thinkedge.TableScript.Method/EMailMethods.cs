@@ -2,7 +2,7 @@
 using Thinkedge.Simple.ExpressionEngine;
 using Thinkedge.Simple.Table;
 
-namespace Thinkedge.Simple.ScriptEngine.Method
+namespace Thinkedge.TableScript.Method
 {
 	public class EMailMethods : IMethodSource
 	{
@@ -39,7 +39,7 @@ namespace Thinkedge.Simple.ScriptEngine.Method
 
 			try
 			{
-				var result = Table.Method.CreateEMails.Execute(sourceTable, template, fromMail, toField, string.Empty, groupExpression);
+				var result = Simple.Table.Method.CreateEMails.Execute(sourceTable, template, fromMail, toField, string.Empty, groupExpression);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);
@@ -66,7 +66,7 @@ namespace Thinkedge.Simple.ScriptEngine.Method
 
 			try
 			{
-				var result = Table.Method.SendEMails.Execute(sourceTable);
+				var result = Simple.Table.Method.SendEMails.Execute(sourceTable);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);

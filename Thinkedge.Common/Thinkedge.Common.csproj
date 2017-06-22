@@ -45,8 +45,6 @@
   <ItemGroup>
     <Compile Include="KeyedList.cs" />
     <Compile Include="MailHelper.cs" />
-    <Compile Include="InternalFile.cs" />
-    <Compile Include="FilePackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtension.cs" />
   </ItemGroup>

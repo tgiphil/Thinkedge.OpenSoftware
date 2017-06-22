@@ -5,7 +5,7 @@ using System.Web.Script.Serialization;
 using Thinkedge.Simple.ExpressionEngine;
 using Thinkedge.Simple.Table;
 
-namespace Thinkedge.Simple.ScriptEngine.Method
+namespace Thinkedge.TableScript.Method
 {
 	public class SharePointMethods : IMethodSource
 	{

@@ -3,7 +3,7 @@ using Thinkedge.Simple.ExpressionEngine;
 using Thinkedge.Simple.Table;
 using Thinkedge.Simple.Table.Method;
 
-namespace Thinkedge.Simple.ScriptEngine.Method
+namespace Thinkedge.TableScript.Method
 {
 	public class TableMethods : IMethodSource
 	{
@@ -53,7 +53,7 @@ namespace Thinkedge.Simple.ScriptEngine.Method
 
 			try
 			{
-				var result = Table.Method.ParseTabDelimited.Execute(data, containsHeader, mapHeaderNames);
+				var result = Simple.Table.Method.ParseTabDelimited.Execute(data, containsHeader, mapHeaderNames);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);
@@ -80,7 +80,7 @@ namespace Thinkedge.Simple.ScriptEngine.Method
 
 			try
 			{
-				var result = Table.Method.ParseValuePairs.Execute(data, destination, source, delimiter);
+				var result = Simple.Table.Method.ParseValuePairs.Execute(data, destination, source, delimiter);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);
@@ -106,7 +106,7 @@ namespace Thinkedge.Simple.ScriptEngine.Method
 
 			try
 			{
-				var result = Table.Method.ParseCustomINI.Execute(data, newRow, delimiter);
+				var result = Simple.Table.Method.ParseCustomINI.Execute(data, newRow, delimiter);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);
@@ -294,7 +294,7 @@ namespace Thinkedge.Simple.ScriptEngine.Method
 
 			try
 			{
-				var result = Table.Method.LookupUpdateTable.Execute(sourceTable, sourceKeyField, mergeField, lookupTable, lookupKeyField, lookupDataField, overwrite, caseInsenstive);
+				var result = LookupUpdateTable.Execute(sourceTable, sourceKeyField, mergeField, lookupTable, lookupKeyField, lookupDataField, overwrite, caseInsenstive);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);
@@ -322,7 +322,7 @@ namespace Thinkedge.Simple.ScriptEngine.Method
 
 			try
 			{
-				var result = Table.Method.FormatToTabDelimited.Execute(table, escape);
+				var result = Simple.Table.Method.FormatToTabDelimited.Execute(table, escape);
 
 				if (result.HasError)
 					return Value.CreateErrorValue(result.ErrorMessage, result.Exception);

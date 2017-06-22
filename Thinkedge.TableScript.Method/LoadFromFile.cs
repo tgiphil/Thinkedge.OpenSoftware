@@ -2,7 +2,7 @@
 using System.IO;
 using Thinkedge.Common.Result;
 
-namespace Thinkedge.Simple.ScriptEngine.Method
+namespace Thinkedge.TableScript.Method
 {
 	public class LoadFromFile : BaseStandardResult
 	{
