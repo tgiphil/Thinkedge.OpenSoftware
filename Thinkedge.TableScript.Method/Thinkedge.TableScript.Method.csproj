@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5F0A3783-D7BB-4F32-877F-2D90F15A15D9}</ProjectGuid>
+    <ProjectGuid>{6463FD0E-D14B-4EB3-95DA-979B3C156AB4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Thinkedge.Common</RootNamespace>
-    <AssemblyName>Thinkedge.Common</AssemblyName>
+    <RootNamespace>Thinkedge.Simple.Script.Method</RootNamespace>
+    <AssemblyName>Thinkedge.Simple.Script.Method</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,12 +28,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,12 +41,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeyedList.cs" />
-    <Compile Include="MailHelper.cs" />
-    <Compile Include="InternalFile.cs" />
-    <Compile Include="FilePackage.cs" />
+    <Compile Include="LoadFromFile.cs" />
+    <Compile Include="SaveToFile.cs" />
+    <Compile Include="SharePointMethods.cs" />
+    <Compile Include="EMailMethods.cs" />
+    <Compile Include="FileMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringExtension.cs" />
+    <Compile Include="TableMethods.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Thinkedge.Common.Result\Thinkedge.Common.Result.csproj">
+      <Project>{4ae73cad-8fd5-478b-98c2-b79a116d0859}</Project>
+      <Name>Thinkedge.Common.Result</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thinkedge.Common\Thinkedge.Common.csproj">
+      <Project>{5f0a3783-d7bb-4f32-877f-2d90f15a15d9}</Project>
+      <Name>Thinkedge.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thinkedge.Simple.ExpressionEngine\Thinkedge.Simple.ExpressionEngine.csproj">
+      <Project>{28bcba5e-eb24-4bc5-912c-57e5b835165e}</Project>
+      <Name>Thinkedge.Simple.ExpressionEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thinkedge.Simple.Table.Method\Thinkedge.Simple.Table.Method.csproj">
+      <Project>{c25baa0d-6e9b-48eb-b27b-101341c6166b}</Project>
+      <Name>Thinkedge.Simple.Table.Method</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thinkedge.Simple.Table\Thinkedge.Simple.Table.csproj">
+      <Project>{b19c937b-245e-42be-a51d-f40803a43414}</Project>
+      <Name>Thinkedge.Simple.Table</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

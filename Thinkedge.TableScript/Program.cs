@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using Thinkedge.Simple.Script;
-using Thinkedge.Simple.Script.Process;
+using Thinkedge.Simple.ScriptEngine;
+using Thinkedge.Simple.ScriptEngine.Method;
 
 namespace Thinkedge.TableScript
 {

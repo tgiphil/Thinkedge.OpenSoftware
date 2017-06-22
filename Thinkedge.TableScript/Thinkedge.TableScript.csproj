@@ -49,29 +49,33 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Thinkedge.Common.Result\Thinkedge.Common.Result.csproj">
+      <Project>{4AE73CAD-8FD5-478B-98C2-B79A116D0859}</Project>
+      <Name>Thinkedge.Common.Result</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Thinkedge.Common\Thinkedge.Common.csproj">
       <Project>{5F0A3783-D7BB-4F32-877F-2D90F15A15D9}</Project>
       <Name>Thinkedge.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Evaluator\Thinkedge.Simple.Evaluator.csproj">
+    <ProjectReference Include="..\Thinkedge.Simple.ExpressionEngine\Thinkedge.Simple.ExpressionEngine.csproj">
       <Project>{28BCBA5E-EB24-4BC5-912C-57E5B835165E}</Project>
-      <Name>Thinkedge.Simple.Evaluator</Name>
+      <Name>Thinkedge.Simple.ExpressionEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Script.Process\Thinkedge.Simple.Script.Process.csproj">
-      <Project>{6463fd0e-d14b-4eb3-95da-979b3c156ab4}</Project>
-      <Name>Thinkedge.Simple.Script.Process</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Script\Thinkedge.Simple.Script.csproj">
+    <ProjectReference Include="..\Thinkedge.Simple.ScriptEngine\Thinkedge.Simple.ScriptEngine.csproj">
       <Project>{a90d9737-d224-486c-8712-aa555157e645}</Project>
-      <Name>Thinkedge.Simple.Script</Name>
+      <Name>Thinkedge.Simple.ScriptEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Thinkedge.Simple.Table.Process\Thinkedge.Simple.Table.Process.csproj">
+    <ProjectReference Include="..\Thinkedge.Simple.Table.Method\Thinkedge.Simple.Table.Method.csproj">
       <Project>{c25baa0d-6e9b-48eb-b27b-101341c6166b}</Project>
-      <Name>Thinkedge.Simple.Table.Process</Name>
+      <Name>Thinkedge.Simple.Table.Method</Name>
     </ProjectReference>
     <ProjectReference Include="..\Thinkedge.Simple.Table\Thinkedge.Simple.Table.csproj">
       <Project>{b19c937b-245e-42be-a51d-f40803a43414}</Project>
       <Name>Thinkedge.Simple.Table</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thinkedge.TableScript.Method\Thinkedge.TableScript.Method.csproj">
+      <Project>{6463fd0e-d14b-4eb3-95da-979b3c156ab4}</Project>
+      <Name>Thinkedge.TableScript.Method</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

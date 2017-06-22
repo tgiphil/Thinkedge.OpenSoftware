@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.StateLink", "Thinkedge.StateLink\Thinkedge.StateLink.csproj", "{06B2A5C6-BBA7-4A07-B248-22D66490BAB2}"
 EndProject
@@ -13,17 +13,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Table", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Table.Tests", "Thinkedge.Simple.Table.Test\Thinkedge.Simple.Table.Tests.csproj", "{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Evaluator", "Thinkedge.Simple.Evaluator\Thinkedge.Simple.Evaluator.csproj", "{28BCBA5E-EB24-4BC5-912C-57E5B835165E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.ExpressionEngine", "Thinkedge.Simple.ExpressionEngine\Thinkedge.Simple.ExpressionEngine.csproj", "{28BCBA5E-EB24-4BC5-912C-57E5B835165E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Evaluator.Tests", "Thinkedge.Simple.Evaluator.Tests\Thinkedge.Simple.Evaluator.Tests.csproj", "{9359CA3E-7CCA-42F8-A9D9-06095CED43D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.ExpressionEngine.Tests", "Thinkedge.Simple.ExpressionEngine.Tests\Thinkedge.Simple.ExpressionEngine.Tests.csproj", "{9359CA3E-7CCA-42F8-A9D9-06095CED43D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Table.Process", "Thinkedge.Simple.Table.Process\Thinkedge.Simple.Table.Process.csproj", "{C25BAA0D-6E9B-48EB-B27B-101341C6166B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Script", "Thinkedge.Simple.Script\Thinkedge.Simple.Script.csproj", "{A90D9737-D224-486C-8712-AA555157E645}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Table.Method", "Thinkedge.Simple.Table.Method\Thinkedge.Simple.Table.Method.csproj", "{C25BAA0D-6E9B-48EB-B27B-101341C6166B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.TableScript", "Thinkedge.TableScript\Thinkedge.TableScript.csproj", "{47F09E9F-659A-4C0A-9752-7FDC6F5B86F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.Script.Process", "Thinkedge.Simple.Script.Process\Thinkedge.Simple.Script.Process.csproj", "{6463FD0E-D14B-4EB3-95DA-979B3C156AB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Common.Result", "Thinkedge.Common.Result\Thinkedge.Common.Result.csproj", "{4AE73CAD-8FD5-478B-98C2-B79A116D0859}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.Simple.ScriptEngine", "Thinkedge.Simple.ScriptEngine\Thinkedge.Simple.ScriptEngine.csproj", "{A90D9737-D224-486C-8712-AA555157E645}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinkedge.TableScript.Method", "Thinkedge.TableScript.Method\Thinkedge.TableScript.Method.csproj", "{6463FD0E-D14B-4EB3-95DA-979B3C156AB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,14 +65,18 @@ Global
 		{C25BAA0D-6E9B-48EB-B27B-101341C6166B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C25BAA0D-6E9B-48EB-B27B-101341C6166B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C25BAA0D-6E9B-48EB-B27B-101341C6166B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A90D9737-D224-486C-8712-AA555157E645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A90D9737-D224-486C-8712-AA555157E645}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A90D9737-D224-486C-8712-AA555157E645}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A90D9737-D224-486C-8712-AA555157E645}.Release|Any CPU.Build.0 = Release|Any CPU
 		{47F09E9F-659A-4C0A-9752-7FDC6F5B86F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47F09E9F-659A-4C0A-9752-7FDC6F5B86F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47F09E9F-659A-4C0A-9752-7FDC6F5B86F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47F09E9F-659A-4C0A-9752-7FDC6F5B86F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AE73CAD-8FD5-478B-98C2-B79A116D0859}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AE73CAD-8FD5-478B-98C2-B79A116D0859}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AE73CAD-8FD5-478B-98C2-B79A116D0859}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AE73CAD-8FD5-478B-98C2-B79A116D0859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A90D9737-D224-486C-8712-AA555157E645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A90D9737-D224-486C-8712-AA555157E645}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A90D9737-D224-486C-8712-AA555157E645}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A90D9737-D224-486C-8712-AA555157E645}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6463FD0E-D14B-4EB3-95DA-979B3C156AB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6463FD0E-D14B-4EB3-95DA-979B3C156AB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6463FD0E-D14B-4EB3-95DA-979B3C156AB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
